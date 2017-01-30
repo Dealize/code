@@ -1,7 +1,15 @@
 define(['Base','language'],function(Base,language){
     function Widget(){
+        console.log(this);
         Base.apply(this,arguments)
     }
+    Widget.__initAttr = {
+        dom:'',
+        domData:{},
+        super:'',
+        plugins:{}
+    }
+
     language.extend(Widget,Base)
 
     function renderUI(){}
@@ -12,16 +20,21 @@ define(['Base','language'],function(Base,language){
     }
     var widgetFn = {
         render:function(){
-            var _container = arguments[0].container?arguments.container:document.body
+            var _container = arguments[0].container?arguments[0].container:document.body
             // _container.appendChild(this.ATTR.dom)
             _container.innerHTML = this.ATTR.dom;
             renderUI();
             bindUI();
             syncUI();
+            return this;
         },
         destroy:function(){
-             destructor()
-        }
+             destructor();
+             return this;
+        },
+        plug:function(){},
+        unplug:function(){},
+        
     }
 
     language.mixin(Widget.prototype,widgetFn,true);

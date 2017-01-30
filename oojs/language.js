@@ -8,7 +8,12 @@ define(function(){
             subclass.prototype[i] = fns[i]
         }
         subclass.prototype.constructor = subclass;
-        subclass.prototype.ATTR = subclass.ATTR
+        subclass.ATTR= subclass.ATTR?subclass.ATTR:{};
+        subclass.ATTR.super = superclass.name;
+        subclass.ATTR.name = subclass.name;
+        mixin(subclass.ATTR,subclass.__initAttr,true)
+        subclass.apply(subclass.ATTR);
+        // subclass.prototype.ATTR = subclass.prototype._attr;
         subclass.prototype._init();
     }
 
