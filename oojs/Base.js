@@ -1,22 +1,21 @@
 define(['language'],function(language){
     function Base(){
-        console.info('Base')
+        language.mixin(this.constructor.prototype.__attr,this.constructor.prototype.data,true)
+        this.attr = language.mixin(this.data,this.constructor.prototype.__attr,true);
+        delete this.constructor.prototype.data;
+        delete this.constructor.prototype.__attr;
+        this.__run();
     }
-    Base.__initAttr = {
-        super:''
-    }
-    Base.prototype.initialize = function(){
-        console.info('initialize',this);
-    }
+    Base.prototype.init = function(){}
     var BaseFn = {
         setData:function(obj){
             
         }
     }
 
-
-    Base.prototype._init = function(){
-        this.initialize();
+    Base.prototype.__attr = {}
+    Base.prototype.__run = function(){
+        this.init();
     }
     return Base
 })

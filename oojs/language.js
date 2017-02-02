@@ -1,28 +1,25 @@
 define(function(){
-    
+
     function extend(subclass,superclass,fns){
-        for(var i in superclass.prototype){
-            subclass.prototype[i] = superclass.prototype[i]
-        }
-        for(var i in fns){
-            subclass.prototype[i] = fns[i]
-        }
+        function temp(){}
+        temp.prototype = superclass.prototype;
+        subclass.prototype = new temp();
         subclass.prototype.constructor = subclass;
-        subclass.ATTR= subclass.ATTR?subclass.ATTR:{};
-        subclass.ATTR.super = superclass.name;
-        subclass.ATTR.name = subclass.name;
-        mixin(subclass.ATTR,subclass.__initAttr,true)
-        subclass.apply(subclass.ATTR);
-        // subclass.prototype.ATTR = subclass.prototype._attr;
-        subclass.prototype._init();
+        fns && Object.keys(fns).forEach(function(key){
+            // if(key=='data'){
+            // }
+            subclass.prototype[key] = fns[key];
+        })
     }
 
     function mixin(subobj,superobj,isRewrite){
+        subobj = subobj?subobj:{}
         for(var i in superobj){
             if((subobj[i] != undefined && isRewrite==true)|| subobj[i]==undefined){
                 subobj[i] = superobj[i]
             }
         }
+        return subobj;
     }
 
     return {

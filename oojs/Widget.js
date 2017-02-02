@@ -1,42 +1,36 @@
 define(['Base','language'],function(Base,language){
     function Widget(){
-        console.log(this);
         Base.apply(this,arguments)
-    }
-    Widget.__initAttr = {
-        dom:'',
-        domData:{},
-        super:'',
-        plugins:{}
     }
 
     language.extend(Widget,Base)
-
-    function renderUI(){}
-    function bindUI(){}
-    function syncUI(){}
-    function destructor(){
-
+    Widget.prototype.__attr = {
+        container:'123',
+        plugins:{}
     }
-    var widgetFn = {
-        render:function(){
-            var _container = arguments[0].container?arguments[0].container:document.body
-            // _container.appendChild(this.ATTR.dom)
-            _container.innerHTML = this.ATTR.dom;
-            renderUI();
-            bindUI();
-            syncUI();
-            return this;
-        },
-        destroy:function(){
-             destructor();
-             return this;
-        },
-        plug:function(){},
-        unplug:function(){},
-        
+    Widget.prototype.renderUI = function(){}
+    Widget.prototype.bindUI = function(){}
+    Widget.prototype.syncUI = function(){}
+    Widget.prototype.destructor = function(){}
+
+
+    Widget.prototype.render = function(container){
+        this.container = container.container;
+        this.renderUI();
+        this.bindUI();
+        return this;
+    }
+    Widget.prototype.destroy = function(){
+        this.destructor();
+        return this;
+    }
+    Widget.prototype.plug = function(){
+        return this;
+    }
+    
+    Widget.prototype.unplug = function(){
+        return this;
     }
 
-    language.mixin(Widget.prototype,widgetFn,true);
     return Widget;
 })
