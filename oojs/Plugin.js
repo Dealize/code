@@ -1,30 +1,18 @@
-// define(['language','Base'],function(language,Base){
-//     function Plugin(){
-//         console.log(this);
-//         Base.apply(this,arguments);
-//     }
-//     Plugin.__initAttr = {
-//         originData:{},
-//         plugData:{},
-//         super:''
-//     }
-//     language.extend(Plugin,Base)
-//     function pluginSetData(){
-
-//     }
-//     function pluginFn (){
-
-//     }
-//     function run(){
-//         pluginFn();
-//         return this;
-//     }
-
-//     var pluginFn = {
-//         pluginSetData:pluginSetData,
-//         pluginFn:pluginFn,
-//         run:run
-//     }
-//     language.mixin(Plugin.prototype,pluginFn,true)
-//     return  Plugin;
-// })
+define(['language','Base'],function(language,Base){
+    function Plugin(){
+        Base.apply(this,arguments);
+    }
+    language.extend(Plugin,Base)
+    Plugin.prototype.__attr = {}
+    Plugin.prototype.pluginRun = function(){}
+    Plugin.prototype.run = function(){
+        this.pluginRun();
+        return this;
+    }
+    Plugin.prototype.uninstall = function(){
+        delete this.pluginHost.data.plugins[this.data.pluginName]
+        console.log(this);
+        alert('插件被卸载')
+    }
+    return  Plugin;
+})

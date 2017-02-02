@@ -16,6 +16,7 @@ define(['Base','language'],function(Base,language){
 
     Widget.prototype.render = function(container){
         this.container = container.container;
+        this.container.appendChild(this.data.boundingBox)
         this.renderUI();
         this.bindUI();
         return this;
@@ -24,7 +25,13 @@ define(['Base','language'],function(Base,language){
         this.destructor();
         return this;
     }
-    Widget.prototype.plug = function(){
+    Widget.prototype.plug = function(plugin){
+        var that = this;
+        plugin.forEach(function(i){
+            i.pluginHost = that;
+            // i.pluginHostDom = that.data.boundingBox;
+            that.data.plugins[i.data.pluginName] = i;
+        })
         return this;
     }
     

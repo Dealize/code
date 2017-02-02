@@ -1,24 +1,66 @@
 require(['oojs'],function(OOJS){
     var Base = OOJS.Base;
     var Widget = OOJS.Widget;
+    var Plugin = OOJS.Plugin;
 
-    function baseDemo(){
+    function BoxWidget(){
         Widget.apply(this,arguments);
     }
-    OOJS.language.extend(baseDemo,Widget,{
+    OOJS.language.extend(BoxWidget,Widget,{
         data:{
-            name:''
+            name:'',
+            boundingBox:document.querySelector('#dragDiv')
         },
         init:function(){
-            console.log('baseDemo is init',this)
         },
         renderUI:function(){
-            this.container.innerHTML = 'hello world';
         }
     })
 
-    var a = new baseDemo().render({
+
+    function DragPlugin(){
+        Plugin.apply(this,arguments)
+    }
+    OOJS.language.extend(DragPlugin,Plugin,{
+        data:{
+            pluginName:'DragPlugin'
+        },
+        init:function(){
+        },
+        pluginRun:function(){
+            var plugDom = this.pluginHost.data.boundingBox;
+            var disX,disY;
+            var that = this;
+            plugDom.style.position = 'absolute';
+            function dragFn(e){
+                disX = this.offsetTop - e.pageY;
+                disY = this.offsetLeft - e.pageX;
+                document.onmousemove = function(e){
+                    plugDom.style.left = e.pageX+disX+'px';
+                    plugDom.style.top = e.pageY +disY+'px';
+                }
+                document.onmouseup = function(e){
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+                }
+            }
+            plugDom.addEventListener('mousedown',dragFn)
+            document.addEventListener('keypress',function(e){
+                if(e.keyCode==32){
+                    //TODO: EventEmit 
+                    that.uninstall();
+                    plugDom.removeEventListener('mousedown',dragFn)
+                }
+            })
+            
+        }
+    })
+
+    var dragPlugin = new DragPlugin();
+    var box = new BoxWidget().render({
         container:document.body
-    });
-    console.log(a);
+    }).plug([dragPlugin]);
+    dragPlugin.run();
+
+
 })
