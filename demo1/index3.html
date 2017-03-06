@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+var a = {
+    b:'123',
+    c:{
+        d:'qqq'
+    }
+}
+
+function deepClone(obj){
+    function temp(){
+        for(var i in obj){
+            this[i] =obj[i]
+        }
+    }
+    return new temp();
+}
+var b = deepClone(a);
+
+
+    console.log(a,b);
+</script>
+</body>
+</html>
