@@ -2,38 +2,41 @@ define(['language'],function(language){
     function Base(){
         language.mixin(this.constructor.prototype.__attr,this.constructor.prototype.attr,true)
         this.attr = language.mixin(this.attr,this.constructor.prototype.__attr,true);
-        this.root = this.constructor.prototype.root;
-        this.parent = this.constructor.prototype.parent;
-        this.children = this.constructor.prototype.children;
 
-        delete this.constructor.prototype.attr;
-        delete this.constructor.prototype.__attr;
-        delete this.constructor.prototype.root;
-        delete this.constructor.prototype.parent;
-        delete this.constructor.prototype.children;
 
-        this.__run();
+        //delete this.constructor.prototype.attr;
+        //delete this.constructor.prototype.__attr;
+        this.__run(arguments);
     }
-    Base.prototype.init = function(){}
+    Base.prototype.init = function(arg){}
     Base.prototype.__attr = {};
 
 
-    //Manager Attrs
-    Base.prototype.parent = {};
-    Base.prototype.children = {};
-    Base.prototype.root = {};
-
-
-
     //Event
-    Base.prototype.__events__ = function () {}
     Base.prototype.on = function (name,fn) {
+        if(this.__events__==undefined){
+            this.__events__ = {};
+        }
+        //已经有该名字的事件,事件要依次被触发而不是被覆盖
+        if(this.__events__[name] && typeof this.__events__[name] instanceof  Array){
+            this.__events__[name].push(fn);
+        }else if(typeof this.__events__[name]=='function'){
+            this.__events__[name] = [this.__events__[name],fn]
+        }else{
+            this.__events__[name] = fn;
+        }
     }
     Base.prototype.trigger = function (name,args,fn) {
-        if(typeof this.__events__[name]=='array'){
-
+        if(this.__events__[name] instanceof Array){
+            for(var i in this.__events__[name]){
+                this.__events__[name][i](args)
+            }
+        }else if(this.__events__[name]){
+            this.__events__[name](args);
+        }else{
+            console.info('没有绑定过这个事件')
         }
-
+        fn && fn();
     }
     Base.prototype.off = function (name) {
         delete this.__events__[name]
@@ -42,8 +45,8 @@ define(['language'],function(language){
         this.__events__ = {}
     }
 
-    Base.prototype.__run = function(){
-        this.init();
+    Base.prototype.__run = function(arg){
+        this.init(arg[0]);
     }
     return Base;
 })

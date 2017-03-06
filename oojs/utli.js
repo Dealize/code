@@ -20,18 +20,6 @@ define(function(){
         return subobj;
     }
 
-    function clone(obj){
-        if(obj==null || obj==undefined){
-            return obj;
-        }
-        if(obj.nodeType){
-            return obj.cloneNode(true);
-        }
-        if(obj instanceof Object){
-            clone = {}
-        }
-
-    }
     return {
         extend:extend,
         mixin:mixin
