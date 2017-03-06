@@ -1,4 +1,26 @@
 define(['Base','language'],function(Base,language){
+    function Manager(){
+        Base.apply(this,arguments);
+    }
+
+
+    Manager.prototype.children = [];
+    Manager.prototype.addChildren = function (children) {
+        if(typeof child == 'array'){
+            children.forEach(function (index,item) {
+                addChild(item);
+            })
+        }else{
+            addChild(children);
+        }
+        function addChild(child){
+            this.child.push(child);
+            child.parent = this;
+        }
+    }
+
+
+
     function Widget(){
         Base.apply(this,arguments);
         this.boundingBox = this.constructor.prototype.boundingBox;

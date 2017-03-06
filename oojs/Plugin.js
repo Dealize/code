@@ -10,7 +10,7 @@ define(['language','Base'],function(language,Base){
         return this;
     }
     Plugin.prototype.uninstall = function(){
-        delete this.pluginHost.data.plugins[this.data.pluginName]
+        delete this.pluginHost.attr.plugins[this.attr.pluginName]
         console.log(this);
         alert('插件被卸载')
     }

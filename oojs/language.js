@@ -6,8 +6,6 @@ define(function(){
         subclass.prototype = new temp();
         subclass.prototype.constructor = subclass;
         fns && Object.keys(fns).forEach(function(key){
-            // if(key=='data'){
-            // }
             subclass.prototype[key] = fns[key];
         })
     }

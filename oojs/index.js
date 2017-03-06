@@ -7,7 +7,7 @@ require(['oojs'],function(OOJS){
         Widget.apply(this,arguments);
     }
     OOJS.language.extend(BoxWidget,Widget,{
-        data:{
+        attr:{
             name:'',
             boundingBox:document.querySelector('#dragDiv')
         },
@@ -22,13 +22,13 @@ require(['oojs'],function(OOJS){
         Plugin.apply(this,arguments)
     }
     OOJS.language.extend(DragPlugin,Plugin,{
-        data:{
+        attr:{
             pluginName:'DragPlugin'
         },
         init:function(){
         },
         pluginRun:function(){
-            var plugDom = this.pluginHost.data.boundingBox;
+            var plugDom = this.pluginHost.attr.boundingBox;
             var disX,disY;
             var that = this;
             plugDom.style.position = 'absolute';
