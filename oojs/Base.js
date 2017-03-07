@@ -13,6 +13,11 @@ define(['language'],function(language){
     Base.prototype.__attr = {};
 
 
+    Base.prototype.callParent = function (fn,arg) {
+        this.__superFn__ = this.superFn[fn];
+        this.__superFn__ && this.__superFn__(arg);
+    }
+
     //Event
     Base.prototype.on = function (name,fn) {
         if(this.__events__==undefined){
@@ -47,6 +52,9 @@ define(['language'],function(language){
     }
 
     Base.prototype.__run = function(arg){
+        for(var i in this.attr){
+            this[i] = this.attr[i];
+        }
         this.init(arg[0]);
     }
     return Base;

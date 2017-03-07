@@ -1,15 +1,8 @@
 define(['Base','language'],function(Base,language){
     function Widget(){
         Base.apply(this,arguments);
-        // this.constructor.prototype.boundingBox[0];
         this.boundingBox = $(language.clone(this.constructor.prototype.boundingBox[0]));
-        // this.plugins = language.clone(this.constructor.prototype.plugins);
-        // this.boundingBox = this.constructor.prototype.boundingBox;
         this.plugins = this.constructor.prototype.plugins;
-
-        console.log(language);
-        //delete this.constructor.prototype.boundingBox;
-        //delete this.constructor.prototype.plugins;
     }
 
     language.extend(Widget,Base)
@@ -25,6 +18,8 @@ define(['Base','language'],function(Base,language){
     Widget.prototype.render = function(config){
         var _container = config.container?config.container:$('body');
         _container.append(this.boundingBox);
+        this.callParent('renderUI');
+        this.callParent('bindUI');
         this.renderUI(config);
         this.bindUI(config);
         return this;

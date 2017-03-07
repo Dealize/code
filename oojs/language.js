@@ -5,7 +5,20 @@ define(function(){
         temp.prototype = superclass.prototype;
         subclass.prototype = new temp();
         subclass.prototype.constructor = subclass;
+        subclass.prototype.superFn = {};
         fns && Object.keys(fns).forEach(function(key){
+            switch (key){
+                case 'init':
+                case 'renderUI':
+                case 'bindUI':
+                case 'syncUI':
+                case 'destructor':
+                    subclass.prototype.superFn[key] = subclass.prototype[key];
+                    break;
+                case 'attr':
+                    mixin(subclass.prototype.__attr,superclass.prototype.attr);
+                    break;
+            }
             subclass.prototype[key] = fns[key];
         })
     }

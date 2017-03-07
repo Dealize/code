@@ -28,16 +28,31 @@ require(['oojs'],function (oojs) {
         },
         bindUI: function () {
             var that = this;
-            this.on('')
-            this.boundingBox.bind(oojs.language.tap.tap,function (e) {
+            //this.on('')
+            var mouseX,mouseY,objX,objY;
+            var dragging = false;
+            this.boundingBox.css({
+                'left':'0px',
+                'top':'0px'
             })
             this.boundingBox.bind(oojs.language.tap.tapStart,function (e) {
-                // that.boundingBox.bind(oojs.language.tap.tapMove,that._divMoveFn(e));
-                that.boundingBox.bind(oojs.language.tap.tapMove,moveFn);
-                console.log(e)
+                dragging = true;
+                this.style.position = 'relative';
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                objX = parseInt(this.style.left);
+                objY = parseInt(this.style.top);
+            })
+            this.boundingBox.bind(oojs.language.tap.tapMove, function (e) {
+                if(dragging){
+                    this.style.left = parseInt(e.clientX-mouseX+objX)+ 'px';
+                    this.style.top = parseInt(e.clientY-mouseY+objY)+ 'px';
+                }
+            })
+            this.boundingBox.bind(oojs.language.tap.tapEnd,function(e){
+                dragging = false;
                 that.trigger('dragged',e);
             })
-
             function moveFn(e){
                 console.log(e.offsetX);
                 that._divMoveFn(e);
@@ -81,6 +96,9 @@ require(['oojs'],function (oojs) {
         },
         renderUI: function () {
 
+        },
+        bindUI: function () {
+            //this.callParent('bindUI');
         }
 
     })
@@ -105,17 +123,37 @@ require(['oojs'],function (oojs) {
     var dragDivs = [CirculeDiv,SquareDiv,OblongDiv];
 
 
-
+    function Container(){
+        Base.apply(this,arguments)
+    }
+    oojs.language.extend(Container,Base,{
+        attr:{
+            coord:{}//容器的坐标
+        },
+        init: function () {
+          this.getCoord();
+        },
+        getCoord: function () {
+            var _offset = this._boundingBox.offset();
+            this.coord.point1X = _offset.left;
+            this.coord.point1Y = _offset.top;
+            this.coord.point2X = _offset.left + this._boundingBox.width();
+            this.coord.point2Y = _offset.top + this._boundingBox.height();
+        }
+    })
 
     function LeftContainer(){
-        Base.apply(this,arguments);
+        Container.apply(this,arguments);
     }
-    oojs.language.extend(LeftContainer,Base,{
+    oojs.language.extend(LeftContainer,Container,{
         attr:{
             currentType:''
         },
         init:function () {
+            this._boundingBox = $('.leftContainer');
+            this.callParent('init');
             this._changeDiv();
+
         },
         _changeDiv:function () {
             // var _divType = parseInt(Math.random()*2);
@@ -126,20 +164,21 @@ require(['oojs'],function (oojs) {
 
             });
             _temp.parent = this;
-            this.attr.currentType = _temp.attr.type;
+            this.currentType = _temp.type;
         }
     })
 
     function RightContainer(){
-        Base.apply(this,arguments);
+        Container.apply(this,arguments);
     }
-    oojs.language.extend(RightContainer,Base,{
+    oojs.language.extend(RightContainer,Container,{
         attr:{
-            divList:{}
+            divList:{},
         },
         init:function () {
+            this._boundingBox = $('.rightContainer');
+            this.callParent('init');
             this._addDiv();
-
         },
         _addDiv:function () {
             var that = this;
@@ -148,18 +187,47 @@ require(['oojs'],function (oojs) {
                     container:$('.rightContainer')
                 });
                 _temp.parent = this;
-                _temp.on('dragged',function (arg) {
-                    console.log(that,arg,_temp.attr.type);
+                _temp.on('dragged',function (e) {
+                    that.trigger('dragged',e);
                 })
-                this.attr.divList[_temp.attr.type] = _temp;
-
+                this.divList[_temp.type] = _temp;
             }
-            console.log(this);
+        },
+    })
+
+
+
+    function App(){
+        Base.apply(this,arguments);
+    }
+    oojs.language.extend(App,Base,{
+        attr:{
+
+        },
+        init: function () {
+            this.rightContainer = new RightContainer();
+            this.leftContaienr = new LeftContainer();
+            console.log(this.leftContaienr,this.rightContainer);
+            this._bindUI();
+        },
+        _bindUI: function () {
+            this.rightContainer.on('dragged', function (e) {
+                console.log(e.clientX, e.clientY);
+            })
+        },
+        _checkPoint: function (x,y) {
+            //if(x<this.leftContaienr.coord.point1X){//在左框的左边
+            //    console.log('在左框左边')
+            //}else if(x>this.leftContaienr.coord.point2X && x<this.rightContainer.coord.point2X){
+            //    console.log('在左框的右边')
+            //}else if(){
+            //
+            //}
         }
     })
 
-    var rightContainer = new RightContainer();
-    var leftContaienr = new LeftContainer();
-    console.log(leftContaienr,rightContainer)
+
+    var app = new App();
+
 
 })
