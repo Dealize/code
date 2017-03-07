@@ -1,7 +1,8 @@
 define(['language'],function(language){
     function Base(){
         language.mixin(this.constructor.prototype.__attr,this.constructor.prototype.attr,true)
-        this.attr = language.mixin(this.attr,this.constructor.prototype.__attr,true);
+        this.attr = language.clone(this.constructor.prototype.__attr);
+        // this.attr = language.mixin(this.attr,this.constructor.prototype.__attr,true);
 
 
         //delete this.constructor.prototype.attr;

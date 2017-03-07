@@ -23,15 +23,29 @@ require(['oojs'],function (oojs) {
         },
         boundingBox:$('<div class="">123</div>'),
         init:function () {
-            console.log('this is init',this);
         },
         renderUI:function () {
-            console.log(666)
         },
         bindUI: function () {
+            this.boundingBox.bind(oojs.language.tap.tap,function (e) {
+                console.log(e);
+                this.style.left = e.target.clientLeft;
+                this.style.top = '20px';
+                console.log(111);
+            })
+
+            this.boundingBox.bind(oojs.language.tap.tapStart,function (e) {
+                this.boundingBox.bind(oojs.language.tap.tapMove,function (e) {
+
+                })
+            })
+
             this.on('aaa', function (e) {
                 console.log(123);
             })
+        },
+        _divMoveFn:function (e) {
+            console.log(e.clicentX)
         }
     })
 
@@ -91,28 +105,45 @@ require(['oojs'],function (oojs) {
     })
 
 
-    //var a = new DragDiv().render({
-    //    container:$('body')
-    //})
+    var dragDivs = [circuleDiv,squareDiv,OblongDiv];
 
-    //var circuleDiv = new CirculeDiv().render({
-    //    container:$('.rightContainer')
-    //})
+    function LeftContainer(){
+        Base.apply(this,arguments);
+    }
+    oojs.language.extend(LeftContainer,Base,{
+        attr:{
+
+        },
+        initialize:function () {
+
+        }
+    })
+
+    function RightContainer(){
+        Base.apply(this,arguments);
+    }
+    oojs.language.extend(RightContainer,Base,{
+        attr:''
+    })
+
+
+
+    var circuleDiv = new CirculeDiv().render({
+       container:$('.rightContainer')
+    })
     var squareDiv = new SquareDiv({
         desc:'qqqqqq'
     }).render({
         container:$('.rightContainer')
     })
-    //var oblongDiv = new OblongDiv().render({
-    //    container:$('.rightContainer')
-    //})
+    var oblongDiv = new OblongDiv().render({
+       container:$('.rightContainer')
+    })
     var oblongDiv2 = new SquareDiv({
         desc:'qweqwe'
     }).render({
         container:$('.leftContainer')
     })
 
-    oblongDiv2.plugins['dong'] = 'name'
-    //console.log(DragDiv,a);
 
 })

@@ -14,15 +14,18 @@ var a = {
 }
 
 function deepClone(obj){
-    function temp(){
-        for(var i in obj){
-            this[i] =obj[i]
+    var cloned ={};
+    for(var key in obj){
+        if(typeof obj[key]=='object'){
+            cloned[key] = deepClone(obj[key])
+        }else{
+            cloned[key] = obj[key];
         }
     }
-    return new temp();
+    return cloned;
 }
 var b = deepClone(a);
-
+b.c.d = 666;
 
     console.log(a,b);
 </script>

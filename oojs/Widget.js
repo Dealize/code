@@ -1,10 +1,13 @@
 define(['Base','language'],function(Base,language){
     function Widget(){
         Base.apply(this,arguments);
-        this.boundingBox = this.constructor.prototype.boundingBox;
+        // this.constructor.prototype.boundingBox[0];
+        this.boundingBox = $(language.clone(this.constructor.prototype.boundingBox[0]));
+        // this.plugins = language.clone(this.constructor.prototype.plugins);
+        // this.boundingBox = this.constructor.prototype.boundingBox;
         this.plugins = this.constructor.prototype.plugins;
 
-        console.log(this);
+        console.log(language);
         //delete this.constructor.prototype.boundingBox;
         //delete this.constructor.prototype.plugins;
     }
