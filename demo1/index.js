@@ -27,30 +27,30 @@ require(['oojs'],function (oojs) {
         renderUI:function () {
         },
         bindUI: function () {
+            var that = this;
+            this.on('')
             this.boundingBox.bind(oojs.language.tap.tap,function (e) {
-                console.log(e);
-                this.style.left = e.target.clientLeft;
-                this.style.top = '20px';
-                console.log(111);
             })
-
             this.boundingBox.bind(oojs.language.tap.tapStart,function (e) {
-                this.boundingBox.bind(oojs.language.tap.tapMove,function (e) {
-
-                })
+                // that.boundingBox.bind(oojs.language.tap.tapMove,that._divMoveFn(e));
+                that.boundingBox.bind(oojs.language.tap.tapMove,moveFn);
+                console.log(e)
+                that.trigger('dragged',e);
             })
+
+            function moveFn(e){
+                console.log(e.offsetX);
+                that._divMoveFn(e);
+            }
 
             this.on('aaa', function (e) {
                 console.log(123);
             })
         },
         _divMoveFn:function (e) {
-            console.log(e.clicentX)
+            e.target.style.left= e.offsetX+'px'
         }
     })
-
-
-
 
 
     function CirculeDiv(){
@@ -78,10 +78,6 @@ require(['oojs'],function (oojs) {
         },
         boundingBox:$('<div class="square"></div>'),
         init: function (cfg) {
-            this.attr.aaa = cfg.desc;
-            this.cfg = cfg.desc;
-            this.dong = 'tao';
-
         },
         renderUI: function () {
 
@@ -105,17 +101,32 @@ require(['oojs'],function (oojs) {
     })
 
 
-    var dragDivs = [circuleDiv,squareDiv,OblongDiv];
+
+    var dragDivs = [CirculeDiv,SquareDiv,OblongDiv];
+
+
+
 
     function LeftContainer(){
         Base.apply(this,arguments);
     }
     oojs.language.extend(LeftContainer,Base,{
         attr:{
-
+            currentType:''
         },
-        initialize:function () {
+        init:function () {
+            this._changeDiv();
+        },
+        _changeDiv:function () {
+            // var _divType = parseInt(Math.random()*2);
+            var _divType = parseInt(Math.random()*3000)%3;
+            console.log(_divType);
+            var _temp = new dragDivs[_divType]().render({
+                container:$('.leftContainer')
 
+            });
+            _temp.parent = this;
+            this.attr.currentType = _temp.attr.type;
         }
     })
 
@@ -123,27 +134,32 @@ require(['oojs'],function (oojs) {
         Base.apply(this,arguments);
     }
     oojs.language.extend(RightContainer,Base,{
-        attr:''
+        attr:{
+            divList:{}
+        },
+        init:function () {
+            this._addDiv();
+
+        },
+        _addDiv:function () {
+            var that = this;
+            for(var i in dragDivs){
+                var _temp = new dragDivs[i]().render({
+                    container:$('.rightContainer')
+                });
+                _temp.parent = this;
+                _temp.on('dragged',function (arg) {
+                    console.log(that,arg,_temp.attr.type);
+                })
+                this.attr.divList[_temp.attr.type] = _temp;
+
+            }
+            console.log(this);
+        }
     })
 
-
-
-    var circuleDiv = new CirculeDiv().render({
-       container:$('.rightContainer')
-    })
-    var squareDiv = new SquareDiv({
-        desc:'qqqqqq'
-    }).render({
-        container:$('.rightContainer')
-    })
-    var oblongDiv = new OblongDiv().render({
-       container:$('.rightContainer')
-    })
-    var oblongDiv2 = new SquareDiv({
-        desc:'qweqwe'
-    }).render({
-        container:$('.leftContainer')
-    })
-
+    var rightContainer = new RightContainer();
+    var leftContaienr = new LeftContainer();
+    console.log(leftContaienr,rightContainer)
 
 })

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .app{
+            display: flex;
+            width:500px;
+            margin:0 auto;
+        }
+        .leftContainer{
+            width:300px;
+            border:1px solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rightContainer{
+            width:100px;
+            border:1px solid;
+        }
+        .rightContainer>div{
+            margin:20px 10px;
+        }
+        .circule{
+            width:50px;height: 50px;
+            position:relative;
+            background:red;
+            border-radius:50%;
+        }
+        .oblong{
+            position:relative;
+            width:80px;height:40px;
+            background:orange;
+        }
+        .square{
+            position:relative;
+            width:50px;height:50px;
+            background:pink;
+        }
+    </style>
+</head>
+<body>
+<div style="width:500px;height:300px;margin:20px auto;border:1px solid red;">
+    <div class="drag" style="width:50px;height:50px;background:orange;position:relative"></div>
+</div>
+<script>
+    var dragDiv = document.querySelector('.drag');
+    dragDiv.addEventListener('mousedown',function (e) {
+        var disX = e.clientX-dragDiv.offsetLeft;
+        document.addEventListener('mousemove',function (event) {
+            console.log(event.clientX-dragDiv.offsetLeft);
+            var _des = event.clientX-dragDiv.offsetLeft
+            dragDiv.style.left = _des+'px';
+        })
+    })
+</script>
+</body>
+</html>
