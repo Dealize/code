@@ -15,10 +15,10 @@ define(['Base','language'],function(Base,language){
 
 
     Widget.prototype.render = function(container){
-        this.container = container.container;
-        this.container.appendChild(this.data.boundingBox)
-        this.renderUI();
-        this.bindUI();
+        //this.container = container.container;
+        //this.container.appendChild(this.data.boundingBox)
+        //this.renderUI();
+        //this.bindUI();
         return this;
     }
     Widget.prototype.destroy = function(){
@@ -27,11 +27,15 @@ define(['Base','language'],function(Base,language){
     }
     Widget.prototype.plug = function(plugin){
         var that = this;
+        //console.log(plugin);
         plugin.forEach(function(i){
+            //console.log(i);
             i.pluginHost = that;
             // i.pluginHostDom = that.data.boundingBox;
             that.data.plugins[i.data.pluginName] = i;
+            //console.log(that.data.plugins[i.data.pluginName]);
         })
+        //console.log(that)
         return this;
     }
     

@@ -26,8 +26,10 @@ require(['oojs'],function(OOJS){
             pluginName:'DragPlugin'
         },
         init:function(){
+            console.log()
         },
         pluginRun:function(){
+            //console.log(this)
             var plugDom = this.pluginHost.data.boundingBox;
             var disX,disY;
             var that = this;
