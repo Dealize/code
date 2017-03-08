@@ -26,6 +26,10 @@ define(['Base','language'],function(Base,language){
     }
     Widget.prototype.destroy = function(){
         this.destructor();
+        this.boundingBox.remove();
+        for(var i in this){
+            delete this[i];
+        }
         return this;
     }
     Widget.prototype.plug = function(plugin){
