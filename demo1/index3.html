@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+var a = {
+    b:'123',
+    c:{
+        d:'qqq'
+    }
+}
+
+function deepClone(obj){
+    var cloned ={};
+    for(var key in obj){
+        if(typeof obj[key]=='object'){
+            cloned[key] = deepClone(obj[key])
+        }else{
+            cloned[key] = obj[key];
+        }
+    }
+    return cloned;
+}
+var b = deepClone(a);
+b.c.d = 666;
+
+    console.log(a,b);
+</script>
+</body>
+</html>

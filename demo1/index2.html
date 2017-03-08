@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+//    function clone(obj){
+//        var cloned = {};
+//        for(var key in obj){
+//            cloned[key] = clone(obj[key])
+//        }
+//        return cloned;
+//    }
+
+    var a = {
+        q:'1',
+        w:{
+            e:'2',
+            r:'3'
+        }
+    }
+    var b = clone(a);
+    console.log(a);
+
+//    console.log(b);
+</script>
+</body>
+</html>

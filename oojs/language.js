@@ -5,9 +5,20 @@ define(function(){
         temp.prototype = superclass.prototype;
         subclass.prototype = new temp();
         subclass.prototype.constructor = subclass;
+        subclass.prototype.superFn = {};
         fns && Object.keys(fns).forEach(function(key){
-            // if(key=='data'){
-            // }
+            switch (key){
+                case 'init':
+                case 'renderUI':
+                case 'bindUI':
+                case 'syncUI':
+                case 'destructor':
+                    subclass.prototype.superFn[key] = subclass.prototype[key];
+                    break;
+                case 'attr':
+                    mixin(subclass.prototype.__attr,superclass.prototype.attr);
+                    break;
+            }
             subclass.prototype[key] = fns[key];
         })
     }
@@ -22,8 +33,45 @@ define(function(){
         return subobj;
     }
 
+    function clone(obj){
+        if(typeof obj =='string') {
+            var cloned = {};
+            cloned = obj;
+        }else if(obj.nodeType){
+            var cloned = obj.cloneNode();
+        }else{
+            var cloned ={};
+            for(var key in obj){
+                if(typeof obj[key]=='object'){
+                    cloned[key] = clone(obj[key])
+                }else{
+                    cloned[key] = obj[key];
+                }
+            }
+        }
+
+        return cloned;
+    }
+
+    function tap(){
+        var tapObj = {}
+        if(['ontouchend']in document){
+            tapObj.tapStart = 'touchstart';
+            tapObj.tapMove = 'touchMove';
+            tapObj.tapEnd = 'tapEnd';
+            tapObj.tap = 'touchend';
+        }else{
+            tapObj.tapStart = 'mousedown';
+            tapObj.tapMove = 'mousemove';
+            tapObj.tapEnd = 'mouseup';
+            tapObj.tap = 'click';
+        }
+        return tapObj;
+    }
     return {
         extend:extend,
-        mixin:mixin
+        mixin:mixin,
+        clone:clone,
+        tap:tap()
     }
 })

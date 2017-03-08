@@ -1,8 +1,33 @@
 define(['Base','language'],function(Base,language){
+    function Manager(){
+        Base.apply(this,arguments);
+    }
+
+
+    Manager.prototype.children = [];
+    Manager.prototype.addChildren = function (children) {
+        if(typeof child == 'array'){
+            children.forEach(function (index,item) {
+                addChild(item);
+            })
+        }else{
+            addChild(children);
+        }
+        function addChild(child){
+            this.child.push(child);
+            child.parent = this;
+        }
+    }
+
+
+
     function Widget(){
         Base.apply(this,arguments);
-        this.boundingBox = $(language.clone(this.constructor.prototype.boundingBox[0]));
+        this.boundingBox = this.constructor.prototype.boundingBox;
         this.plugins = this.constructor.prototype.plugins;
+
+        delete this.constructor.prototype.boundingBox;
+        delete this.constructor.prototype.plugins;
     }
 
     language.extend(Widget,Base)
@@ -16,10 +41,8 @@ define(['Base','language'],function(Base,language){
 
 
     Widget.prototype.render = function(config){
-        var _container = config.container?config.container:$('body');
-        _container.append(this.boundingBox);
-        this.callParent('renderUI');
-        this.callParent('bindUI');
+        var _container = config.container?$('body'):config.container;
+        _container.append(this.boundingBox[0]);
         this.renderUI(config);
         this.bindUI(config);
         return this;
@@ -30,14 +53,11 @@ define(['Base','language'],function(Base,language){
     }
     Widget.prototype.plug = function(plugin){
         var that = this;
-        //console.log(plugin);
         plugin.forEach(function(i){
-            //console.log(i);
             i.pluginHost = that;
             // i.pluginHostDom = that.attr.boundingBox;
             that.attr.plugins[i.attr.pluginName] = i;
         })
-        //console.log(that)
         return this;
     }
     Widget.prototype.unplug = function(){

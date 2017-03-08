@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .app{
+            display: flex;
+            width:500px;
+            margin:0 auto;
+        }
+        .leftContainer{
+            width:300px;
+            border:1px solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rightContainer{
+            width:100px;
+            border:1px solid;
+        }
+        .rightContainer>div{
+            margin:20px 10px;
+        }
+        .circule{
+            width:50px;height: 50px;
+            position:relative;
+            background:red;
+            border-radius:50%;
+        }
+        .oblong{
+            position:relative;
+            width:80px;height:40px;
+            background:orange;
+        }
+        .square{
+            position:relative;
+            width:50px;height:50px;
+            background:pink;
+        }
+    </style>
+</head>
+<body>
+<div style="width:500px;height:300px;margin:20px auto;border:1px solid red;">
+    <div class="drag" style="width:50px;height:50px;background:orange;position:relative"></div>
+</div>
+<script>
+    var dragObj = document.querySelector('.drag');
+    dragObj.style.left = "0px";
+    dragObj.style.top = "0px";
+
+    var mouseX, mouseY, objX, objY;
+    var dragging = false;
+
+    dragObj.onmousedown = function (event) {
+        event = event || window.event;
+
+        dragging = true;
+        dragObj.style.position = "relative";
+
+
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+        objX = parseInt(dragObj.style.left);
+        objY = parseInt(dragObj.style.top);
+    }
+
+    document.onmousemove = function (event) {
+        event = event || window.event;
+        if (dragging) {
+
+            dragObj.style.left = parseInt(event.clientX - mouseX + objX) + "px";
+            dragObj.style.top = parseInt(event.clientY - mouseY + objY) + "px";
+        }
+
+    }
+
+    document.onmouseup = function () {
+        dragging = false;
+    }
+</script>
+</body>
+</html>
