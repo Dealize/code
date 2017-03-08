@@ -29,12 +29,7 @@ require(['oojs'],function(OOJS){
             console.log()
         },
         pluginRun:function(){
-<<<<<<< HEAD
-            //console.log(this)
-            var plugDom = this.pluginHost.data.boundingBox;
-=======
             var plugDom = this.pluginHost.attr.boundingBox;
->>>>>>> 9904ca1b1685f6f7694fcac07a1b33339bbd877d
             var disX,disY;
             var that = this;
             plugDom.style.position = 'absolute';
