@@ -57,8 +57,8 @@ define(function(){
         var tapObj = {}
         if(['ontouchend']in document){
             tapObj.tapStart = 'touchstart';
-            tapObj.tapMove = 'touchMove';
-            tapObj.tapEnd = 'tapEnd';
+            tapObj.tapMove = 'touchmove';
+            tapObj.tapEnd = 'touchend';
             tapObj.tap = 'touchend';
         }else{
             tapObj.tapStart = 'mousedown';

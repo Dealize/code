@@ -18,7 +18,6 @@ require(['oojs','./Container'],function (oojs,container) {
     var Base = oojs.Base,
         Widget = oojs.Widget;
 
-
     function App(){
         Base.apply(this,arguments);
     }
@@ -34,10 +33,19 @@ require(['oojs','./Container'],function (oojs,container) {
         },
         _bindUI: function () {
             var that = this;
-            this.rightContainer.on('dragged', function (e) {
+            var mouseX,mouseY;
+            var _isMobile = false;
+            if(oojs.language.tap.tapStart=='touchstart'){
+                _isMobile = true;
+            }
+            console.log(oojs.language.tap);
+
+            this.rightContainer.on('dragged2', function (e) {
+                mouseX = _isMobile?e.changedTouches[0].clientX:e.clientX;
+                mouseY = _isMobile?e.changedTouches[0].clientY:e.clientY;
                 //判断拖拽的组件是否在左边容器里, 在的话判断,不在的话恢复初始位置
                 //判断对比的组件是否一致, 是的话 销毁,重新生成,不是的话 恢复初始位置
-               if(that._checkPoint(e.clientX, e.clientY) && that._checkTypes()){
+               if(that._checkPoint(mouseX, mouseY) && that._checkTypes()){
                     that.leftContaienr.update();
                     that.rightContainer.update();
                }else{
@@ -62,7 +70,6 @@ require(['oojs','./Container'],function (oojs,container) {
             return _isSame;
         }
     })
-
 
     var app = new App();
 

@@ -85,7 +85,8 @@ define(['oojs','./DragDiv'], function (oojs,dragDiv) {
             _temp.on('dragged',function (arg) {
                 that.currentType = arg.target.type;
                 that.currentDiv = arg.target;
-                that.trigger('dragged',arg.e);
+                console.log(arg.e.touches);
+                that.trigger('dragged2',arg.e);
             })
             this.divList[index] = _temp;
         },

@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+<div>123</div>
 <script>
 var a = {
     b:'123',
@@ -28,6 +29,10 @@ var b = deepClone(a);
 b.c.d = 666;
 
     console.log(a,b);
+document.querySelector('div').addEventListener('touchend',function (e) {
+    console.log(e.touches);
+})
+
 </script>
 </body>
 </html>

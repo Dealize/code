@@ -19,6 +19,10 @@ define(['oojs'], function (oojs) {
             var that = this;
             var mouseX,mouseY,objX,objY;
             var dragging = false;
+            var _isMobile = false;
+            if(oojs.language.tap.tapStart=='touchstart'){
+                _isMobile = true;
+            }
             this.boundingBox.css({
                 'left':'0px',
                 'top':'0px'
@@ -26,18 +30,21 @@ define(['oojs'], function (oojs) {
             this.boundingBox.bind(oojs.language.tap.tapStart,function (e) {
                 dragging = true;
                 this.style.position = 'relative';
-                mouseX = e.clientX;
-                mouseY = e.clientY;
+                mouseX = _isMobile?e.touches[0].clientX:e.clientX;
+                mouseY = _isMobile?e.touches[0].clientY:e.clientY;
                 objX = parseInt(this.style.left);
                 objY = parseInt(this.style.top);
             })
             this.boundingBox.bind(oojs.language.tap.tapMove, function (e) {
+                var _currentX = _isMobile?e.touches[0].clientX:e.clientX;
+                var _currentY = _isMobile?e.touches[0].clientY:e.clientY;
+
                 if(that._cfg && that._cfg.dragToggle==false){
                     dragging = false;
                 }
                 if(dragging){
-                    this.style.left = parseInt(e.clientX-mouseX+objX)+ 'px';
-                    this.style.top = parseInt(e.clientY-mouseY+objY)+ 'px';
+                    this.style.left = parseInt(_currentX-mouseX+objX)+ 'px';
+                    this.style.top = parseInt(_currentY-mouseY+objY)+ 'px';
                 }
             })
             this.boundingBox.bind(oojs.language.tap.tapEnd,function(e){
