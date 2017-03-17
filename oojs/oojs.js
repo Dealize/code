@@ -3,6 +3,7 @@ define(['language','Base','Widget','Plugin'],function(language,Base,Widget,Plugi
         Base:Base,
         Widget:Widget,
         Plugin:Plugin,
-        language:language
+        language:language,
+        extend:language.extend,
     }
 })

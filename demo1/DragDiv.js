@@ -12,6 +12,7 @@ define(['oojs'], function (oojs) {
         boundingBox:$('<div class="">123</div>'),
         init:function (cfg) {
             this._cfg = cfg;
+
         },
         renderUI:function () {
         },
@@ -20,6 +21,12 @@ define(['oojs'], function (oojs) {
             var mouseX,mouseY,objX,objY;
             var dragging = false;
             var _isMobile = false;
+            this.on('nameChange',function (data) {
+                console.log(data);
+            })
+            this.setData({
+                name:'6666'
+            })
             if(oojs.language.tap.tapStart=='touchstart'){
                 _isMobile = true;
             }

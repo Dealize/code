@@ -5,11 +5,10 @@ define(['language'],function(language){
         // this.attr = language.mixin(this.attr,this.constructor.prototype.__attr,true);
 
 
-        //delete this.constructor.prototype.attr;
-        //delete this.constructor.prototype.__attr;
         this.__run(arguments);
     }
-    Base.prototype.init = function(arg){}
+    Base.prototype.init = function(arg){
+    }
     Base.prototype.__attr = {};
 
 
@@ -33,6 +32,9 @@ define(['language'],function(language){
         }
     }
     Base.prototype.trigger = function (name,args,fn) {
+        if(this.__events__==undefined){
+            this.__events__ = {};
+        }
         if(this.__events__[name] instanceof Array){
             for(var i in this.__events__[name]){
                 this.__events__[name][i](args)
@@ -40,7 +42,7 @@ define(['language'],function(language){
         }else if(this.__events__[name]){
             this.__events__[name](args);
         }else{
-            console.info('没有绑定过这个事件')
+            console.warn('没有绑定过'+name+'事件')
         }
         fn && fn();
     }
@@ -54,8 +56,28 @@ define(['language'],function(language){
     Base.prototype.__run = function(arg){
         for(var i in this.attr){
             this[i] = this.attr[i];
+            // var _attrEventName = i+'Change';
+            // this.trigger(_attrEventName,{
+            //     data:{
+            //         value:this
+            //     }
+            // })
         }
+        this.__arg = arg[0];
         this.init(arg[0]);
+    }
+
+    Base.prototype.setData = function (data) {
+        for(var i in data){
+            var _oldValue = this.attr[i];
+            this.attr[i] = data[i];
+            this.trigger(i+'Change',{
+                oldValue:_oldValue,
+                value:data[i]
+            })
+            this[i] = this.attr[i];
+        }
+
     }
     return Base;
 })
