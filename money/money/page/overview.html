@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Hello MUI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="../css/lib/mui.min.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/overflow.css">
+</head>
+<body>
+<div class="mui-content d-mui-panel overflow-header1">
+    今日消费成本为:123元
+</div>
+<div class="mui-content d-mui-panel overflow-header2">
+    <div>纪念日</div>
+    <div>成就</div>
+    <div>吐槽</div>
+    <div>感想</div>
+</div>
+<div class="mui-content d-mui-panel overflow-header3">
+    <a type="button" class="mui-btn mui-btn-primary mui-btn-block mui-btn-outlined" data-target="goRecordDiary">自省</a>
+    <a href="#goRecordCostSheet" type="button" class="mui-btn mui-btn-royal mui-btn-block mui-btn-outlined" >记成本</a>
+    <!--data-target="goRecordCost"-->
+</div>
+
+<div id="goRecordCostSheet" class="mui-popover mui-popover-action mui-popover-bottom">
+    <ul class="mui-table-view">
+        <li class="mui-table-view-cell">
+            <a href="#">支出</a>
+        </li>
+    </ul>
+    <ul class="mui-table-view">
+        <li class="mui-table-view-cell">
+            <a href="#">收入</a>
+        </li>
+    </ul>
+    <ul class="mui-table-view">
+        <li class="mui-table-view-cell">
+            <a href="#picture"><b>取消</b></a>
+        </li>
+    </ul>
+</div>
+
+</body>
+<script src="../js/lib/mui.min.js"></script>
+<script src="../js/lib/fff.js"></script>
+<script type="text/javascript" src="../js/overview.js"></script>
+</html>
