@@ -1,41 +1,67 @@
 mui.init({
-    swippeBack: true//启用右滑关闭功能
+	swippeBack: false //启用右滑关闭功能
 })
-mui.plusReady(function () {
+mui.plusReady(function() {
+	var preload_recordCostOut = mui.preload({
+			url: '../page/recordCostOut.html',
+			id: 'recordCostOut',
+			show: {
+				aniShow: aniShow,
+				duration: 300
+			}
+		}),
+		preload_recordDiary = mui.preload({
+			url:'../page/recordDiary.html',
+			id:'recordDiary',
+			show:{
+				aniShow:aniShow,
+				duration:300
+			}
+		})
 
-    var preload_recordCost = mui.preload({
-        url:'../page/recordCost.html',
-        id:'recordCost'
-    })
-    var aniShow = mui.os.plus ? "slide-in-right" : "zoom-fade-out";
-    mui('.overflow-header3').on('tap','.mui-btn',function(e){
-        switch(this.dataset.target){
-            case 'goRecordCost':
-                //mui.openWindowWithTitle({
-                //mui.openWindow({
-                //    url:'../page/recordCost.html',
-                //    id:'recordCost'
-                //},{
-                //    title:'记账页',
-                //    back: {//左上角返回箭头
-                //        image: {
-                //            base64Data: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAb1BMVEUAAAAAev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8AAACubimgAAAAI3RSTlMAGfUTGfQTGPMSGPIYGhgaGBsXGxcbFxwXHBccFhwWHRYdHWufDPQAAAABYktHRACIBR1IAAAAB3RJTUUH4QETEBwooeTlkQAAAJVJREFUSMft1EkSgkAQRNFGUXFWHBDBibr/HTUwD5B/48Ig1y+io7u6MqUhf5hsNEY+j5hMgZ/FJ8Xc9ovos3T96utjbfqN/Nb0O/m96Uv5g+mP8ifTn+Ur01/ka9Nf5RvTt/I309/lH6Z/yr9Mn+Q71/MT8B34K/E58Enzv8R/K98HvnF8p3lr8F7izce7lbf3kJ/lDQp9HdBhgg3PAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTAxLTE5VDE2OjI4OjQwKzA4OjAwpTDFwQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0wMS0xOVQxNjoyODo0MCswODowMNRtfX0AAAAASUVORK5CYII='
-                //        }
-                //    }
-                //})
-                //mui.openWindow(preload_recordCost);
-                mui.openWindow({
-                        url:'../page/recordCost.html',
-                        id:'recordCost',
-                    styles: {
-                        popGesture: "close"
-                    },
-                    show: {
-                        aniShow: aniShow,
-                        duration: 300
-                    }
-                });
-                break
-        }
-    })
+	var aniShow = mui.os.plus ? "slide-in-right" : "zoom-fade-out";
+
+	mui('.overflow-header2').on('tap', '.overview_diary', function(e) {
+		console.log(this.dataset.target);
+		mui.fire(preload_recordDiary,'recordDiaryParam',{
+			type:this.dataset.target
+		})
+		mui.openWindow(preload_recordDiary);
+	})
+	mui('.overflow-header3').on('tap', '.mui-btn', function(e) {
+		switch(this.dataset.target) {}
+	})
+	mui('body').on('tap', '.mui-popover-action li>a', function() {
+		var a = this,
+			parent;
+		//根据点击按钮，反推当前是哪个actionsheet
+		for(parent = a.parentNode; parent != document.body; parent = parent.parentNode) {
+			if(parent.classList.contains('mui-popover-action')) {
+				break;
+			}
+		}
+		//关闭actionsheet
+		mui('#' + parent.id).popover('toggle');
+		switch(this.dataset.target) {
+			case 'goRecordCostOut':
+				mui.fire(preload_recordCostOut, 'recordCostParam', {
+					type: 'costOut'
+				})
+				mui.openWindow(preload_recordCostOut);
+				break;
+			case 'goRecordCostIn':
+				mui.fire(preload_recordCostOut, 'recordCostParam', {
+					type: 'costIn'
+				})
+				mui.openWindow(preload_recordCostOut);
+				break;
+		}
+
+	})
 })
+	mui('.overflow-header2').on('tap', '.overview_diary', function(e) {
+		console.log(this.dataset.target);
+//		switch(this.dataset.target) {
+//			case
+//		}
+	})

@@ -217,7 +217,10 @@
 					"css/lib/mui.min.css"
 				],
 				"refer": [
-					"page/recordCost.html"
+					"page/recordCost.html",
+					"page/recordCostIn.html",
+					"page/recordCostOut.html",
+					"page/recordDiary.html"
 				],
 				"priority": 0
 			},
@@ -241,6 +244,58 @@
 					"css/overflow.css",
 					"css/lib/mui.min.css",
 					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/recordCostOut.html": {
+				"resources": [
+					"js/recordcost.js",
+					"css/recordCost.css",
+					"js/lib/autosize.js",
+					"css/lib/mui.poppicker.css",
+					"css/lib/mui.picker.css",
+					"js/lib/mui.picker.js",
+					"js/lib/mui.poppicker.js",
+					"css/base.css",
+					"js/lib/mui.min.js",
+					"fonts/mui.ttf",
+					"css/lib/mui.min.css",
+					"js/lib/fff.js",
+					"js/lib/jquery.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/recordCostIn.html": {
+				"resources": [
+					"css/base.css",
+					"js/overview.js",
+					"js/lib/fff.js",
+					"js/lib/mui.min.js",
+					"fonts/mui.ttf",
+					"css/overflow.css",
+					"css/lib/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/recordDiary.html": {
+				"resources": [
+					"css/recordDiary.css",
+					"css/base.css",
+					"js/lib/mui.min.js",
+					"fonts/mui.ttf",
+					"css/lib/mui.min.css",
+					"css/lib/mui.poppicker.css",
+					"css/lib/mui.picker.css",
+					"js/lib/autosize.js",
+					"js/lib/mui.picker.js",
+					"js/lib/mui.poppicker.js",
+					"js/lib/jquery.js",
+					"js/recorddiary.js",
+					"js/lib/my.mui.plus.js",
+					"css/lib/my.mui.plus.css"
 				],
 				"refer": [],
 				"priority": 0
