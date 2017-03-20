@@ -8,7 +8,9 @@ window.debug = false;
 requirejs.config({
     baseUrl: './js',
     paths: {
-    	index:'./index/index'
+    	index:'./index',
+        overview:'./overview',
+        account:'./account'
 //      // 库函数
 //      vConsole: 'lib/vconsole.min',
 //      layer: 'lib/layer',

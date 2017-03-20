@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Hello MUI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="../css/lib/mui.min.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/lib/mui.picker.css">
+    <link rel="stylesheet" href="../css/lib/mui.poppicker.css">
+    <link rel="stylesheet" href="../css/recordCost.css">
+</head>
+<body>
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-action-back mui-icon mui-icon-back mui-pull-left"></a>
+    <h1 class="mui-title">块级按钮</h1>
+</header>
+<div class="mui-card">
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+            <form class="mui-input-group">
+                <div class="mui-input-row">
+                    <label>总金额</label>
+                    <input type="text" class="mui-input-clear" type="number" placeholder="111">
+                </div>
+                <div class="mui-input-row" style="padding-bottom: 0;">
+                    <label>备注</label>
+                    <textarea class="mui-input-clear" romws="1" placeholder="123"></textarea>
+                </div>
+                <div class="mui-input-row">
+                    <label>项目</label>
+                    <input readonly type="text" id="projectPicker" class="mui-input-clear" placeholder="123"/>
+                </div>
+                <div class="mui-input-row recordCost-type">
+                    <div class="mui-radio">
+                        <input type="radio" id="recordCost-type1" name="recordCost-type">
+                        <label for="recordCost-type1">持续性</label>
+                    </div>
+                    <div class="mui-radio">
+                        <input type="radio"  id="recordCost-type2" name="recordCost-type">
+                        <label for="recordCost-type2">一次性</label>
+                    </div>
+
+                </div>
+                <div class="mui-input-row">
+                    <label>起始时间</label>
+                    <input  type="date" class="mui-input-clear recordCost-startTime" placeholder="123"/>
+                </div>
+                
+                <div class="mui-input-row">
+                    <label>结束时间</label>
+                    <input type="date" class="mui-input-clear recordCost-endTime" placeholder="123"/>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<div class="mui-card">
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+            <h3>总共花了这么多</h3>
+        </div>
+
+    </div>
+</div>
+
+<div class="mui-card">
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+            <a href="#" type="button" class="mui-btn mui-btn-primary mui-btn-block mui-btn-outlined recordCostOut-btn" data-target="goRecordDiary">值得</a>
+            <a href="#goRecordCostSheet" type="button" class="mui-btn mui-btn-royal mui-btn-block mui-btn-outlined recordCostOut-btn" >不值得</a>
+            <a href="#goRecordCostSheet" type="button" class="mui-btn mui-btn-royal mui-btn-block mui-btn-outlined recordCostIn-btn" >保存</a>
+        </div>
+
+    </div>
+</div>
+
+</div>
+</body>
+<script src="../js/lib/jquery.js"></script>
+<script src="../js/lib/mui.min.js"></script>
+<script src="../js/lib/mui.picker.js"></script>
+<script src="../js/lib/mui.poppicker.js"></script>
+<script src="../js/lib/autosize.js"></script>
+<script type="text/javascript" src="../js/recordcost.js"></script>
+</html>

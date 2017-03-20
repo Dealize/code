@@ -3,7 +3,7 @@
 	"id": "H572759E1",/*应用的标识，创建应用时自动生成，勿手动修改*/
 	"name": "money",/*应用名称，程序桌面图标名称*/
 	"version": {
-		"name": "0.0.1",/*应用版本名称*/
+		"name": "1.0.0",/*应用版本名称*/
 		"code": "83"
 	},
 	"description": "",/*应用描述信息*/
@@ -190,27 +190,127 @@
 			}
 		}
 	},
-	"dependencies":{
+	"dependencies": {
 		"pages": {
 			"index.html": {
-				"href": "index.html",
 				"resources": [
-					"js/lib/mui.min.js",
+					"css/index.css",
 					"js/lib/fff.js",
-					"js/config.js",
+					"js/lib/mui.min.js",
+					"fonts/mui.ttf",
+					"page/overview.html",
 					"css/lib/mui.min.css",
-					"css/index.css"
+					"js/index.js"
 				],
+				"refer": [
+					"page/account.html"
+				],
+				"priority": 0
+			},
+			"page/overview.html": {
+				"resources": [
+					"css/base.css",
+					"js/overview.js",
+					"css/overflow.css",
+					"js/lib/fff.js",
+					"js/lib/mui.min.js",
+					"css/lib/mui.min.css"
+				],
+				"refer": [
+					"page/recordCost.html",
+					"page/recordCostIn.html",
+					"page/recordCostOut.html",
+					"page/recordDiary.html"
+				],
+				"priority": 0
+			},
+			"page/account.html": {
+				"resources": [
+					"js/account.js",
+					"js/lib/fff.js",
+					"js/lib/mui.min.js",
+					"fonts/mui.ttf",
+					"css/lib/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/recordCost.html": {
+				"resources": [
+					"css/base.css",
+					"js/overview.js",
+					"js/lib/fff.js",
+					"js/lib/mui.min.js",
+					"css/overflow.css",
+					"css/lib/mui.min.css",
+					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/recordCostOut.html": {
+				"resources": [
+					"js/recordcost.js",
+					"css/recordCost.css",
+					"js/lib/autosize.js",
+					"css/lib/mui.poppicker.css",
+					"css/lib/mui.picker.css",
+					"js/lib/mui.picker.js",
+					"js/lib/mui.poppicker.js",
+					"css/base.css",
+					"js/lib/mui.min.js",
+					"fonts/mui.ttf",
+					"css/lib/mui.min.css",
+					"js/lib/fff.js",
+					"js/lib/jquery.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/recordCostIn.html": {
+				"resources": [
+					"css/base.css",
+					"js/overview.js",
+					"js/lib/fff.js",
+					"js/lib/mui.min.js",
+					"fonts/mui.ttf",
+					"css/overflow.css",
+					"css/lib/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"page/recordDiary.html": {
+				"resources": [
+					"css/recordDiary.css",
+					"css/base.css",
+					"js/lib/mui.min.js",
+					"fonts/mui.ttf",
+					"css/lib/mui.min.css",
+					"css/lib/mui.poppicker.css",
+					"css/lib/mui.picker.css",
+					"js/lib/autosize.js",
+					"js/lib/mui.picker.js",
+					"js/lib/mui.poppicker.js",
+					"js/lib/jquery.js",
+					"js/recorddiary.js",
+					"js/lib/my.mui.plus.js",
+					"css/lib/my.mui.plus.css"
+				],
+				"refer": [],
 				"priority": 0
 			}
 		},
 		"idle": {
 			"resources": [
-				"js/index/index.js",
+				"js/bak_index.js",
 				"js/lib/mui.js",
-				"css/lib/mui.css",
-				"fonts/mui.ttf",
-				"css/index.less"
+				"复制 index.html",
+				"css/复制 index.less",
+				"css/overflow.less",
+				"css/index.less",
+				"css/base.less",
+				"js/config.js"
 			]
 		}
 	}
