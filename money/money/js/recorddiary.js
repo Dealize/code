@@ -5,6 +5,11 @@ mui.init({
 var recordCost_type,
 	pageDom = {
 		$title: $('.mui-title'),
+		$page_container:$('.page-container'),
+		$rememberDay_container:$('.rememberDay-container'),
+		$achievement_container:$('.achievement-container'),
+		$complaint_container:$('.complaint-container'),
+		$think_container:$('.think-container')
 	},
 	typePicker,
 	typePickerData = [];
@@ -20,15 +25,23 @@ function checkPageByType(type) {
 	switch(type) {
 		case 'rememberDay':
 			pageDom.$title.html('纪念日');
+			pageDom.$page_container.hide();
+			pageDom.$rememberDay_container.show();
 			break;
 		case 'achievement':
 			pageDom.$title.html('成就');
+			pageDom.$page_container.hide();
+			pageDom.$achievement_container.show();
 			break;
 		case 'complaint':
 			pageDom.$title.html('吐槽');
+			pageDom.$page_container.hide();
+			pageDom.$complaint_container.show();
 			break;
 		case 'think':
 			pageDom.$title.html('感想');
+			pageDom.$page_container.hide();
+			pageDom.$think_container.show();
 		break;
 		default:
 		break;
