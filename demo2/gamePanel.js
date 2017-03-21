@@ -6,7 +6,7 @@ define(['oojs'],function (oojs) {
     }
     oojs.extend(GamePanel,Widget,{
         attr:{
-            
+            currentChar:''
         },
         init:function (cfg) {
 
@@ -15,19 +15,23 @@ define(['oojs'],function (oojs) {
             
         },
         bindUI:function () {
+            var that = this;
             this.boundingBox.on('click',function (e) {
-                console.log(e.target);
+                if(e.target.getAttribute('id')==null && e.target.innerHTML!= '' ){
+                    that.setData({
+                        currentChar:e.target.innerHTML
+                    })
+                }
             })
         },
         setCharsArr:function (arr) {
             this.boundingBox.empty();
             var _domStr = '';
             for(var i in arr){
-                _domStr+='<div>'+i+'</div>'
+                _domStr+='<div>'+arr[i]+'</div>'
             }
             this.boundingBox.append(_domStr);
             this._charDomArr = this.boundingBox.find('div');
-            console.log(this._charDomArr)
         }
     })
     
@@ -39,7 +43,6 @@ define(['oojs'],function (oojs) {
             
         },
         init:function () {
-            console.log('head',this)
             this.callParent('init');
         },
         rendUI:function () {
@@ -47,7 +50,7 @@ define(['oojs'],function (oojs) {
 
         },
         bindUI:function () {
-            // this.callParent('bindUI');
+            this.callParent('bindUI');
 
         }
     })
@@ -60,8 +63,6 @@ define(['oojs'],function (oojs) {
 
         },
         init:function () {
-            console.log('foot',this)
-
             this.callParent('init');
         },
         rendUI:function () {
@@ -69,7 +70,7 @@ define(['oojs'],function (oojs) {
 
         },
         bindUI:function () {
-            // this.callParent('bindUI');
+            this.callParent('bindUI');
 
         }
     })

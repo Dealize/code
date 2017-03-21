@@ -1,7 +1,6 @@
 define(['Base','language','jquery'],function(Base,language,JQuery){
     function Widget(){
         Base.apply(this,arguments);
-        console.log(arguments);
         this.boundingBox = $(language.clone(this.constructor.prototype.boundingBox[0]));
         this.plugins = this.constructor.prototype.plugins;
         for(var i in arguments[0]){
@@ -35,8 +34,8 @@ define(['Base','language','jquery'],function(Base,language,JQuery){
         }else{
 
         }
-        this.callParent('renderUI');
-        this.callParent('bindUI');
+        // this.callParent('renderUI');
+        // this.callParent('bindUI');
         this.renderUI(config);
         this.bindUI(config);
         return this;

@@ -19,13 +19,16 @@ require(['oojs','gamePanel'],function (oojs,GamePanel) {
     }
     oojs.extend(App,Widget, {
         attr:{
-            // charsArr: '1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'.split('')
             charsArr:[]
         },
         init:function (cfg) {
             var _arr = '1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'.split('');
             this.setData({
-                charsArr:_arr
+                charsArr:_arr,
+                currentChar:{
+                    head:'',
+                    foot:''
+                }
             })
             this._headPanel = new GamePanel.HeadPanel({
                 boundingBox:$('#headPanel')
@@ -35,15 +38,27 @@ require(['oojs','gamePanel'],function (oojs,GamePanel) {
             }).render();
             this.generateGameArr(10);
 
-
-
         },
         bindUI:function () {
+            var that = this;
             this._headPanel.on('currentCharChange',function (data) {
-               console.log(1,data);
+               that.setData({
+                   currentChar:{
+                       head:data.value,
+                       foot:that.currentChar.foot
+                   }
+               })
             });
             this._footPanel.on('currentCharChange',function (data) {
-                console.log(2,data)
+                that.setData({
+                    currentChar:{
+                        head:that.currentChar.head,
+                        foot:data.value
+                    }
+                })
+            });
+            this.on('currentCharChange',function (data) {
+                console.log(data.value);
             })
         },
         _getRandomArr:function (arr,length) {
