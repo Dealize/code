@@ -59,7 +59,14 @@ require(['oojs','gamePanel'],function (oojs,GamePanel) {
             });
             this.on('currentCharChange',function (data) {
                 console.log(data.value);
+                that._checkCharIsEqual();
             })
+        },
+        generateGameArr:function (length) {
+            var _headArr = this._getRandomArr(this.charsArr,length);
+            var _footArr = this._getRandomArr(_headArr,length);
+            this._headPanel.setCharsArr(_headArr);
+            this._footPanel.setCharsArr(_footArr);
         },
         _getRandomArr:function (arr,length) {
             var resultArr = [],
@@ -76,12 +83,15 @@ require(['oojs','gamePanel'],function (oojs,GamePanel) {
             }
             return resultArr;
         },
-        generateGameArr:function (length) {
-            var _headArr = this._getRandomArr(this.charsArr,length);
-            var _footArr = this._getRandomArr(_headArr,length);
-            this._headPanel.setCharsArr(_headArr);
-            this._footPanel.setCharsArr(_footArr);
+        _checkCharIsEqual:function () {
+            if(this.currentChar.head && this.currentChar.foot){
+                console.log('都有值，要重置。')
+            }else{
+                console.log('只有一个有值')
+            }
         }
+
+
 
     })
 

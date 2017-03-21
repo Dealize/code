@@ -71,13 +71,12 @@ define(['language'],function(language){
         for(var i in data){
             var _oldValue = this.attr[i];
             this.attr[i] = data[i];
+            this[i] = this.attr[i];
             this.trigger(i+'Change',{
                 oldValue:_oldValue,
                 value:data[i]
             })
-            this[i] = this.attr[i];
         }
-
     }
     return Base;
 })
