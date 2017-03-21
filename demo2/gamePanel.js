@@ -7,7 +7,9 @@ define(['oojs'],function (oojs) {
     }
     oojs.extend(GamePanel,Widget,{
         attr:{
-            currentChar:''
+            currentChar:'',
+            currentCharIndex:'',
+            hiddenDomNum:0,
         },
         init:function (cfg) {
 
@@ -19,20 +21,37 @@ define(['oojs'],function (oojs) {
             var that = this;
             this.boundingBox.on(tap.tap,function (e) {
                 if(e.target.getAttribute('id')==null && e.target.innerHTML!= '' ){
+                    that.resetCharsDom();
+                    $(e.target).addClass('active');
                     that.setData({
-                        currentChar:e.target.innerHTML
+                        currentChar:e.target.innerHTML,
+                        currentCharIndex:e.target.dataset.index
                     })
                 }
             })
         },
         setCharsArr:function (arr) {
-            this.boundingBox.empty();
+            this.boundingBox.html('');
             var _domStr = '';
             for(var i in arr){
-                _domStr+='<div>'+arr[i]+'</div>'
+                _domStr+='<div data-index="'+i+'">'+arr[i]+'</div>'
             }
             this.boundingBox.append(_domStr);
             this._charDomArr = this.boundingBox.find('div');
+            this.setData({
+                hiddenDomNum:0
+
+            })
+        },
+        resetCharsDom:function () {
+            this._charDomArr.removeClass('active');
+        },
+        confirmCharIsEqual:function () {
+            var _currentDom = this._charDomArr[this.currentCharIndex];
+            $(_currentDom).html('').addClass('hidden');
+            this.setData({
+                hiddenDomNum:this.hiddenDomNum+1
+            })
         }
     })
     
@@ -46,9 +65,8 @@ define(['oojs'],function (oojs) {
         init:function () {
             this.callParent('init');
         },
-        rendUI:function () {
+        renderUI:function () {
             this.callParent('rendUI');
-
         },
         bindUI:function () {
             this.callParent('bindUI');
@@ -66,9 +84,8 @@ define(['oojs'],function (oojs) {
         init:function () {
             this.callParent('init');
         },
-        rendUI:function () {
+        renderUI:function () {
             this.callParent('rendUI');
-
         },
         bindUI:function () {
             this.callParent('bindUI');

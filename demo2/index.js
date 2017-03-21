@@ -29,14 +29,16 @@ require(['oojs','gamePanel'],function (oojs,GamePanel) {
                     head:'',
                     foot:''
                 }
-            })
+            });
+            this.gameLength = 3;
+
             this._headPanel = new GamePanel.HeadPanel({
                 boundingBox:$('#headPanel')
             }).render();
             this._footPanel = new GamePanel.FootPanel({
                 boundingBox:$('#footPanel')
             }).render();
-            this.generateGameArr(10);
+            this.generateGameArr(this.gameLength);
 
         },
         bindUI:function () {
@@ -57,8 +59,13 @@ require(['oojs','gamePanel'],function (oojs,GamePanel) {
                     }
                 })
             });
+            this._footPanel.on('hiddenDomNumChange',function (data) {
+                if(data.value==that.gameLength){
+                    that.gameLength+=1;
+                    that.generateGameArr(that.gameLength);
+                }
+            })
             this.on('currentCharChange',function (data) {
-                console.log(data.value);
                 that._checkCharIsEqual();
             })
         },
@@ -84,15 +91,35 @@ require(['oojs','gamePanel'],function (oojs,GamePanel) {
             return resultArr;
         },
         _checkCharIsEqual:function () {
-            if(this.currentChar.head && this.currentChar.foot){
-                console.log('都有值，要重置。')
-            }else{
-                console.log('只有一个有值')
+            var that = this,
+                headChar = this.currentChar.head,
+                footChar = this.currentChar.foot;
+            if(headChar && footChar){
+                if(headChar == footChar){
+                    console.log('匹配')
+                    this._confirmCharIsEqual();
+                }else{
+                    console.log('不匹配')
+                }
+                this.setData({
+                    currentChar:{
+                        head:'',
+                        foot:''
+                    }
+                })
+                setTimeout(function () {
+                    that._resetCharsDom();
+                },300)
             }
+        },
+        _resetCharsDom:function () {
+            this._headPanel.resetCharsDom();
+            this._footPanel.resetCharsDom();
+        },
+        _confirmCharIsEqual:function () {
+            this._headPanel.confirmCharIsEqual();
+            this._footPanel.confirmCharIsEqual();
         }
-
-
-
     })
 
     var app = new App({

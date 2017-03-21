@@ -68,14 +68,31 @@ define(['language'],function(language){
     }
 
     Base.prototype.setData = function (data) {
+        //以下写法，会出现个问题就是每修改一次值都会先去trigger相应事件，随后再修改后面的值。
+        //预期的样子应该是先集中把所有的值设置完毕，然后再去集中trigger相应的事件
+        // for(var i in data){
+        //     var _oldValue = this.attr[i];
+        //     this.attr[i] = data[i];
+        //     this[i] = this.attr[i];
+        //     this.trigger(i+'Change',{
+        //         oldValue:_oldValue,
+        //         value:data[i]
+        //     })
+        // }
+        var _tempData = [];
+        var _tempDataKey = [];
         for(var i in data){
             var _oldValue = this.attr[i];
             this.attr[i] = data[i];
             this[i] = this.attr[i];
-            this.trigger(i+'Change',{
+            _tempData.push({
                 oldValue:_oldValue,
                 value:data[i]
             })
+            _tempDataKey.push(i);
+        }
+        for(var i in _tempDataKey){
+            this.trigger(_tempDataKey[i]+'Change',_tempData[i]);
         }
     }
     return Base;
