@@ -1,5 +1,6 @@
 define(['oojs'],function (oojs) {
-    var Widget = oojs.Widget;
+    var Widget = oojs.Widget,
+        tap = oojs.language.tap;
 
     function GamePanel(){
         Widget.apply(this,arguments)
@@ -16,7 +17,7 @@ define(['oojs'],function (oojs) {
         },
         bindUI:function () {
             var that = this;
-            this.boundingBox.on('click',function (e) {
+            this.boundingBox.on(tap.tap,function (e) {
                 if(e.target.getAttribute('id')==null && e.target.innerHTML!= '' ){
                     that.setData({
                         currentChar:e.target.innerHTML
