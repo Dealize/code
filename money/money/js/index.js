@@ -1,5 +1,5 @@
 mui.init();
-var subpages = ['./page/overview.html', './page/account.html', 'tab-webview-subpage-contact.html', 'tab-webview-subpage-setting.html'];
+var subpages = ['./page/overview.html', './page/account.html', 'tab-webview-subpage-contact.html', './page/setting.html'];
 var subpage_style = {
     top: '45px',
     bottom: '51px'
@@ -19,6 +19,20 @@ mui.plusReady(function () {
         }
         self.append(sub);
     }
+    mui.oldBack = mui.back;
+    var backButtonPress = 0;
+    mui.back = function(event) {
+        backButtonPress++;
+        if (backButtonPress > 1) {
+            plus.runtime.quit();
+        } else {
+            plus.nativeUI.toast('再按一次退出应用');
+        }
+        setTimeout(function() {
+            backButtonPress = 0;
+        }, 1000);
+        return false;
+    };
 });
 //当前激活选项
 var activeTab = subpages[0];
