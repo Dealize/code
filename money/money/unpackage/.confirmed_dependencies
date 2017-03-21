@@ -1,0 +1,14 @@
+{
+  "index.html": {
+    "href": "index.html",
+    "resources": [
+      "js/lib/mui.min.js",
+      "js/lib/fff.js",
+      "js/config.js",
+      "css/lib/mui.min.css",
+      "css/index.css"
+    ],
+    "refer": [],
+    "priority": 0
+  }
+}
