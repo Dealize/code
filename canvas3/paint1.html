@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="x5-page-mode" content="app">
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="paint.css">
+    <style media="screen">
+
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div class="scene canvasScene">
+            <canvas id="paint"></canvas>
+            <div class="toolBtn">1</div>
+        </div>
+        <div class="scene toolScene">
+            <p>功能</p>
+            <div>
+                <div class="toolItem save">保存</div>
+                <div class="toolItem reset">重置</div>
+                <div class="toolItem undo">撤销</div>
+                <div class="toolItem active brush">画笔</div>
+                <div class="toolItem eraser">橡皮</div>
+                <div class="toolItem fillRect">实心矩形</div>
+                <div class="toolItem strokeRect">空心矩形</div>
+                <div class="toolItem fillCircle">实心圆</div>
+                <div class="toolItem strokeCircle">空心圆</div>
+            </div>
+            <p>粗细</p>
+            <div class="lineWidthContainer">
+                <div class="lineWidthItem">10</div>
+                <div class="lineWidthItem">9</div>
+                <div class="lineWidthItem">8</div>
+                <div class="lineWidthItem">7</div>
+                <div class="lineWidthItem">6</div>
+                <div class="lineWidthItem active">5</div>
+                <div class="lineWidthItem">4</div>
+                <div class="lineWidthItem">3</div>
+                <div class="lineWidthItem">2</div>
+                <div class="lineWidthItem">1</div>
+            </div>
+            <p>颜色</p>
+            <div class="colorAbout">
+                <canvas id="colorPickerCanvas" width="200" height="100"></canvas>
+                <div class="selectedColorDiv">当前选中颜色</div>
+            </div>
+            <div class="blockBtn confirmBtn">确定</div>
+            <!--<div class="blockBtn cancelBtn">返回</div>-->
+        </div>
+
+<script src="../oojs/require.js" data-main="./paint1.js"></script>
+</body>
+</html>

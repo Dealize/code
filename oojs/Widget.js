@@ -38,6 +38,7 @@ define(['Base','language','jquery'],function(Base,language,JQuery){
         // this.callParent('bindUI');
         this.renderUI(config);
         this.bindUI(config);
+        this.syncUI(config);
         return this;
     }
     Widget.prototype.destroy = function(){

@@ -1,0 +1,61 @@
+#container{
+    max-width:374px;
+    margin:0 auto;
+    max-height:667px;
+}
+.toolBtn{
+    position: fixed;
+    left: 10px;
+    bottom: 30px;
+    border: 1px solid;
+    font-size: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    line-height: 40px;
+}
+.toolItem {
+    border: 1px solid;
+    display: inline-block;
+    width: 15vw;
+    height: 5vh;
+    text-align: center;
+    line-height: 5vh;
+    min-width: 80px;
+}
+canvas {
+    border: 1px solid
+}
+.lineWidthContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+.lineWidthContainer>div {
+    border: 1px solid;
+    width: 19vw;
+    height: 5vh;
+    text-align: center;
+    line-height: 5vh;
+}
+.active{
+    background:yellowgreen;
+}
+.blockBtn{
+    width:80%;
+    text-align:center;
+    height:30px;
+    line-height:30px;
+    margin:10px auto;
+    border:1px solid;
+    border-radius:10px;
+}
+.colorAbout{
+    display: flex;
+}
+.selectedColorDiv{
+    width:100px;
+    height:100px;
+    border:1px solid ;
+}

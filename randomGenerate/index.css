@@ -1,0 +1,31 @@
+.generateBtn{
+    border:1px solid;
+    cursor: pointer;
+    border-radius:5px;
+    position: fixed;
+    bottom:4vh;
+    width:30vw;
+    height:8vh;
+    left:35vw;
+    text-align: center;
+    line-height: 8vh;
+}
+.generateBtn:hover{
+    background: darkgrey;
+}
+.container{
+    border:1px solid ;
+    margin:10px auto;
+    height:80vh;
+    overflow: auto;
+    box-sizing: border-box;
+    padding:50px;
+}
+li{
+    border-bottom: 1px solid;
+    height: 7vh;
+    line-height: 7vh;
+}
+.splitSpan{
+    margin:0 20px;
+}

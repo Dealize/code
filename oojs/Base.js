@@ -42,7 +42,7 @@ define(['language'],function(language){
         }else if(this.__events__[name]){
             this.__events__[name](args);
         }else{
-            console.warn('没有绑定过'+name+'事件')
+            // console.warn('没有绑定过'+name+'事件')
         }
         fn && fn();
     }
@@ -53,32 +53,9 @@ define(['language'],function(language){
         this.__events__ = {}
     }
 
-    Base.prototype.__run = function(arg){
-        for(var i in this.attr){
-            this[i] = this.attr[i];
-            // var _attrEventName = i+'Change';
-            // this.trigger(_attrEventName,{
-            //     data:{
-            //         value:this
-            //     }
-            // })
-        }
-        this.__arg = arg[0];
-        this.init(arg[0]);
-    }
 
-    Base.prototype.setData = function (data) {
-        //以下写法，会出现个问题就是每修改一次值都会先去trigger相应事件，随后再修改后面的值。
-        //预期的样子应该是先集中把所有的值设置完毕，然后再去集中trigger相应的事件
-        // for(var i in data){
-        //     var _oldValue = this.attr[i];
-        //     this.attr[i] = data[i];
-        //     this[i] = this.attr[i];
-        //     this.trigger(i+'Change',{
-        //         oldValue:_oldValue,
-        //         value:data[i]
-        //     })
-        // }
+
+    Base.prototype.setData = function (data,from) {
         var _tempData = [];
         var _tempDataKey = [];
         for(var i in data){
@@ -91,9 +68,25 @@ define(['language'],function(language){
             })
             _tempDataKey.push(i);
         }
-        for(var i in _tempDataKey){
-            this.trigger(_tempDataKey[i]+'Change',_tempData[i]);
+        // if(from=='sys'){
+          for(var i in _tempDataKey){
+              this.trigger(_tempDataKey[i]+'Change',_tempData[i]);
+          }
+        // }
+    }
+    Base.prototype.__run = function(arg){
+        var _argObj = {};
+        for(var i in this.attr){
+            this[i] = this.attr[i];
         }
+        for(var i in arg[0]){
+            if(i !='boundingBox'){
+              _argObj[i] = arg[0][i];
+            }
+        }
+        this.setData(_argObj,'sys');
+        this.__arg = arg[0];
+        this.init(arg[0]);
     }
     return Base;
 })
