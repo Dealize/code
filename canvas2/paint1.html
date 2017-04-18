@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+     <meta name="x5-page-mode" content="app">
+     <link rel="stylesheet" href="base.css">
+    <style media="screen">
+      .toolBar{
+        border-top:1px solid;
+        position:fixed;
+        bottom:0;left: 0;
+        width:100%;
+        height:40px;
+        display: flex;
+        align-items: center;
+      }
+      .toolBar>div{
+        width:40px;
+        height: 40px;
+        margin-right:10px;
+      }
+      .setting{
+        background:url('./imgs/setting.png') no-repeat center/60%;
+      }
+      .brush{
+        background:url('./imgs/brush.png') no-repeat center/60%;
+      }
+      .text{
+        background:url('./imgs/text.png') no-repeat center/60%;
+      }
+      .eraser{
+        background:url('./imgs/eraser.png') no-repeat center/60%;
+        margin-right: 10px;
+      }
+      .color{
+        border-radius: 30px;
+        margin-right: 5px;
+        width:30px !important;
+        height:30px !important;
+      }
+      .blue{
+        background:#1296db;
+      }
+      .purple{
+        background: #a866ea
+      }
+      .pink{
+        background:#f4a4c9;
+      }
+      .orange{
+        background: #ff9e20
+      }
+      canvas{
+        border:1px solid
+      }
+    </style>
+</head>
+<body>
+  <canvas id="paint"></canvas>
+  <div class="toolBar">
+    <div class="setting"></div>
+    <div class="brush"></div>
+    <div class="text"></div>
+    <div class="eraser"></div>
+    <div class="color blue"></div>
+    <div class="color purple"></div>
+    <div class="color pink"></div>
+    <div class="color orange"></div>
+  </div>
+  <script src="../oojs/require.js" data-main="./paint1.js"></script>
+</body>
+</html>
