@@ -15,9 +15,16 @@
 </head>
 <body>
     <div id="container">
+        <div class="scene coverageScene">
+            <div class="coveragebtns">
+                <div class="coverageBtnContainer">
+                </div>
+                <div class="coverageBtn add">新建图层</div>
+            </div>
+            <canvas width="370" height="657"></canvas>
+        </div>
         <div class="scene canvasScene">
             <canvas id="paint"></canvas>
-            <div class="toolBtn">1</div>
         </div>
         <div class="scene toolScene">
             <p>功能</p>
@@ -25,7 +32,7 @@
                 <div class="toolItem save">保存</div>
                 <div class="toolItem reset">重置</div>
                 <div class="toolItem undo">撤销</div>
-                <div class="toolItem active brush">画笔</div>
+                <div class="toolItem brush">画笔</div>
                 <div class="toolItem eraser">橡皮</div>
                 <div class="toolItem fillRect">实心矩形</div>
                 <div class="toolItem strokeRect">空心矩形</div>
@@ -50,10 +57,14 @@
                 <canvas id="colorPickerCanvas" width="200" height="100"></canvas>
                 <div class="selectedColorDiv">当前选中颜色</div>
             </div>
-            <div class="blockBtn confirmBtn">确定</div>
-            <!--<div class="blockBtn cancelBtn">返回</div>-->
+        </div>
+        <div class="btns">
+            <div class="toolBtn coverageSceneBtn">图层</div>
+            <div class="toolBtn canvasSceneBtn">画布</div>
+            <div class="toolBtn toolSceneBtn">工具</div>
         </div>
 
+    </div>
 <script src="../oojs/require.js" data-main="./paint1.js"></script>
 </body>
 </html>

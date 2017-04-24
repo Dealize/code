@@ -42,7 +42,10 @@ define(function(){
         }else{
             var cloned ={};
             for(var key in obj){
-                if(typeof obj[key]=='object'){
+                // if(typeof obj[key]=='object'){
+                if(obj[key] instanceof Array){
+                    cloned[key] = obj[key].concat();
+                }else if(obj[key] instanceof Object){
                     cloned[key] = clone(obj[key])
                 }else{
                     cloned[key] = obj[key];

@@ -12,35 +12,62 @@ define(['oojs'], function (oojs) {
             sceneList: {},
             selectedTool:{},
             lineWidth:{},
-            selectedColor:{}
+            selectedColor:{},
+            currentCoverage:{},
+            coverageList:[],
         },
         init: function () {
             var that = this;
+            console.log(this);
+            this._coverageList = [];
+            this.worker = new Worker('ImgDataGenerate.js');
+
         },
         renderUI: function () {
-            this.$canvasScene = this.boundingBox.find('.canvasScene');
-            this.$canvas = this.$canvasScene.find('canvas'),
-            this.$toolScene = this.boundingBox.find('.toolScene');
-            this.$toolBtn = this.boundingBox.find('.toolBtn');
-            this.$confirmBtn = this.$toolScene.find('.confirmBtn');
-            this.$cancelBtn = this.$toolScene.find('.cancelBtn');
-            this.$colorPickerCanvas = this.$toolScene.find('canvas');
-            this.$selectedColorDiv = this.$toolScene.find('.selectedColorDiv');
-
-            this.context = this.$canvas[0].getContext('2d');
-            this.colorPickerCanvas_context = this.$colorPickerCanvas[0].getContext('2d');
+            var that = this;
+            getDomFromCanvasScene();
+            getDomFromCoverageScene();
+            getDomFromToolScene();
             this._set_canvas_size();
             this._init_colorPicker_canvas();
+            
+            function getDomFromCanvasScene(){
+                that.$canvasScene = that.boundingBox.find('.canvasScene');
+                that.$canvas = that.$canvasScene.find('canvas');
+                that.context = that.$canvas[0].getContext('2d');
+                window.aacontext = that.context;
+
+            }
+            function getDomFromCoverageScene(){
+                that.$coverageBtn = that.boundingBox.find('.coverageBtn');
+                that.$coverageBtns = that.boundingBox.find('.coveragebtns');
+                that.$coverageBtnContainer = that.boundingBox.find('.coverageBtnContainer');
+                that.$coverageCanvas = that.boundingBox.find('.coverageScene').find('canvas');
+                that.coverageContext = that.$coverageCanvas[0].getContext('2d');
+            }
+            function getDomFromToolScene(){
+                that.$toolScene = that.boundingBox.find('.toolScene');
+                that.$toolBtn = that.boundingBox.find('.toolBtn');
+                that.$colorPickerCanvas = that.$toolScene.find('canvas');
+                that.$selectedColorDiv = that.$toolScene.find('.selectedColorDiv');
+                that.colorPickerCanvas_context = that.$colorPickerCanvas[0].getContext('2d');
+
+            }
         },
         bindUI: function () {
             var that = this;
             this._prevent_body_default();
             this._bind_scene_event();
             this._bind_toolScene_event();
+            this._bind_coverageScene_event();
             this._bind_canvaScene_event();
             this._bind_canvas_event();
             this._bind_colorPicker_canvas();
             this.on('selectedToolChange',function(data){
+                that._tapStart_canvasFn = that['_'+data.value+'_tapStart_event'];
+                that._tapMove_canvasFn = that['_'+data.value+'_tapMove_event'];
+                //通过上面这种方法可以优化switch，从而不至于更耦合
+                /**
                 console.log(data.value);
                 switch(data.value){
                     case 'brush':
@@ -69,14 +96,37 @@ define(['oojs'], function (oojs) {
 
                         break;
                 }
+                 */
             })
 
+            // this.$coverageBtn.on('click',function(e){
+            //     console.log(e.target.classList[1]);
+            //     // if(e.target.classList[1]=='coverage1'){
+            //         that._get_coverageData_from_ImgData(that.context.getImageData(0,0,370,657).data,that.coverage2.data,that.coverage1.data);
+            //         that.coverageContext.putImageData(that.coverage1,0,0);
+            //     // }
+            //
+            // })
         },
         syncUI: function () {
+            var that = this;
             this._initScene();
+            this.coverage1 = this.context.createImageData(this._canvasSize.width,this._canvasSize.height);
+            this.coverage2 = this.context.createImageData(this._canvasSize.width,this._canvasSize.height);
 
+
+            // w1.postMessage(this.coverage1);
+            that.worker.onmessage = function(e){
+                console.log(e.data.status);
+                console.log(that.coverageList[0].imgData);
+                that.coverageContext.putImageData(that.coverageList[0].imgData,0,0);
+            }
         },
+
+
+
         _set_canvas_size: function () {
+            //innerWidth
             var canvasWidth = screen.width - 5,
                 canvasHeight = screen.height - 10;
             this.$canvas.attr({
@@ -91,6 +141,7 @@ define(['oojs'], function (oojs) {
         _bind_scene_event: function () {
             var that = this;
             that.on('currentSceneChange', function (data) {
+                //通过pre  new 来做判断
                 var currentSceneClassName = that.currentScene.className;
                 that.sceneList.each(function (index, item) {
                     if (item.classList.contains(data.value)) {
@@ -125,6 +176,8 @@ define(['oojs'], function (oojs) {
                         that._go_canvas_undo();
                         that._goto_canvasScene();
                         break;
+                    //这里同样可以优化掉这些case
+                    /**
                     case 'brush':
                         selectedTool = 'brush';
                         break;
@@ -149,7 +202,9 @@ define(['oojs'], function (oojs) {
                     case 'stuff':
                         selectedTool = 'stuff';
                         break;
+                     */
                     default:
+                        selectedTool = targetType;
                         break;
                 }
                 var $target = $(e.target);
@@ -157,6 +212,9 @@ define(['oojs'], function (oojs) {
                     $(item).removeClass('active');
                 })
                 $target.addClass('active');
+                that.setData({
+                    selectedTool:selectedTool
+                })
             })
             that.$toolScene.on(tap.tap,'.lineWidthItem',function (e) {
                 var $target = $(e.target);
@@ -165,35 +223,44 @@ define(['oojs'], function (oojs) {
                 })
                 $target.addClass('active');
                 that.setData({
-                    lineWidth:e.target.innerHTML
+                    lineWidth : lineWidth
                 })
-            })
-            that.$toolScene.on(tap.tap,'.blockBtn',function(e){
-
-                switch (e.target.className.split(' ')[1]){
-                    case 'confirmBtn':
-                        that.setData({
-                            currentScene: 'canvasScene',
-                            selectedTool:selectedTool,
-                            lineWidth:lineWidth
-                        })
-                        break;
-                    case 'cancelBtn':
-                        that.setData({
-                            currentScene: 'canvasScene',
-                        })
-                        break;
-                }
+                lineWidth = e.target.innerHTML
             })
             that.on('lineWidthChange',function(data){
                 that.context.lineWidth = data.value
+            })
+        },
+        _bind_coverageScene_event:function(){
+            var that = this;
+            that.$coverageBtns.on(tap.tap,'.add',function(){
+                that._add_coverage();
+            })
+            that.$coverageBtnContainer.on(tap.tap,'span',function (e) {
+                console.log($(e.target).parent().data().index);
+            });
+            that.$coverageBtnContainer.on('change','input',function (e) {
+                console.log(e.target.checked);
+            });
+            that.on('currentCoverageChange',function(data){
+                // console.log(data);
+            })
+            that.on('coverageListChange',function(data){
+                that.worker.postMessage({
+                    type:'merget_coverageData',
+                    data:{
+                        finalImgData:that.context.getImageData(0,0,that._canvasSize.width,that._canvasSize.height),
+                        coverageImgDataList:that.coverageList
+                    }
+                })
+                console.info(data)
             })
         },
         _bind_canvaScene_event: function () {
             var that = this;
             that.$toolBtn.on(tap.tap, function (e) {
                 that.setData({
-                    currentScene: 'toolScene'
+                    currentScene: e.target.classList[1].split('Btn')[0]||'toolScene'
                 })
             })
         },
@@ -221,6 +288,9 @@ define(['oojs'], function (oojs) {
             this.$canvas.on(tap.tapEnd, function (e) {
                 drawing = false;
                 that.context.closePath();
+                that.currentCoverage.imgData = that.context.getImageData(0,0,that._canvasSize.width,that._canvasSize.height);
+                console.log(that.currentCoverage,that.coverageList);
+
             })
 
         },
@@ -234,11 +304,12 @@ define(['oojs'], function (oojs) {
                 sceneList: this.boundingBox.find('.scene')
             });
             this.setData({
-                currentScene: 'toolScene',
+                currentScene: 'coverageScene',
                 selectedColor:'red',
                 selectedTool:'brush',
                 lineWidth:5
-            })
+            });
+            this._add_coverage();
         },
         _getTouchPosition: function (e, type) {
             var position = {};
@@ -275,7 +346,9 @@ define(['oojs'], function (oojs) {
                 href:base64Data,
                 download:'img.png'
             })
+            $('body').append(aLink);
             console.log(aLink);
+
             aLink[0].click();
         },
         _reset_canvas_data:function(){
@@ -303,7 +376,7 @@ define(['oojs'], function (oojs) {
                 this._canvasSteps.pop();
             }
         },
-        _brush_event:function(x1,y1,x2,y2){
+        _brush_tapMove_event:function(x1,y1,x2,y2){
             var that = this;
             that.context.lineTo(x2, y2);
             that.context.stroke();
@@ -312,8 +385,12 @@ define(['oojs'], function (oojs) {
             var that = this;
             that.context.fillStyle = that.context.strokeStyle;
             that.context.putImageData(that._currentImgData,0,0);
-            that.context.fillRect(x1,y1,x2-x1,y2-y1);
-            that.context.stroke();
+            // that.context.fillRect(x1,y1,x2-x1,y2-y1);
+            // 这种写法为什么必须要加beginPath
+            that.context.beginPath();
+            that.context.rect(x1,y1,x2-x1,y2-y1);
+            that.context.fill();
+            // that.context.closePath();
         },
         _fillRect_tapStart_event:function(){
             var that =this;
@@ -323,34 +400,40 @@ define(['oojs'], function (oojs) {
             var that = this;
             that.context.putImageData(that._currentImgData,0,0);
             that.context.strokeRect(x1,y1,x2-x1,y2-y1);
-            that.context.stroke();
+            // that.context.stroke();
         },
         _strokeRect_tapStart_event:function(){
+            var that =this;
+            that._currentImgData = that.context.getImageData(0,0,that._canvasSize.width,that._canvasSize.height);
+        },
+        _fillCircle_tapStart_event:function(){
             var that =this;
             that._currentImgData = that.context.getImageData(0,0,that._canvasSize.width,that._canvasSize.height);
         },
         _fillCircle_tapMove_event:function(x1,y1,x2,y2){
             var that = this;
             that.context.putImageData(that._currentImgData,0,0);
-            that.context.arc(x1,y1,Math.max(x2-x1,y2-y1),0,360*Math.PI,true);
-            that.context.stroke();
-        },
-        _fillCircle_tapStart_event:function(){
-            var that =this;
-            that._currentImgData = that.context.getImageData(0,0,that._canvasSize.width,that._canvasSize.height);
+            var _radius =Math.max(Math.abs(x2-x1),Math.abs(y2-y1));
+            that.context.beginPath()
+            that.context.arc(x1,y1,_radius,0,2*Math.PI,true);
+            that.context.fill();
+            that.context.closePath();
         },
         _strokeCircle_tapMove_event:function(x1,y1,x2,y2){
             var that = this;
             that.context.putImageData(that._currentImgData,0,0);
-            that.context.arc(x1,y1,Math.max(x2-x1,y2-y1),0,360*Math.PI,true);
+            var _radius =Math.max(Math.abs(x2-x1),Math.abs(y2-y1));
+            that.context.beginPath()
+            that.context.arc(x1,y1,_radius,0,2*Math.PI,true);
             that.context.stroke();
+            that.context.closePath();
         },
         _strokeCircle_tapStart_event:function(){
             var that =this;
             that._currentImgData = that.context.getImageData(0,0,that._canvasSize.width,that._canvasSize.height);
         },
-        _eraser_event:function(x1,y1,x2,y2){
-            this.context.clearRect(x2,y2,10,10);
+        _eraser_tapMove_event:function(x1,y1,x2,y2){
+            this.context.clearRect(x2,y2,30,30);
         },
         _init_colorPicker_canvas:function(){
             var obj = this.colorPickerCanvas_context.createLinearGradient(0,0,200,0);
@@ -414,7 +497,73 @@ define(['oojs'], function (oojs) {
             })
             console.log(_canvasImgData);
         },
+        _add_coverage:function(){
+            var that = this,
+                newImgData;
+            if(this.coverageList.length>5){
+                alert('最多创建5个图层');
+                return ;
+            }
+            var domStr ='<div class="coverageBtn" data-index="'+this.coverageList.length+'">' +
+                '<span class="coverage_item_name">图层'+this.coverageList.length+'</span>'+
+                '<span class="coverage_item_del">删除</span>'+
+                '<span class="coverage_item_show">是否显示<input type="checkbox" checked></span>'+
+            '</div>';
+            this.$coverageBtnContainer.prepend(domStr);
+            if(that.coverageList.length==0){
+                newImgData = that.context.getImageData(0,0,that._canvasSize.width,that._canvasSize.height);
+            }else{
+                newImgData = this.context.createImageData(this._canvasSize.width,this._canvasSize.height);
 
+            }
+            var newCoverageData ={
+                imgData:newImgData,
+                index:this.coverageList.length
+            }
+            this.coverageList.push(newCoverageData);
+            this.setData({
+                currentCoverage:newCoverageData,
+                coverageList: this.coverageList
+            })
+
+        },
+        /**
+         * 把图层数据合并成最终展示数据
+         * @param upData
+         * @param downData
+         * @returns {Array}
+         * @private
+         */
+        _get_ImgData_from_coverageData:function(upData,downData){
+            console.time('a');
+            var newData = []
+            upData.forEach(function(item,index){
+                if(upData[index]==0){
+                    newData[index] = downData[index];
+                }else{
+                    newData[index] = upData[index];
+                }
+            })
+            console.timeEnd('a');
+            console.info('已经合并完数据')
+            return newData;
+        },
+        /**
+         * 把图层数据从最终的展示数据里拆分出来
+         */
+        _get_coverageData_from_ImgData:function(imgData,downData,targetData){
+            // var newData = [];
+            console.time('b');
+            targetData.forEach(function(item,index){
+                if(imgData[index]!=downData[index]){
+                    targetData[index] = imgData[index]
+                }else{
+                    targetData[index] = 0;
+                }
+            })
+            console.timeEnd('b');
+            console.log('已经拆分完数据');
+        }
 
     })
 
