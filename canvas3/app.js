@@ -117,9 +117,9 @@ define(['oojs'], function (oojs) {
 
             // w1.postMessage(this.coverage1);
             that.worker.onmessage = function(e){
-                console.log(e.data.status);
-                console.log(that.coverageList[0].imgData);
-                that.coverageContext.putImageData(that.coverageList[0].imgData,0,0);
+                console.log(e.data.data);
+                that.coverageList = e.data.data.finalImgDataList
+                // that.coverageContext.putImageData(that.coverageList[0].imgData,0,0);
             }
         },
 
@@ -236,9 +236,6 @@ define(['oojs'], function (oojs) {
             that.$coverageBtns.on(tap.tap,'.add',function(){
                 that._add_coverage();
             })
-            that.$coverageBtnContainer.on(tap.tap,'span',function (e) {
-                console.log($(e.target).parent().data().index);
-            });
             that.$coverageBtnContainer.on('change','input',function (e) {
                 console.log(e.target.checked);
             });
@@ -253,7 +250,12 @@ define(['oojs'], function (oojs) {
                         coverageImgDataList:that.coverageList
                     }
                 })
-                console.info(data)
+            })
+            that.$coverageBtnContainer.on(tap.tap,'.coverage_item_name',function(e){
+                console.log($(e.target).parent().data().index);
+
+                var _currentIndex = $(e.target).parent().data().index;
+                that.coverageContext.putImageData(that.coverageList[_currentIndex].imgData,0,0);
             })
         },
         _bind_canvaScene_event: function () {
@@ -288,7 +290,14 @@ define(['oojs'], function (oojs) {
             this.$canvas.on(tap.tapEnd, function (e) {
                 drawing = false;
                 that.context.closePath();
-                that.currentCoverage.imgData = that.context.getImageData(0,0,that._canvasSize.width,that._canvasSize.height);
+                that.worker.postMessage({
+                    type:'sperate_coverageData_from_imgData',
+                    data:{
+                        tempImgData:that.coverageContext.createImageData(that._canvasSize.width,that._canvasSize.height),
+                        imgData:that.context.getImageData(0,0,that._canvasSize.width,that._canvasSize.height),
+                        coverageImgDataList:that.coverageList
+                    }
+                })
                 console.log(that.currentCoverage,that.coverageList);
 
             })
@@ -527,44 +536,6 @@ define(['oojs'], function (oojs) {
             })
 
         },
-        /**
-         * 把图层数据合并成最终展示数据
-         * @param upData
-         * @param downData
-         * @returns {Array}
-         * @private
-         */
-        _get_ImgData_from_coverageData:function(upData,downData){
-            console.time('a');
-            var newData = []
-            upData.forEach(function(item,index){
-                if(upData[index]==0){
-                    newData[index] = downData[index];
-                }else{
-                    newData[index] = upData[index];
-                }
-            })
-            console.timeEnd('a');
-            console.info('已经合并完数据')
-            return newData;
-        },
-        /**
-         * 把图层数据从最终的展示数据里拆分出来
-         */
-        _get_coverageData_from_ImgData:function(imgData,downData,targetData){
-            // var newData = [];
-            console.time('b');
-            targetData.forEach(function(item,index){
-                if(imgData[index]!=downData[index]){
-                    targetData[index] = imgData[index]
-                }else{
-                    targetData[index] = 0;
-                }
-            })
-            console.timeEnd('b');
-            console.log('已经拆分完数据');
-        }
-
     })
 
 
