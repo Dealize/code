@@ -20,7 +20,7 @@ define(['oojs'], function (oojs) {
             var that = this;
             console.log(this);
             this._coverageList = [];
-            this.worker = new Worker('ImgDataGenerate.js');
+            this.worker = new Worker('ImgDataGenerate2.js');
 
         },
         renderUI: function () {
@@ -118,8 +118,15 @@ define(['oojs'], function (oojs) {
             // w1.postMessage(this.coverage1);
             that.worker.onmessage = function(e){
                 console.log(e.data.data);
-                that.coverageList = e.data.data.finalImgDataList
-                // that.coverageContext.putImageData(that.coverageList[0].imgData,0,0);
+                that.coverageList = e.data.data.coverageImgDataList ;
+
+                // switch (e.data.type){
+                //     case 'split_result_to_cover':
+                //        that.coverageList = e.data.data.coverageImgDataList ;
+                //        break;
+                //     case 'merge_cover_to_result':
+                //         that.coverageList = e.data.data.coverageImgDataList;
+                // }
             }
         },
 

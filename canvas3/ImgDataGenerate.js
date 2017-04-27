@@ -1,5 +1,6 @@
 var finalImgDataList = [];
-
+var merged_notInclude_last_imgData = [];
+var merged_ImgData = null;
 
 self.onmessage = function (e) {
     console.log(e);
@@ -41,8 +42,8 @@ function sperate_coverageData_from_imgData(arg){
     //对每个像素进行像素点识别
     for(var i=0;i<=pxNum;i++){
         //如果canvas上的像素点跟合并后的图层像素点不同， 则lastData的像素点为canvasData上的点
-        if(tempImgData[4*i]!=canvasData[4*i] || tempImgData[4*i+1]!=canvasData[4*i+1]
-            || tempImgData[4*i+2]!=canvasData[4*i+2] || tempImgData[4*i+3]!=canvasData[4*i+3]
+        if(merged_ImgData[4*i]!=canvasData[4*i] || merged_ImgData[4*i+1]!=canvasData[4*i+1]
+            || merged_ImgData[4*i+2]!=canvasData[4*i+2] || merged_ImgData[4*i+3]!=canvasData[4*i+3]
         ){
             lastData[4*i]=canvasData[4*i];
             lastData[4*i+1]=canvasData[4*i+1];
@@ -53,10 +54,10 @@ function sperate_coverageData_from_imgData(arg){
             //1. lastData上该点为透明，
             //2. lastData上该点为不透明。
             if(lastData[4*i+3]!=0){
-                lastData[4*i] = tempImgData[4*i];
-                lastData[4*i+1] = tempImgData[4*i+1];
-                lastData[4*i+2] = tempImgData[4*i+2];
-                lastData[4*i+3] = tempImgData[4*i+3];
+                lastData[4*i] = merged_ImgData[4*i];
+                lastData[4*i+1] = merged_ImgData[4*i+1];
+                lastData[4*i+2] = merged_ImgData[4*i+2];
+                lastData[4*i+3] = merged_ImgData[4*i+3];
             }
         }
     }
@@ -76,13 +77,14 @@ function sperate_coverageData_from_imgData(arg){
             for(var i=0;i<arg.coverageImgDataList.length-1;i++){
                 _notFinallImgData.push(arg.coverageImgDataList[i]);
             }
+            merge_coverageData_to_imgData({
+                coverageImgDataList:_notFinallImgData,
+                finalImgData:tempImgData
+            })
             return true;
         }
 
-        merge_coverageData_to_imgData({
-            coverageImgDataList:_notFinallImgData,
-            finalImgData:tempImgData
-        })
+
 
     }
 }
@@ -111,6 +113,7 @@ function merge_coverageData_to_imgData(arg){
         finalImgData[i*4+2] = _rgbaData.data[2];
         finalImgData[i*4+3] = _rgbaData.data[3];
     }
+    merged_ImgData = finalImgData;
     /**
      * 获取某个像素位置的最终rgba
      * 如果当前图层上的这个像素点为透明的，那么递归到下一个图层去看该点是否透明
@@ -146,5 +149,4 @@ function merge_coverageData_to_imgData(arg){
             return _rgbaData;
         }
     }
-    finalImgDataList = arg.coverageImgDataList;
 }
