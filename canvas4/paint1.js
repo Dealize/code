@@ -8,7 +8,7 @@ require.config({
         'jquery':'../oojs/jquery',
         'CManager':'./CManager',
         'CWidget':'./CWidget',
-        'Box':'./box',
+        'CDiv':'./CDiv',
     }
 })
 require(['CManager'],function(CManager){

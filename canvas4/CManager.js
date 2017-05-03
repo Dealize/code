@@ -1,8 +1,8 @@
-define(['oojs','CWidget','Box'], function (oojs,CWidget,Box) {
+define(['oojs','CWidget','CDiv'], function (oojs,CWidget,CDiv) {
     var Base = oojs.Base,
         tap = oojs.language.tap,
         CWidget = CWidget.CWidget,
-        Box = Box.Box;
+        CDiv = CDiv.CDiv;
 
     function CManager() {
         Base.apply(this, arguments);
@@ -11,9 +11,8 @@ define(['oojs','CWidget','Box'], function (oojs,CWidget,Box) {
     oojs.extend(CManager, Base, {
         attr: {
             canvas:null,
-            eventList:{
-                tap:[]
-            }
+            cwidgetList:[],
+            sortedCWidgetList:[]
 
         },
         init: function () {
@@ -22,24 +21,42 @@ define(['oojs','CWidget','Box'], function (oojs,CWidget,Box) {
             this.bindUI();
         },
         drawUI: function () {
-            // var redCWidget = new CWidget({
-            var redCWidget = new Box({
+            var that = this;
+            var redCDiv= new CDiv({
                     manager:this,
                     context:this.context,
                     css:{
                         background:"red",
-                        width:'30',
-                        height:'30',
+                        width:'100',
+                        height:'100',
                         left:'10',
                         top:'10'
                     },
                     event:{
-                        tap:function(){
-                            console.log(1111)
+                        tap:function(e,context){
+                            console.log(11)
+                        },
+                        tapMove:function (e,context) {
+                            that.trigger('checkWidgetIsCover',{
+                                point:context.areaPoint,
+                                context:context
+                            });
                         }
-                    },
-                    shape:'rect'
-                }).draw()
+                    }
+                }).draw();
+            var greenCDiv= new CDiv({
+                    manager:this,
+                    context:this.context,
+                    css:{
+                        background:'green',
+                        width:'80',
+                        height:'80',
+                        left:'200',
+                        top:'100'
+                    }
+                }).draw();
+            this.cwidgetList.push(redCDiv,greenCDiv);
+
         },
         bindUI:function () {
             var that = this;
@@ -47,8 +64,36 @@ define(['oojs','CWidget','Box'], function (oojs,CWidget,Box) {
                 var _fixPosition = that._getTouchPosition(e);
                 e.fixedX = _fixPosition.x;
                 e.fixedY = _fixPosition.y;
-                that.trigger('tapEvent',e);
+                e.triggerType = tap.tap
+                that.redraw(e);
+            });
+            this.canvas.addEventListener(tap.tapStart,function (e) {
+                var _fixPosition = that._getTouchPosition(e);
+                e.fixedX = _fixPosition.x;
+                e.fixedY = _fixPosition.y;
+                e.triggerType = tap.tapStart
+                that.redraw(e);
+            });
+            this.canvas.addEventListener(tap.tapMove,function (e) {
+                var _fixPosition = that._getTouchPosition(e);
+                e.fixedX = _fixPosition.x;
+                e.fixedY = _fixPosition.y;
+                e.triggerType = tap.tapMove
+                that.redraw(e);
+            });
+            this.canvas.addEventListener(tap.tapEnd,function (e) {
+                var _fixPosition = that._getTouchPosition(e);
+                e.fixedX = _fixPosition.x;
+                e.fixedY = _fixPosition.y;
+                e.triggerType = tap.tapEnd
+                that.redraw(e);
+            });
+            this.on('checkWidgetIsCover',function (e) {
+                console.log('qwe');
+                that._checkWidgetIsCover(e);
             })
+
+
         },
         _getTouchPosition: function (e, type) {
             var position = {};
@@ -78,6 +123,37 @@ define(['oojs','CWidget','Box'], function (oojs,CWidget,Box) {
             }
             return position;
         },
+        redraw:function(e){
+            this.context.clearRect(0,0,500,500);
+            for(var i in this.cwidgetList){
+                this.cwidgetList[i].draw(e);
+            }
+        },
+        sortCWidgetListByZindex:function(){
+        },
+        _checkWidgetIsCover:function (e) {
+            var point = e.point;
+            this.cwidgetList.forEach(function (item) {
+                if(e.context != item  ){
+                    if( point.x2 < item.areaPoint.x1 ||
+                        point.x1 > item.areaPoint.x2 ||
+                        point.y2 < item.areaPoint.y1 ||
+                        point.y1 > item.areaPoint.y2
+                    ){
+                        $('body').css({
+                            'background':'#fff'
+                        })
+                    }else{
+                        $('body').css({
+                            'background':'pink'
+                        })
+
+                    }
+                }
+
+            })
+        }
+
 
 
     })
@@ -86,3 +162,4 @@ define(['oojs','CWidget','Box'], function (oojs,CWidget,Box) {
         CManager: CManager
     }
 })
+

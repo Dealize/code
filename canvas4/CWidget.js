@@ -25,14 +25,13 @@ define(['oojs'], function (oojs) {
             parent:null,
             manager:null,
             context:null,
+            areaPoint:{}
         },
         init: function () {
-            console.log(1)
-
             console.log(this);
+            this.getAreaPoint();
         },
-        drawUI:function(){
-            console.log(2);
+        drawUI:function(e){
             var css = this.css;
             this.context.save();
             this.context.beginPath();
@@ -45,40 +44,60 @@ define(['oojs'], function (oojs) {
                     this.context.fill();
                     break;
             }
+            this.getAreaPoint();
+
+        },
+
+        bindUI: function (e) {
+            var that = this;
+            switch (e.triggerType){
+                case tap.tap:
+                    that.event.tap && that.event.tap(e,that);
+                    break;
+                case tap.tapStart:
+                    that.tapMoveToggle = true;
+                    that.event.tapStart && that.event.tapStart(e,that);
+                    break;
+                case tap.tapMove:
+                    if(that.tapMoveToggle){
+                        that.event.tapMove && that.event.tapMove(e,that);
+                    }
+                    break;
+                case tap.tapEnd:
+                    that.tapMoveToggle = false;
+                    that.event.tapEnd && that.event.tapEnd(e,that);
+                    break;
+            }
+        },
+        syncUI: function (e) {
+        },
+        draw:function(e){
+            var that = this;
+            e = e || {};
+            this.drawUI();
+            this.callParent('drawUI',e);
+            if(this.context.isPointInPath(e.fixedX,e.fixedY)){
+                this.bindUI(e);
+                this.callParent('bindUI',e);
+            }else{
+                that.tapMoveToggle = false;
+            }
+            this.syncUI();
+            this.callParent('syncUI',e);
             this.context.closePath();
             this.context.restore();
+            return this;
         },
-        bindUI: function () {
-            console.log(3);
-            var that = this;
-            this.manager.on('tapEvent',function (e) {
-                if(that.context.isPointInPath(e.fixedX,e.fixedY)){
-                    that.event.tap && that.event.tap();
-                }
+        getAreaPoint:function () {
+            //目前先只考虑矩形的情况
+            var areaPoint = {};
+            areaPoint.x1 = parseInt(this.css.left);
+            areaPoint.y1 = parseInt(this.css.top);
+            areaPoint.x2 = parseInt(this.css.left) + parseInt(this.css.width);
+            areaPoint.y2 = parseInt(this.css.top) + parseInt(this.css.height);
+            this.setData({
+                areaPoint:areaPoint
             })
-            this.manager.on('tapStartEvent',function (e) {
-                if(that.context.isPointInPath(e.fixedX,e.fixedY)){
-                    that.event.tapStart && that.event.tapStart();
-                }
-            })
-            this.manager.on('tapMoveEvent',function (e) {
-                if(that.context.isPointInPath(e.fixedX,e.fixedY)){
-                    that.event.tapMove && that.event.tapMove();
-                }
-            })
-            this.manager.on('tapEndEvent',function (e) {
-                if(that.context.isPointInPath(e.fixedX,e.fixedY)){
-                    that.event.tapEnd && that.event.tapEnd();
-                }
-            })
-        },
-        syncUI: function () {
-        },
-        draw:function(){
-            this.drawUI();
-            this.bindUI();
-            this.syncUI();
-            console.log(4);
         }
     })
 
