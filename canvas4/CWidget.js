@@ -17,19 +17,19 @@ define(['oojs'], function (oojs) {
                 background:'',
                 textAlign:'',
             },
-            event:{},
+            event:{},//写上去
             zindex:1,
             shape:'rect',//rect  fillrect strokerect
             path:[],
             text:null,
-            parent:null,
-            manager:null,
+            // parent:null,
+            // manager:null,
             context:null,
             areaPoint:{}
         },
         init: function () {
             console.log(this);
-            this.getAreaPoint();
+            this.generateAreaPoint();
         },
         drawUI:function(e){
             var css = this.css;
@@ -47,7 +47,6 @@ define(['oojs'], function (oojs) {
             this.getAreaPoint();
 
         },
-
         bindUI: function (e) {
             var that = this;
             switch (e.triggerType){
@@ -71,6 +70,7 @@ define(['oojs'], function (oojs) {
         },
         syncUI: function (e) {
         },
+
         draw:function(e){
             var that = this;
             e = e || {};
@@ -80,7 +80,7 @@ define(['oojs'], function (oojs) {
                 this.bindUI(e);
                 this.callParent('bindUI',e);
             }else{
-                that.tapMoveToggle = false;
+                this.tapMoveToggle = false;
             }
             this.syncUI();
             this.callParent('syncUI',e);
@@ -88,7 +88,7 @@ define(['oojs'], function (oojs) {
             this.context.restore();
             return this;
         },
-        getAreaPoint:function () {
+        generateAreaPoint:function () {
             //目前先只考虑矩形的情况
             var areaPoint = {};
             areaPoint.x1 = parseInt(this.css.left);

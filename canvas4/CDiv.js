@@ -13,6 +13,7 @@ define(['oojs','CWidget'], function (oojs,CWidget) {
         init: function () {
         },
         drawUI:function(e){
+
         },
         bindUI: function (e) {
             switch (e.triggerType){
@@ -46,7 +47,8 @@ define(['oojs','CWidget'], function (oojs,CWidget) {
         },
         _tapEnd:function (e) {
             this.dragToggle = false;
-        }
+        },
+
 
     })
 

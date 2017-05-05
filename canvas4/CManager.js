@@ -89,12 +89,15 @@ define(['oojs','CWidget','CDiv'], function (oojs,CWidget,CDiv) {
                 that.redraw(e);
             });
             this.on('checkWidgetIsCover',function (e) {
-                console.log('qwe');
                 that._checkWidgetIsCover(e);
             })
-
-
         },
+
+
+
+
+
+
         _getTouchPosition: function (e, type) {
             var position = {};
             var canvasOffset = $(e.target).offset();
