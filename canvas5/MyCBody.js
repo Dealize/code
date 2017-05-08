@@ -29,7 +29,7 @@ define(['oojs','CBody','CDiv'], function (oojs,CBody,CDiv) {
         },
         bindUI:function () {
             this.on(tap.tap,function (data) {
-                console.log(data.type)
+                // console.log(data.type)
             })
 
         },
