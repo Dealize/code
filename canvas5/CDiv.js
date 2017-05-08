@@ -13,10 +13,16 @@ define(['oojs','CNode'], function (oojs,CNode) {
         init: function () {
             this.callParent('init');
         },
+        bindUI:function () {
+            this.on(tap.tap,function (e) {
+                console.warn(666);
+            })
+        },
         draw:function () {
             this.callParent('draw');
             this.context.fillRect(this.css.left,this.css.top,this.css.width,this.css.height);
-        }
+        },
+
     })
 
     return {

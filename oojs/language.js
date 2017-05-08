@@ -5,6 +5,7 @@ define(function(){
         temp.prototype = superclass.prototype;
         subclass.prototype = new temp();
         subclass.prototype.constructor = subclass;
+        subclass.prototype.extendFrom = superclass;
         subclass.prototype.superFn = {};
         fns && Object.keys(fns).forEach(function(key){
             switch (key){

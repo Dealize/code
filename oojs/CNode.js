@@ -1,12 +1,12 @@
-define(['oojs'], function (oojs) {
-    var Base = oojs.Base,
+define(['oojs','CBase'], function (oojs,CBase) {
+    var CBase = CBase.CBase,
         tap = oojs.language.tap;
 
     function CNode() {
-        Base.apply(this, arguments);
+        CBase.apply(this, arguments);
     }
 
-    oojs.extend(CNode, Base, {
+    oojs.extend(CNode, CBase, {
         attr: {
             css:{
                 width:0,
@@ -26,15 +26,7 @@ define(['oojs'], function (oojs) {
         },
         init: function () {
             this._generateAreaPoint();
-        },
-        appendChild:function (childNode) {
-            var childZindex = childNode.zIndex || 0,
-            currentZindexChildNodeList = this.childNodes[childZindex] || [];
-            currentZindexChildNodeList.push(childNode);
-            this.childNodes[childZindex] = currentZindexChildNodeList;
-            this.setData({
-                childNodes:this.childNodes
-            })
+            this.bindUI();
         },
         _generateAreaPoint:function () {
             var areaPoint = {};
@@ -53,13 +45,7 @@ define(['oojs'], function (oojs) {
         },
         render:function () {
             this.draw();
-            this.childNodes.forEach(function (item,index) {
-                if(item.childNodes.length==0){
-                    item.draw();
-                }else{
-                    item.render();
-                }
-            })
+            this._render();
             return this;
         },
         addEventListender:function (event,callback) {

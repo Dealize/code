@@ -6,29 +6,19 @@ require.config({
         'Widget':'../oojs/Widget',
         'Plugin':'../oojs/Plugin',
         'jquery':'../oojs/jquery',
+        'CBase':'../oojs/CBase',
         'CNode':'../oojs/cNode',
         'CBody':'../oojs/CBody',
-        'CDiv':'./CDiv'
+
+        'CDiv':'./CDiv',
+        'MyCBody':'./MyCBody'
     }
 })
-require(['CDiv'],function(CDiv){
+require(['MyCBody'],function(MyCBody){
+    var MyCBody = MyCBody.MyCBody;
+    var app = new MyCBody({
+        canvas:document.querySelector('canvas')
+    }).render();
 
-    // console.log(CDiv);
-  // var app = new CManager.CManager({canvas:$('#paint')[0]})
-  //   var cDiv = new CDiv.CDiv({
-  //       css:{
-  //           width:100,
-  //           height:100,
-  //           left:50,
-  //           top:50,
-  //           backgroundColor:'red'
-  //       },
-  //       context:document.querySelector('canvas').getContext('2d')
-  //   }).render();
-  //
-  //   cDiv.addEventListender('click',function (e) {
-  //       console.log(123);
-  //   })
-
-  console.log(cDiv);
+  console.log(app);
 })

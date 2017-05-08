@@ -11,10 +11,31 @@ define(['language'],function(language){
     }
     Base.prototype.__attr = {};
 
-
+    var temp = null;
     Base.prototype.callParent = function (fn,arg) {
         this.__superFn__ = this.superFn[fn];
         this.__superFn__ && this.__superFn__(arg);
+
+        //todo: 现在做不了多层级继承
+        // 孙子callparent的时候 只能调用到儿子那一级，
+        // 儿子那一级没法依次往上一层级继承
+
+        // var that = this;
+        // _callparent(this.extendFrom);
+        //
+        //
+        // function _callparent(sub) {
+            // for(var i in this.attr){
+            //     this[i] = this.attr[i];
+            // }
+            // var _superPrototype = sub.prototype;
+            // var _superExtendFrom = _superPrototype.extendFrom;
+            // if(temp != _superExtendFrom){
+            //     _superPrototype[fn] && _superPrototype[fn].apply(that,arg);
+            //     temp = _superExtendFrom;
+            // }
+            // _callparent(_superExtendFrom);
+        // }
     }
 
     //Event
