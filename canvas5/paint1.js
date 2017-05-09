@@ -10,7 +10,7 @@ require.config({
         'CNode':'../oojs/cNode',
         'CBody':'../oojs/CBody',
 
-        'CDiv':'./CDiv',
+        'Box1':'./Box1',
         'MyCBody':'./MyCBody'
     }
 })

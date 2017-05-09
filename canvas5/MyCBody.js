@@ -1,6 +1,7 @@
-define(['oojs','CBody','CDiv'], function (oojs,CBody,CDiv) {
+define(['oojs','CBody','Box1','CBase'], function (oojs,CBody,Box1,CBase) {
     var CBody = CBody.CBody,
-        CDiv = CDiv.CDiv,
+        Box1 = Box1.Box1,
+        util = CBase.util,
         tap = oojs.language.tap;
 
     function MyCBody() {
@@ -12,9 +13,7 @@ define(['oojs','CBody','CDiv'], function (oojs,CBody,CDiv) {
         },
         init: function () {
             this.callParent('init');
-        },
-        renderUI:function () {
-            this.boxNode = new CDiv({
+            this.boxNode1 = new Box1({
                 css:{
                     width:100,
                     height:100,
@@ -22,15 +21,44 @@ define(['oojs','CBody','CDiv'], function (oojs,CBody,CDiv) {
                     top:100,
                     backgroundColor:'green'
                 },
-                zindex:0,
-                context:this.context
-            })
-            this.appendChild(this.boxNode);
+                zIndex:0,
+                context:this.context,
+                container:this
+            });
+            this.boxNode2 = new Box1({
+                css:{
+                    width:300,
+                    height:50,
+                    left:150,
+                    top:150,
+                    backgroundColor:'red'
+                },
+                zIndex:0,
+                context:this.context,
+                container:this,
+                canMove:false
+            });
+            this.appendChild(this.boxNode1);
+            this.appendChild(this.boxNode2);
+            console.log(this.childNodes)
+        },
+        renderUI:function () {
+
+
         },
         bindUI:function () {
-            this.on(tap.tap,function (data) {
-                // console.log(data.type)
+            var that = this;
+            this.on('nodeIsInOtherNode',function (data) {
+                that.removeChild(data.fromNode);
+                data.targetNode.appendChild(data.fromNode);
+                data.targetNode.setData({
+                    canMove:true
+                })
+                console.log(that);
             })
+
+        },
+        _checkNodeIsInArea:function (fromWidget,toWidget) {
 
         },
 

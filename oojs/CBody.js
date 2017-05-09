@@ -9,10 +9,18 @@ define(['oojs','CBase'], function (oojs,cBase) {
 
     oojs.extend(CBody, CBase, {
         attr: {
-            canvas:null
+            canvas:null,
+            width:0,
+            height:0,
         },
         init: function () {
             this.context = this.canvas.getContext('2d');
+            var _width = this.canvas.getAttribute('width'),
+                _height = this.canvas.getAttribute('height');
+            this.setData({
+                width:_width,
+                height:_height
+            })
             this._bindEvent();
             this.renderUI();
             this.bindUI();
@@ -31,6 +39,10 @@ define(['oojs','CBase'], function (oojs,cBase) {
                 })(tap[i])
 
             }
+            this.on('redraw',function (data) {
+                that.context.clearRect(0,0,that.width,that.height);
+                that.render();
+            })
         },
         render:function () {
             this._render();

@@ -18,18 +18,38 @@ define(['oojs'], function (oojs) {
         appendChild:function (childNode) {
             var childZindex = childNode.zIndex || 0,
             currentZindexChildNodeList = this.childNodes[childZindex] || [];
+            childNode.setData({
+                parentNode:this
+            })
             currentZindexChildNodeList.push(childNode);
             this.childNodes[childZindex] = currentZindexChildNodeList;
             this.setData({
                 childNodes:this.childNodes
             })
         },
+        removeChild:function (childNode) {
+            var that = this;
+            that.childNodes.forEach(function (childNodes,index) {
+                childNodes.forEach(function (item,i) {
+                    if(item==childNode){
+                        childNodes.splice(i,1)
+                    }
+                })
+            })
+        },
         triggerNodeEvent:function (event,e) {
             var that = this;
             this.childNodes.forEach(function (childNode,index) {
                 childNode.forEach(function (grandChild,i) {
-                    if(util().checkPointIsInArea(that.touches,grandChild)){
-                        grandChild.trigger(event,e)
+                    if(util().checkPointIsInArea(that.touches||that.container.touches,grandChild)){
+                        var _fixedPosition = util().getTouchPosition(e);
+                        e.fixedX = _fixedPosition.x;
+                        e.fixedY = _fixedPosition.y;
+                        grandChild.trigger(event,e);
+                        grandChild.trigger('triggerChildEvent',{
+                            eventType:event,
+                            eventData:e
+                        })
                     }
                 })
             })
@@ -48,13 +68,9 @@ define(['oojs'], function (oojs) {
 
 
         bindUI:function () {
-
         },
         render:function () {
         },
-        addEventListender:function (event,callback) {
-
-        }
 
     })
 
