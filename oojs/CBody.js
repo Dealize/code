@@ -29,7 +29,6 @@ define(['oojs','CBase'], function (oojs,cBase) {
         _bindEvent:function () {
             var that = this;
             for(var i in tap){
-                console.log(tap[i]);
                 (function (event) {
                     that.canvas.addEventListener(event,function (e) {
                         that.touches = cUtil.getTouchPosition(e);

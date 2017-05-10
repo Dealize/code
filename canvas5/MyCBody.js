@@ -54,7 +54,6 @@ define(['oojs','CBody','Box1','CBase'], function (oojs,CBody,Box1,CBase) {
                 data.targetNode.setData({
                     canMove:true
                 })
-                console.log(that);
             })
 
         },

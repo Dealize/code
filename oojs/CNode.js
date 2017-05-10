@@ -46,7 +46,6 @@ define(['oojs','CBase'], function (oojs,CBase) {
                 css = this.css;
 
             this.on(tap.tap,function (e) {
-                console.warn(666);
             });
             this.on(tap.tapStart,function(e){
                 that._disX = e.fixedX - that.css.left;
