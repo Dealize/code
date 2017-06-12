@@ -106,7 +106,7 @@ define(['language'],function(language){
             }
         }
         this.setData(_argObj,'sys');
-        this.__arg = arg[0];
+        // this.__arg = arg[0];
         this.init(arg[0]);
     }
     return Base;

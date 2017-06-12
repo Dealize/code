@@ -5,7 +5,7 @@ define(['Base','language','jquery'],function(Base,language,JQuery){
         this.plugins = this.constructor.prototype.plugins;
         for(var i in arguments[0]){
             if(i=='boundingBox' ){
-                if(arguments[0][i] instanceof  JQuery){
+                if(arguments[0][i] instanceof  jQuery){
                     this.boundingBox = arguments[0][i];
                 }else if(arguments[0][i].nodeType!='undefined'){
                     this.boundingBox = $(arguments[0][i])
@@ -28,14 +28,13 @@ define(['Base','language','jquery'],function(Base,language,JQuery){
 
 
     Widget.prototype.render = function(config){
-        if(this.__arg.boundingBox =='undefined'){
+        config = config || {};
+        if(this.boundingBox instanceof  jQuery){
             var _container = config.container?config.container:$('body');
             _container.append(this.boundingBox);
         }else{
 
         }
-        // this.callParent('renderUI');
-        // this.callParent('bindUI');
         this.renderUI(config);
         this.bindUI(config);
         this.syncUI(config);
