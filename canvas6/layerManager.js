@@ -6,19 +6,18 @@ define(['FFF','layer'],function (FFF,layer) {
     }
     LayerManager.ATTRS = {
         boundingBox:{
-            value:$('<div class="DC_layerManager">' +
-                '<div class="DC_layerManager_left">' +
-                '<div class="DC_layerManager_addLayer">新建图层</div>' +
-                '</div>' +
-                '<div class="DC_layerManager_right"></div>' +
-                '</div>')
+
         },
         layerList:{
             value:[]
+        },
+        resultCanvas:{
+
         }
     }
     F.extend(LayerManager,Widget,{
         initialize:function () {
+
         },
         renderUI:function () {
             this._getDom();
@@ -27,8 +26,10 @@ define(['FFF','layer'],function (FFF,layer) {
             this._bindAddLayer();
             this._bindLayerItemOpearte();
             this._bindLayerListChange();
+            this._bindLayerSave();
         },
         syncUI:function () {
+            this.addLayer();
         },
 
         //implement------------------------------------------------------------------------
@@ -68,14 +69,16 @@ define(['FFF','layer'],function (FFF,layer) {
             var _$orderItemList = this._$layers_orderList.find('.DC_layerManager_itemTitle')
             return _$orderItemList[this.layerList.length-index];
         },
+        saveImg:function () {
 
+        },
 
 
         //self ---------------------------------------------------------------------------
 
         _getDom:function () {
             this._$layers_orderList = this.boundingBox.find('.DC_layerManager_left');
-            this._$layers_container = this.boundingBox.find('.DC_layerManager_right');
+            this._$layers_container = this.boundingBox.find('.DC_layerManager_center');
             this.getDomObj();
         },
         _bindAddLayer:function () {
@@ -97,24 +100,16 @@ define(['FFF','layer'],function (FFF,layer) {
                 currentIndex = parseInt($parent[0].dataset.order);
                 var _currentLayer = that.layerList[currentIndex];
                 $itemList.each(function (index, item) {
-                    console.log(index,item,currentIndex);
-                    if(index != currentIndex){
-                        $(item).removeClass('DC_layer_active');
+                        $(item).removeClass('DC_layer_title_active');
+                })
+                $parent.addClass('DC_layer_title_active');
+                that.layerList.forEach(function (item,index) {
+                    if(index==currentIndex){
+                        item.setIsActive(true);
+                    }else{
+                        item.setIsActive(false);
                     }
                 })
-                $parent.addClass('DC_layer_active');
-
-                // if(!$parent.hasClass('DC_layer_active')){
-                //     $parent.addClass('DC_layer_active');
-                //     originIndex = _currentLayer.getIndex();
-                //     _currentLayer.setIndex(999);
-                // }else{
-                //     $parent.removeClass('DC_layer_active');
-                //     _currentLayer.setIndex(originIndex);
-                // }
-
-
-
             })
             this.boundingBox.on('click','.DC_layerManager_item_up',function (e) {
                 $parent = $(this).parent();
@@ -186,6 +181,24 @@ define(['FFF','layer'],function (FFF,layer) {
                 console.log(arr);
             })
         },
+        _bindLayerSave:function () {
+            var that = this;
+            this.boundingBox.find('.DC_layerManager_save').on('click',function(e){
+                that._mergeLayer();
+            })
+        },
+        _mergeLayer:function () {
+            var that = this,
+                _resultContext;
+            _resultContext = that.resultCanvas.getContext('2d');
+            _resultContext.clearRect(0,0,400,400);
+            that.layerList.forEach(function(item,index){
+                if(item.isDisplay==true){
+                    _resultContext.drawImage(item.canvas,0,0);
+                }
+            })
+
+        }
 
     })
     return {

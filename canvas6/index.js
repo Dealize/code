@@ -2,12 +2,13 @@ require.config({
     paths:{
         'FFF':'../fff',
         'layer':'./layer',
-        'layerManager':'./layerManager'
+        'layerManager':'./layerManager',
+        'my_layerManager':'./my_layerManager',
     }
 })
 
 
-require(['FFF','layerManager'],function (FFF,layerManager) {
+require(['FFF','my_layerManager'],function (FFF,my_layerManager) {
     var F = FFF.FFF,
         Widget = F.Widget;
     function App(){
@@ -18,9 +19,11 @@ require(['FFF','layerManager'],function (FFF,layerManager) {
             charsArr:[]
         },
         initialize:function (cfg) {
-            var a = new layerManager.LayerManager({
-                index:1
-            }).render();
+            var a = new my_layerManager.My_layerManager({
+                resultCanvas:$('#resultCanvas')[0]
+            }).render({
+                container:$('#app')
+            });
 
         },
         bindUI:function () {
