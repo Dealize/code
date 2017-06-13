@@ -155,17 +155,16 @@ define(['FFF','layer'],function (FFF,layer) {
             });
             this.boundingBox.on('click','.DC_layerManager_item_close',function (e) {
                 $parent = $(this).parent();
-                $target = $parent.prev();
-                $target.before($parent);
+                currentIndex = $parent.data('order');
+                var _currentLayer = that.layerList[currentIndex];
+                that.layerList.splice(currentIndex,1);
+                that.setLayerList(that.layerList);
+                _currentLayer.remove();
+                $parent.remove();
                 $itemList = that._$layers_orderList.find('.DC_layerManager_itemTitle');
                 $itemList.each(function(index,item){
                     item.dataset.order = $itemList.length - index;
                 });
-                currentIndex = $parent.data('order');
-                var _currentLayer = that.layerList[currentIndex-1];
-                that.layerList.splice(currentIndex-1,1);
-                that.layerList.splice(currentIndex-1-1,0,_currentLayer);
-                that.setLayerList(that.layerList);
             })
 
         },

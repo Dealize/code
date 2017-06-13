@@ -61,6 +61,17 @@ define(['FFF'],function (FFF) {
         syncUI:function () {
             this.setIndex(this.getIndex());
         },
+        destructor:function () {
+
+            // this.boundingBox.remove();
+            // delete this.boundingBox;
+        },
+        remove:function () {
+            this.boundingBox.remove();
+            for(var i in this){
+                delete this[i];
+            }
+        },
         _bindCanvasEvent:function () {
             var that = this,
                 paintToggle = false;
