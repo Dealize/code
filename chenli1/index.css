@@ -1,0 +1,57 @@
+.DC_hideCover .DC_layerManager_item_hide {
+  background: red;
+}
+.DC_layer_title_active {
+  background: greenyellow !important;
+}
+.DC_layer_canvas_active {
+  z-index: 999 !important;
+}
+.DC_layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.DC_layer_title {
+  background: #fff;
+  height: 30px;
+}
+.DC_layerManager {
+  display: flex;
+}
+.DC_layerManager_left {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid red;
+  height: 432px;
+  width: 180px;
+  position: relative;
+  padding-bottom: 40px;
+  box-sizing: border-box;
+}
+.DC_layerManager_addLayer {
+  position: absolute;
+  height: 40px;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  line-height: 40px;
+  background: #e4c8be;
+}
+.DC_layerManager_itemTitle {
+  display: flex;
+  justify-content: space-around;
+  background: #e4c8be;
+  margin: 3px 0;
+  padding: 10px;
+}
+.DC_layerManager_center {
+  width: 403px;
+  height: 432px;
+  border: 1px solid blue;
+  position: relative;
+}
+canvas {
+  border: 1px solid ;
+}
