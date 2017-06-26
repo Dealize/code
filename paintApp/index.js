@@ -3,14 +3,16 @@ require.config({
         'FFF':'../fff',
         'tap':'./lib/tap',
         'utilsConf':'./utilsConf',
-        'rectUtil':'./paintWidget/rectWidget'
+        'UtilsListWidget':'./appWidget/UtilsListWidget',
+        'rectWidget':'./paintWidget/rectWidget'
     }
 })
 
 
-require(['FFF','tap','utilsConf'],function (FFF,tap,utilsConf) {
+require(['FFF','tap','UtilsListWidget'],function (FFF,tap,UtilsListWidget) {
     var F = FFF.FFF,
-        Base = F.Base;
+        Base = F.Base,
+        Widget = F.Widget
     function App(){
         Widget.apply(this,arguments);
     }
@@ -22,10 +24,12 @@ require(['FFF','tap','utilsConf'],function (FFF,tap,utilsConf) {
             value:false
         }
     }
-    F.extend(App,Base, {
+    F.extend(App,Widget, {
         initialize:function (cfg) {
+
         },
         renderUI:function () {
+            this._newUtilListWidget();
             this._getDom();
         },
         bindUI:function () {
@@ -38,6 +42,14 @@ require(['FFF','tap','utilsConf'],function (FFF,tap,utilsConf) {
             this._$$utilToggle = this.boundingBox.find('.P_utilListToggle');
             this._$$utilList = this.boundingBox.find('.P_utilList');
             this._$$utilPanel = this.boundingBox.find('.P_utilPanel');
+        },
+        _newUtilListWidget:function () {
+            var that = this;
+            this._newUtilListWidget = new UtilsListWidget.UtilsListWidget({
+                boundingBox:that.boundingBox
+            }).render({
+                container:that.boundingBox
+            });
         },
         _bind_utilToggle_event:function () {
             var that = this;
@@ -59,5 +71,5 @@ require(['FFF','tap','utilsConf'],function (FFF,tap,utilsConf) {
 
     var app = new App({
         boundingBox:$('#P_app')
-    });
+    }).render();
 })

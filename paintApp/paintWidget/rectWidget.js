@@ -21,7 +21,7 @@ define(['FFF'],function (FFF) {
     })
 
     return {
-        utilPanel:rectWidgetPanel,
-        utilDetail:rectWidget
+        rectWidgetPanel:rectWidgetPanel,
+        rectWidget:rectWidget
     }
 })
