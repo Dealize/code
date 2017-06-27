@@ -17,7 +17,7 @@ body {
   position: relative;
   background: #fff;
 }
-.P_utilListToggle {
+.P_fnListToggle {
   position: absolute;
   left: 0;
   top: 0.26666667rem;
@@ -30,17 +30,17 @@ body {
   text-align: center;
   line-height: 1.33333333rem;
 }
-.P_utilListToggleActive {
+.P_fnListToggleActive {
   background: #ddd;
   color: #333;
 }
-.P_utilList {
+.P_fnList {
   position: absolute;
   left: -20%;
   top: 2.13333333rem;
   width: 18%;
 }
-.P_utilItem {
+.P_fnItem {
   width: 100%;
   height: 1.33333333rem;
   margin: 0.13333333rem 0;
@@ -52,32 +52,33 @@ body {
   line-height: 1.33333333rem;
   border-radius: 0 25% 25% 0;
 }
-.P_utilPanel {
-  background: darkgoldenrod;
+.P_fnPanel {
   right: -80%;
   width: 80%;
   position: absolute;
-  height: 30vh;
+  max-height: 30vh;
   top: 2.13333333rem;
-  border-radius: 5% 0 0 6%;
 }
-.P_utilListShow {
-  animation: P_utilListShowAni 0.2s ease-in-out 1 alternate;
+.P_fnPanelItem {
+  background: darkolivegreen;
+}
+.P_fnListShow {
+  animation: P_fnListShowAni 0.2s ease-in-out 1 alternate;
   animation-fill-mode: forwards;
 }
-.P_utilListHide {
-  animation: P_utilListHideAni 0.2s ease-in-out 1 alternate;
+.P_fnListHide {
+  animation: P_fnListHideAni 0.2s ease-in-out 1 alternate;
   animation-fill-mode: forwards;
 }
-.P_utilPanelShow {
-  animation: P_utilPanelShowAni 0.2s ease-in-out 1 alternate;
+.P_fnPanelShow {
+  animation: P_fnPanelShowAni 0.2s ease-in-out 1 alternate;
   animation-fill-mode: forwards;
 }
-.P_utilPanelHide {
-  animation: P_utilPanelHideAni 0.2s ease-in-out 1 alternate;
+.P_fnPanelHide {
+  animation: P_fnPanelHideAni 0.2s ease-in-out 1 alternate;
   animation-fill-mode: forwards;
 }
-@keyframes P_utilListShowAni {
+@keyframes P_fnListShowAni {
   from {
     left: -20%;
   }
@@ -85,7 +86,7 @@ body {
     left: 0%;
   }
 }
-@keyframes P_utilListHideAni {
+@keyframes P_fnListHideAni {
   from {
     left: 0%;
   }
@@ -93,7 +94,7 @@ body {
     left: -20%;
   }
 }
-@keyframes P_utilPanelShowAni {
+@keyframes P_fnPanelShowAni {
   from {
     right: -80%;
   }
@@ -101,7 +102,7 @@ body {
     right: 0%;
   }
 }
-@keyframes P_utilPanelHideAni {
+@keyframes P_fnPanelHideAni {
   from {
     right: 0%;
   }

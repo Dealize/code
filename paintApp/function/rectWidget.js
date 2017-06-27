@@ -1,14 +1,22 @@
-define(['FFF'],function (FFF) {
+define(['FFF','fnWidget'],function (FFF,fnWidget) {
     var F = FFF.FFF,
-        Base = F.Base;
+        Base = F.Base,
+        Widget = F.Widget,
+        FnDetail = fnWidget.FnDetail,
+        fnPanel = fnWidget.FnPanel;
 
     function rectWidgetPanel(){
-        Base.apply(this,arguments)
+        Widget.apply(this,arguments)
     }
-    F.extend(rectWidgetPanel,Base,{
+    rectWidgetPanel.ATTRS = {
+        boundingBox:{
+            value:$('<div>233</div>')
+        }
+    }
+    F.extend(rectWidgetPanel,Widget,{
         initialize:function () {
             console.log('hello demo')
-        }
+        },
     })
 
     function rectWidget(){
