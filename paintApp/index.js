@@ -3,6 +3,7 @@ require.config({
         'FFF':'../fff',
         'tap':'./lib/tap',
         'fnConf':'./fnConf',
+        'fnShowWidget':'./appWidget/fnShowWidget',
         'fnListWidget':'./appWidget/fnListWidget',
         'fnWidget':'./function/fnWidget',
         'rectWidget':'./function/rectWidget',
@@ -12,7 +13,7 @@ require.config({
 })
 
 
-require(['FFF','tap','fnListWidget'],function (FFF,tap,fnListWidget) {
+require(['FFF','tap','fnListWidget','fnShowWidget'],function (FFF,tap,fnListWidget,fnShowWidget) {
     var F = FFF.FFF,
         Base = F.Base,
         Widget = F.Widget
@@ -21,37 +22,33 @@ require(['FFF','tap','fnListWidget'],function (FFF,tap,fnListWidget) {
     }
     App.ATTRS = {
         boundingBox:{
-            value:null
+            value:$('<div id="P_app"></div>')
         },
     }
     F.extend(App,Widget, {
-        initialize:function (cfg) {
-            FFF.App = this;
-        },
-        renderUI:function () {
-            this._new_fnListWidget();
-            this._getDom();
-        },
+        initialize:function () {},
+        renderUI:function () {},
         bindUI:function () {
         },
-        syncUI:function () {
-
-        },
-        _getDom:function () {
+        syncUI:function () {},
+        run:function () {
+            this._new_fnShowWidget();
+            this._new_fnListWidget();
+            return this;
         },
         _new_fnListWidget:function () {
-            var that = this;
-            this._newFnListWidget = new fnListWidget.FnListWidget({
-                boundingBox:that.boundingBox,
-                app:that
-            }).render({
-                container:that.boundingBox
-            });
+            this._newFnListWidget = new fnListWidget.FnListWidget();
         },
-
+        _new_fnShowWidget:function () {
+            this._new_fnShowWidget = new fnShowWidget.FnShowWidget().render({
+                container:this.boundingBox
+            })
+        }
     })
 
-    var app = new App({
-        boundingBox:$('#P_app')
-    }).render();
+    var app = new App().render({
+        container:$('.P_body')
+    });
+    F.app = app;
+    app.run();
 })

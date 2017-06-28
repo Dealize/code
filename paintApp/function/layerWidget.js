@@ -20,8 +20,6 @@ define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
         initialize:function () {
         },
         renderUI:function () {
-            this._bind_addLayer();
-            this._run_layerManager();
         },
         bindUI:function () {
 

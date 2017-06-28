@@ -3,6 +3,7 @@ define(['layerWidget','rectWidget'],function (layerWidget,rectWidget) {
         {
             fnTitle:'图层',
             fnPanel:layerWidget.LayerWidgetPanel,
+            panelData:{},
             fnDetail:layerWidget.layerWidget
         },
         {

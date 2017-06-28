@@ -3,167 +3,311 @@ define(['FFF','tap','fnConf'],function (FFF,tap,fnConf) {
         Base = F.Base,
         Widget = F.Widget;
 
+
     function FnListWidget(){
-        Widget.apply(this,arguments)
+        Base.apply(this,arguments)
     }
     FnListWidget.ATTRS = {
-        app:{
-            value:null
+        isShow:{
+            value:false
         },
-        fnsList:{
-            value:[]
-        },
-        selectedItem:{
-            value:null
-        },
-        widgetIsShow:{
+        selectIndex:{
             value:null
         }
     }
-    F.extend(FnListWidget,Widget,{
+    F.extend(FnListWidget,Base,{
+        initialize:function () {
+            this._new_fnTitleListWidget();
+            this._new_fnPanelListWidget();
+            this._bind_isShow();
+            this._bind_selectIndex();
+        },
+        _new_fnTitleListWidget:function () {
+            this._fnTitleList = new FnTitleListWidget({
+                manager:this
+            }).render({
+                container:F.app.boundingBox
+            })
+        },
+        _new_fnPanelListWidget:function () {
+            this._fnPanelList = new FnTitlePanelWidget({
+                manager:this
+            }).render({
+                container:F.app.boundingBox
+            })
+        },
+        _bind_isShow:function () {
+            var that = this;
+            this.on('isShowChange',function (data) {
+                this._fnTitleList.setIsShow(data.value);
+                this._fnPanelList.setIsShow(data.value);
+            })
+            F.app.on('IsfnListShow',function (data) {
+                that.setIsShow(data.value);
+            })
+        },
+        _bind_selectIndex:function () {
+            this.on('selectedIndexChange',function (data) {
+                this._fnTitleList.setSelectIndex(data);
+                this._fnPanelList.setSelectIndex(data);
+            })
+        }
+    })
+
+
+    function FnTitleListWidget(){
+        Widget.apply(this,arguments)
+    }
+    FnTitleListWidget.ATTRS = {
+        isShow:{
+            value:false
+        },
+        boundingBox:{
+            value:$('<ul class="P_fnTitleList"></ul>')
+        },
+        fnList:{
+            value:[]
+        },
+        manager:{
+            value:null
+        },
+        selectIndex:{
+            value:null
+        }
+    }
+    F.extend(FnTitleListWidget,Widget,{
         initialize:function () {
         },
         renderUI:function () {
-            this._getDom();
-            this._render_uitlList();
+            this._render_item();
         },
         bindUI:function () {
-            this._bind_widgetIsShow();
-            this._bind_showToggle();
+            this._bind_isShow();
+            this._bind_selectIndex();
         },
         syncUI:function () {
 
         },
 
 
-        //--private--
-        _getDom:function () {
-            this._$$showToggle = this.boundingBox.find('.P_fnListToggle');
-            this._$$fnList = this.boundingBox.find('.P_fnList');
-            this._$$fnPanelList = this.boundingBox.find('.P_fnPanel');
-        },
-        _render_uitlList:function () {
-            var that = this,
-                fnItem;
-            fnConf.forEach(function (item, index) {
-                item.parent = that;
-                item.app = that.app;
-                item.index = index;
-                item.titleContainer = that._$$fnList;
-                fnItem = new FnItemWidget(item).render({
-                    container:that._$$fnPanelList
-                });
-                that.fnsList.push(fnItem);
-            })
-        },
-        _bind_widgetIsShow:function () {
+        _bind_isShow:function () {
             var that = this;
-            this.on('widgetIsShowChange',function (data) {
+            this.on('isShowChange',function (data) {
                 if(data.value){
-                    that._$$fnList.removeClass('P_fnListHide').addClass('P_fnListShow');
-                    that._$$fnPanelList.removeClass('P_fnPanelHide').addClass('P_fnPanelShow');
+                    that.boundingBox.removeClass('P_fnListHide').addClass('P_fnListShow');
                 }else{
-                    that._$$fnList.removeClass('P_fnListShow').addClass('P_fnListHide');
-                    that._$$fnPanelList.removeClass('P_fnPanelShow').addClass('P_fnPanelHide');
+                    that.boundingBox.removeClass('P_fnListShow').addClass('P_fnListHide');
                 }
             })
         },
-        _bind_showToggle:function () {
+        _render_item:function () {
+            var that = this,
+                fnItem;
+            fnConf && fnConf.forEach(function (item, index) {
+                item.index = index;
+                item.manager = that.manager;
+                fnItem = new FnTitleItem(item).render({container:that.boundingBox});
+                that.fnList.push(fnItem);
+            })
+        },
+        _bind_selectIndex:function () {
             var that = this;
-            this._$$showToggle.on(tap.tap,function () {
-                that.setWidgetIsShow(!that.widgetIsShow);
+            this.on('selectIndexChange',function (data) {
+                that.fnList.forEach(function(item,index){
+                    if(index==data.value){
+                        item.setActive(true);
+                    }else{
+                        item.setActive(false);
+                    }
+                })
             })
         }
     })
 
 
-
-    function FnItemWidget(){
+    function FnTitlePanelWidget(){
         Widget.apply(this,arguments)
     }
-    FnItemWidget.ATTRS = {
-        fnTitle:{
-            value:''
+    FnTitlePanelWidget.ATTRS = {
+        isShow:{
+            value:false
         },
-        fnPanel:{
+        boundingBox:{
+            value:$('<ul class="P_fnPanelList"></ul>')
+        },
+        manager:{
             value:null
         },
-        fnDetail:{
-            value:null
+        fnList:{
+            value:[]
         },
-        parent:{
+        selectIndex:{
             value:null
+        }
+    }
+    F.extend(FnTitlePanelWidget,Widget,{
+        initialize:function () {
         },
-        app:{
+        renderUI:function () {
+            this._render_item();
+        },
+        bindUI:function () {
+            this._bind_isShow();
+            this._bind_selectIndex();
+
+        },
+        syncUI:function () {
+        },
+        _bind_isShow:function () {
+            var that = this;
+            this.on('isShowChange',function (data) {
+                if(data.value){
+                    that.boundingBox.removeClass('P_fnPanelHide').addClass('P_fnPanelShow');
+                }else{
+                    that.boundingBox.removeClass('P_fnPanelShow').addClass('P_fnPanelHide');
+                }
+            })
+        },
+        _render_item:function () {
+            var that = this,
+                fnItem;
+            fnConf && fnConf.forEach(function (item, index) {
+                item.index = index;
+                item.manager = that.manager;
+                fnItem = new FnPanelItem(item).render({container:that.boundingBox});
+                that.fnList.push(fnItem);
+            })
+        },
+        _bind_selectIndex:function () {
+            var that = this;
+            this.on('selectIndexChange',function (data) {
+                that.fnList.forEach(function(item,index){
+                    if(index==data.value){
+                        item.setActive(true);
+                    }else{
+                        item.setActive(false);
+                    }
+                })
+            })
+        }
+
+    })
+
+
+    function FnTitleItem(){
+        Widget.apply(this,arguments)
+    }
+    FnTitleItem.ATTRS = {
+        isShow:{
+            value:false
+        },
+        boundingBox:{
+            value:$('<li class="P_fnTitleItem"></li>')
+        },
+        manager:{
             value:null
         },
         index:{
             value:null
         },
-        boundingBox:{
-            value:$('<div class="P_fnPanelItem"></div>')
-        },
-        titleContainer:{
-            value:null
+        active:{
+            value:false
         }
     }
-    F.extend(FnItemWidget,Widget,{
+    F.extend(FnTitleItem,Widget,{
         initialize:function (cfg) {
-
+            this._cfg = cfg;
+            this.setIndex(cfg.index);
         },
         renderUI:function () {
-            this._render_itemTitle();
-            this._render_itemPanel();
+            this._render_title();
         },
         bindUI:function () {
-            this._bind_title_event();
-            this._bind_parent_event();
+            this._bind_boundingBox();
+            this._bind_active();
         },
         syncUI:function () {
-            this.hide();
         },
-        hide:function () {
-            this.boundingBox.hide();
+        _render_title:function () {
+            this.boundingBox.html(this._cfg.fnTitle);
         },
-        show:function () {
-            this.boundingBox.show();
-        },
-
-
-        _render_itemTitle:function () {
-            this._$$title = $('<li class="P_fnItem" data-index="'+this.index+'">'+this.fnTitle+'</li>');
-            this.titleContainer.append(this._$$title);
-        },
-        _bind_title_event:function () {
+        _bind_boundingBox:function () {
             var that = this;
-            this._$$title.on(tap.tap,function () {
-                that.parent.trigger('showFnItemOne',that.index);
+            that.boundingBox.on('click',function (e) {
+                that.manager.trigger('selectedIndexChange',that.index);
             })
         },
-        _render_itemPanel:function () {
+        _bind_active:function () {
             var that = this;
-            that._fnPanel = new that.fnPanel({
-                app:that.app
-            }).render({
-                container:that.boundingBox
-            })
-        },
-        _bind_parent_event:function () {
-            var that = this;
-            //todo:question
-            //什么情况下用自定义事件， 什么情况下用逻辑树
-            //什么情况下需要把逻辑放到上一层组件里，什么情况下需要内聚到当前组件里。
-            //以下方式完全可以在上一层组件中实现
-            that.parent.on('showFnItemOne',function (data) {
-                if(data==that.index){
-                    that.show();
+            that.on('activeChange',function (data) {
+                if(data.value){
+                    that.boundingBox.addClass('active');
                 }else{
-                    that.hide();
+                    that.boundingBox.removeClass('active');
                 }
             })
         }
-
     })
+
+    function FnPanelItem(){
+        Widget.apply(this,arguments)
+    }
+    FnPanelItem.ATTRS = {
+        isShow:{
+            value:false
+        },
+        boundingBox:{
+            value:$('<li class="P_fnPanelItem">666</li>')
+        },
+        manager:{
+            value:null
+        },
+        index:{
+            value:null
+        },
+        active:{
+            value:false
+        }
+
+    }
+    F.extend(FnPanelItem,Widget,{
+        initialize:function (cfg) {
+            this._cfg = cfg;
+            this.setIndex(cfg.index);
+        },
+        renderUI:function () {
+            this._render_panel();
+        },
+        bindUI:function () {
+            this._bind_boundingBox();
+            this._bind_active();
+        },
+        syncUI:function () {
+            this.setActive(false);
+        },
+        _render_panel:function () {
+            var panel = new this._cfg.fnPanel(
+                this._cfg.panelData
+            ).render({
+                container:this.boundingBox
+            })
+        },
+        _bind_boundingBox:function () {
+            var that = this;
+        },
+        _bind_active:function () {
+            var that = this;
+            that.on('activeChange',function (data) {
+                console.log(123)
+                if(data.value){
+                    that.boundingBox.show();
+                }else{
+                    that.boundingBox.hide();
+                }
+            })
+        }
+    })
+
 
     return {
         FnListWidget:FnListWidget,
