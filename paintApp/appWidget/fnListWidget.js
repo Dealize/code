@@ -3,6 +3,81 @@ define(['FFF','tap','fnConf'],function (FFF,tap,fnConf) {
         Base = F.Base,
         Widget = F.Widget;
 
+    function FnListWidget(){
+        Widget.apply(this,arguments)
+    }
+    FnListWidget.ATTRS = {
+        app:{
+            value:null
+        },
+        fnsList:{
+            value:[]
+        },
+        selectedItem:{
+            value:null
+        },
+        widgetIsShow:{
+            value:null
+        }
+    }
+    F.extend(FnListWidget,Widget,{
+        initialize:function () {
+        },
+        renderUI:function () {
+            this._getDom();
+            this._render_uitlList();
+        },
+        bindUI:function () {
+            this._bind_widgetIsShow();
+            this._bind_showToggle();
+        },
+        syncUI:function () {
+
+        },
+
+
+        //--private--
+        _getDom:function () {
+            this._$$showToggle = this.boundingBox.find('.P_fnListToggle');
+            this._$$fnList = this.boundingBox.find('.P_fnList');
+            this._$$fnPanelList = this.boundingBox.find('.P_fnPanel');
+        },
+        _render_uitlList:function () {
+            var that = this,
+                fnItem;
+            fnConf.forEach(function (item, index) {
+                item.parent = that;
+                item.app = that.app;
+                item.index = index;
+                item.titleContainer = that._$$fnList;
+                fnItem = new FnItemWidget(item).render({
+                    container:that._$$fnPanelList
+                });
+                that.fnsList.push(fnItem);
+            })
+        },
+        _bind_widgetIsShow:function () {
+            var that = this;
+            this.on('widgetIsShowChange',function (data) {
+                if(data.value){
+                    that._$$fnList.removeClass('P_fnListHide').addClass('P_fnListShow');
+                    that._$$fnPanelList.removeClass('P_fnPanelHide').addClass('P_fnPanelShow');
+                }else{
+                    that._$$fnList.removeClass('P_fnListShow').addClass('P_fnListHide');
+                    that._$$fnPanelList.removeClass('P_fnPanelShow').addClass('P_fnPanelHide');
+                }
+            })
+        },
+        _bind_showToggle:function () {
+            var that = this;
+            this._$$showToggle.on(tap.tap,function () {
+                that.setWidgetIsShow(!that.widgetIsShow);
+            })
+        }
+    })
+
+
+
     function FnItemWidget(){
         Widget.apply(this,arguments)
     }
@@ -89,82 +164,6 @@ define(['FFF','tap','fnConf'],function (FFF,tap,fnConf) {
         }
 
     })
-
-
-
-    function FnListWidget(){
-        Widget.apply(this,arguments)
-    }
-    FnListWidget.ATTRS = {
-        app:{
-            value:null
-        },
-        fnsList:{
-            value:[]
-        },
-        selectedItem:{
-            value:null
-        },
-        widgetIsShow:{
-            value:null
-        }
-    }
-    F.extend(FnListWidget,Widget,{
-        initialize:function () {
-        },
-        renderUI:function () {
-            this._getDom();
-            this._render_uitlList();
-        },
-        bindUI:function () {
-            this._bind_widgetIsShow();
-            this._bind_showToggle();
-        },
-        syncUI:function () {
-            
-        },
-
-
-        //--private--
-        _getDom:function () {
-            this._$$showToggle = this.boundingBox.find('.P_fnListToggle');
-            this._$$fnList = this.boundingBox.find('.P_fnList');
-            this._$$fnPanelList = this.boundingBox.find('.P_fnPanel');
-        },
-        _render_uitlList:function () {
-            var that = this,
-                fnItem;
-            fnConf.forEach(function (item, index) {
-                item.parent = that;
-                item.app = that.app;
-                item.index = index;
-                item.titleContainer = that._$$fnList;
-                fnItem = new FnItemWidget(item).render({
-                    container:that._$$fnPanelList
-                });
-                that.fnsList.push(fnItem);
-            })
-        },
-        _bind_widgetIsShow:function () {
-            var that = this;
-            this.on('widgetIsShowChange',function (data) {
-                if(data.value){
-                    that._$$fnList.removeClass('P_fnListHide').addClass('P_fnListShow');
-                    that._$$fnPanelList.removeClass('P_fnPanelHide').addClass('P_fnPanelShow');
-                }else{
-                    that._$$fnList.removeClass('P_fnListShow').addClass('P_fnListHide');
-                    that._$$fnPanelList.removeClass('P_fnPanelShow').addClass('P_fnPanelHide');
-                }
-            })
-        },
-        _bind_showToggle:function () {
-            var that = this;
-            this._$$showToggle.on(tap.tap,function () {
-                that.setWidgetIsShow(!that.widgetIsShow);
-            })
-        }
-    })
-
 
     return {
         FnListWidget:FnListWidget,

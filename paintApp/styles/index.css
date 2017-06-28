@@ -61,6 +61,7 @@ body {
 }
 .P_fnPanelItem {
   background: darkolivegreen;
+  padding: 20px;
 }
 .P_fnListShow {
   animation: P_fnListShowAni 0.2s ease-in-out 1 alternate;
@@ -109,4 +110,15 @@ body {
   to {
     right: -80%;
   }
+}
+.P_layer_add {
+  border: 1px solid #fff;
+  font-size: 20px;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 10px;
+}
+.P_layerPanel_item {
+  margin: 10px 0;
 }

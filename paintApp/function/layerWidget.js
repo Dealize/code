@@ -10,9 +10,9 @@ define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
     }
     LayerWidgetPanel.ATTRS = {
         boundingBox:{
-            value:$('<div class="P_fnPanelItem">' +
-                '<div class="P_layer_add">添加图层</div>' +
-                '<ul class="P_layer_list"></ul>' +
+            value:$('<div class="P_LayerPanel">' +
+                '<div class="P_layer_add P_layerPanel_item">添加图层</div>' +
+                '' +
                 '</div>')
         }
     }
@@ -27,7 +27,6 @@ define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
 
         },
         syncUI:function () {
-
         },
         getDom:function () {
 
@@ -41,22 +40,30 @@ define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
         },
         _run_layerManager:function () {
             var that = this;
-            this.layerManager = new LayerManager({
+            var aaa  = new LayerManager({
                 app:that.app,
-                parent:that,
-                boundingBox:that.boundingBox.find('.P_layer_list')
+                parent:that
+            }).render({
+                container:that.getBoundingBox()
             });
+            console.log(aaa);
             this.app.layerManager = this.layerManager;
-            this.layerManager.render({
-                container:that.boundingBox
-            })
         }
-        
-
     })
 
+
+
+
+
+
+
+
+
+
+
+
     function LayerManager(){
-        Widget.apply(this,arguments)
+        Widget.apply(this,arguments);
     }
     LayerManager.ATTRS = {
         layerList:{
@@ -66,7 +73,10 @@ define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
             value:[]
         },
         app:{value:null},
-        parent:{value:null}
+        parent:{value:null},
+        boundingBox:{
+            value:$('<ul class="P_layer_list ">666</ul>')
+        }
     }
     F.extend(LayerManager,Widget,{
         initialize:function () {
@@ -77,7 +87,7 @@ define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
         bindUI:function () {
         },
         syncUI:function () {
-            
+
         },
         addLayer:function () {
             var that = this,
@@ -91,26 +101,30 @@ define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
                 });
             _newLayer.render({
                 container:that.app.boundingBox,
-
             });
             _newLayerItem.render({
                 container:that.boundingBox,
-
             });
             this.layerList.push(_newLayer);
             this.layerItemList.push(_newLayerItem);
             this.setLayerList(this.layerList);
             this.setLayerItemList(this.layerItemList);
         },
-
-
     })
+
+
+
+
+
     function Layer(){
         Widget.apply(this,arguments)
     }
     Layer.ATTRS = {
         app:{value:null},
-        parent:{value:null}
+        parent:{value:null},
+        boundingBox:{
+            value:$('<div><canvas></canvas></div>')
+        }
     }
     F.extend(Layer,Widget,{
         initialize:function () {
@@ -132,7 +146,10 @@ define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
     }
     LayerItem.ATTRS = {
         app:{value:null},
-        parent:{value:null}
+        parent:{value:null},
+        boundingBox:{
+            value:$('<div class="P_layerPanel_item">111</div>')
+        }
     }
     F.extend(LayerItem,Widget,{
         initialize:function () {
