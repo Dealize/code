@@ -33,12 +33,12 @@ define(['oojs'],function(oojs){
 
 
 
-        var a =  new Image();
-        a.src = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1493307834500&di=faed51a4dc4c420e1ebf0e64910e57ba&imgtype=0&src=http%3A%2F%2Fresource.58game.com%2Fuploads%2Ftuku%2Fthumb%2F20160126%2F56a6d7ba3896f.jpg';
-        var b = new Image();
-        b.src = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1493308045367&di=259c0680a1bf705667c12b6e1b1eb41e&imgtype=0&src=http%3A%2F%2Fimage.tianjimedia.com%2FuploadImages%2F2015%2F198%2F40%2F0011L7C85804.jpg'
-        that.context.drawImage(a,0,0);
-        that.context.drawImage(b,0,0);
+        // var a =  new Image();
+        // a.src = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1493307834500&di=faed51a4dc4c420e1ebf0e64910e57ba&imgtype=0&src=http%3A%2F%2Fresource.58game.com%2Fuploads%2Ftuku%2Fthumb%2F20160126%2F56a6d7ba3896f.jpg';
+        // var b = new Image();
+        // b.src = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1493308045367&di=259c0680a1bf705667c12b6e1b1eb41e&imgtype=0&src=http%3A%2F%2Fimage.tianjimedia.com%2FuploadImages%2F2015%2F198%2F40%2F0011L7C85804.jpg'
+        // that.context.drawImage(a,0,0);
+        // that.context.drawImage(b,0,0);
     },
     _setCanvasSize:function(){
       var canvasWidth = screen.width-5,

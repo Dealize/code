@@ -202,7 +202,7 @@ define(['FFF','tap','fnConf'],function (FFF,tap,fnConf) {
             value:false
         },
         boundingBox:{
-            value:$('<li class="P_fnTitleItem"></li>')
+            value:$('<li class="P_fnTitleItem P_btn"></li>')
         },
         manager:{
             value:null
@@ -257,7 +257,7 @@ define(['FFF','tap','fnConf'],function (FFF,tap,fnConf) {
             value:false
         },
         boundingBox:{
-            value:$('<li class="P_fnPanelItem">666</li>')
+            value:$('<li class="P_fnPanelItem"></li>')
         },
         manager:{
             value:null
@@ -298,7 +298,6 @@ define(['FFF','tap','fnConf'],function (FFF,tap,fnConf) {
         _bind_active:function () {
             var that = this;
             that.on('activeChange',function (data) {
-                console.log(123)
                 if(data.value){
                     that.boundingBox.show();
                 }else{

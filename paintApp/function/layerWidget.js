@@ -11,8 +11,7 @@ define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
     LayerWidgetPanel.ATTRS = {
         boundingBox:{
             value:$('<div class="P_LayerPanel">' +
-                '<div class="P_layer_add P_layerPanel_item">添加图层</div>' +
-                '' +
+                '<div class="P_layer_add P_btn P_layerPanel_item">添加图层</div>' +
                 '</div>')
         }
     }
@@ -20,94 +19,76 @@ define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
         initialize:function () {
         },
         renderUI:function () {
+            this._getDom();
         },
         bindUI:function () {
-
+            this._bind_addLayer();
         },
         syncUI:function () {
-        },
-        getDom:function () {
+            this._run_layerManager();
 
+        },
+        _getDom:function () {
+            this._$$addLayer = this.boundingBox.find('.P_layer_add');
+            this._$$LayerList = this.boundingBox.find('.P_layer_list');
         },
         _bind_addLayer:function () {
             var that = this;
-            this._$$addLayer = this.boundingBox.find('.P_layer_add');
             this._$$addLayer.on(tap.tap,function (e) {
                 that.layerManager.addLayer();
             })
         },
         _run_layerManager:function () {
             var that = this;
-            var aaa  = new LayerManager({
-                app:that.app,
-                parent:that
-            }).render({
-                container:that.getBoundingBox()
+            this.layerManager = new LayerManager().render({
+                container:this.boundingBox
             });
-            console.log(aaa);
-            this.app.layerManager = this.layerManager;
         }
     })
-
-
-
-
-
-
-
-
-
-
-
 
     function LayerManager(){
         Widget.apply(this,arguments);
     }
     LayerManager.ATTRS = {
+        boundingBox:{
+            value:$('<ul class="P_layer_list "></ul>')
+        },
         layerList:{
             value:[]
         },
-        layerItemList:{
-            value:[]
-        },
-        app:{value:null},
-        parent:{value:null},
-        boundingBox:{
-            value:$('<ul class="P_layer_list ">666</ul>')
+        currentLayer:{
+            value:0
         }
     }
     F.extend(LayerManager,Widget,{
         initialize:function () {
-            // this.bindEvent();
+            this._init_layerContainer();
         },
-        render:function () {
+        renderUI:function () {
         },
         bindUI:function () {
         },
         syncUI:function () {
-
+            this.addLayer();
+        },
+        _init_layerContainer:function () {
+            this.layerContaienr = $('<ul class="P_layerContainer"></ul>');
+            F.app.boundingBox.append(this.layerContaienr);
         },
         addLayer:function () {
-            var that = this,
-                _newLayer = new Layer({
-                    parent:that,
-                    app:that.app
-                }),
-                _newLayerItem = new LayerItem({
-                    parent:that,
-                    app:that.app
-                });
-            _newLayer.render({
-                container:that.app.boundingBox,
-            });
-            _newLayerItem.render({
-                container:that.boundingBox,
-            });
-            this.layerList.push(_newLayer);
-            this.layerItemList.push(_newLayerItem);
-            this.setLayerList(this.layerList);
-            this.setLayerItemList(this.layerItemList);
+            var newLayer = new Layer({
+                    index:this.layerList-1
+                }).render({
+                container:this.layerContaienr
+            }),
+                newLayerItem = new LayerItem().render({
+                container:this.boundingBox
+            })
+            this.layerList.push(newLayer);
         },
+        getLayerContext:function (index) {
+            return this.layerList[index]['context']|| null;
+        }
     })
 
 
@@ -118,53 +99,97 @@ define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
         Widget.apply(this,arguments)
     }
     Layer.ATTRS = {
-        app:{value:null},
-        parent:{value:null},
         boundingBox:{
-            value:$('<div><canvas></canvas></div>')
+            value:$('<canvas>123</canvas>')
         }
     }
     F.extend(Layer,Widget,{
         initialize:function () {
+            console.log(F.app.boundingBox.width(),F.app.boundingBox.height());
         },
-        render:function () {
-            console.log('layer')
+        renderUI:function () {
+            this._set_canvasSize();
         },
         bindUI:function () {
         },
         syncUI:function () {
+        },
+        _set_canvasSize:function () {
+            var width = F.app.boundingBox.width(),
+                height = F.app.boundingBox.height();
+            this.boundingBox.attr({
+                width:width,
+                height:height
+            })
+        },
+        _bindCanvasEvent:function(){
+            var that = this,
+                startPosition = {},
+                movingPosition = {},
+                drawing = false;
+
+            this.$canvas.on(tap.tapStart,function(e){
+                drawing = true;
+
+                startPosition = that._getTouchPosition(e,'client');
+                that.context.strokeStyle = 'red';
+                that.context.lineWidth = '5';
+                that.context.beginPath();
+                that.context.moveTo(startPosition.x,startPosition.y);
+                // that.context.moveTo(startPosition.x+100,startPosition.y+100);
+                console.log(startPosition);
+            })
+            this.$canvas.on(tap.tapMove,function(e){
+                if(!drawing){
+                    return;
+                }
+                that.setData({
+                    'toolBarShow':false
+                })
+                movingPosition = that._getTouchPosition(e,'client');
+                that.context.lineTo(movingPosition.x,movingPosition.y);
+                that.context.stroke();
+            })
+            this.$canvas.on(tap.tapEnd,function(e){
+                drawing = false;
+                that.setData({
+                    'toolBarShow':true
+                })
+                that.context.closePath();
+            })
 
         },
 
-
-
     })
-    function LayerItem(){
+    function LayerItem() {
         Widget.apply(this,arguments)
     }
     LayerItem.ATTRS = {
-        app:{value:null},
-        parent:{value:null},
+        index:{
+            value:''
+        },
         boundingBox:{
-            value:$('<div class="P_layerPanel_item">111</div>')
+            value:$('<li></ul>')
+        },
+        context:{
+            value:null
         }
     }
     F.extend(LayerItem,Widget,{
         initialize:function () {
-            // this.bindEvent();
         },
-        render:function () {
-            console.log('layerItem')
-
+        renderUI:function () {
+            this.boundingBox.html('图层'+(this.index+1));
         },
         bindUI:function () {
         },
         syncUI:function () {
 
         },
-        addLayer:function () {
-            console.log(123);
-        },
+        getContext:function () {
+            var context = this.boundingBox.getContext('2d');
+            this.setContext(context);
+        }
 
 
     })

@@ -5,31 +5,33 @@ define(['FFF','fnWidget'],function (FFF,fnWidget) {
         FnDetail = fnWidget.FnDetail,
         fnPanel = fnWidget.FnPanel;
 
-    function rectWidgetPanel(){
+    function shapeWidgetPanel(){
         Widget.apply(this,arguments)
     }
-    rectWidgetPanel.ATTRS = {
+    shapeWidgetPanel.ATTRS = {
         boundingBox:{
-            value:$('<div>233</div>')
+            value:$('<div class="P_rectPanel">' +
+                '<div>实心矩形</div>' +
+                '<div>空心矩形</div>' +
+                '</div>')
         }
     }
-    F.extend(rectWidgetPanel,Widget,{
+    F.extend(shapeWidget,Widget,{
         initialize:function () {
             console.log('hello demo')
         },
     })
 
-    function rectWidget(){
+    function shapeWidget(){
         Base.apply(this,arguments)
     }
-    F.extend(rectWidget,Base,{
+    F.extend(shapeWidget,Base,{
         initialize:function () {
             console.log('hello demo')
         }
     })
 
     return {
-        rectWidgetPanel:rectWidgetPanel,
-        rectWidget:rectWidget
+        shapeWidgetPanel:shapeWidgetPanel
     }
 })

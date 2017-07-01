@@ -6,7 +6,7 @@ require.config({
         'fnShowWidget':'./appWidget/fnShowWidget',
         'fnListWidget':'./appWidget/fnListWidget',
         'fnWidget':'./function/fnWidget',
-        'rectWidget':'./function/rectWidget',
+        'shapeWidget':'./function/shapeWidget',
         'layerWidget':'./function/layerWidget'
 
     }
@@ -29,6 +29,7 @@ require(['FFF','tap','fnListWidget','fnShowWidget'],function (FFF,tap,fnListWidg
         initialize:function () {},
         renderUI:function () {},
         bindUI:function () {
+            this._preventBodyDefault();
         },
         syncUI:function () {},
         run:function () {
@@ -43,7 +44,13 @@ require(['FFF','tap','fnListWidget','fnShowWidget'],function (FFF,tap,fnListWidg
             this._new_fnShowWidget = new fnShowWidget.FnShowWidget().render({
                 container:this.boundingBox
             })
-        }
+        },
+        _preventBodyDefault:function(){
+            $('body').on(tap.tapStart,function(e){
+                e.preventDefault();
+            })
+        },
+
     })
 
     var app = new App().render({
