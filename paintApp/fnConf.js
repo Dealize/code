@@ -1,4 +1,4 @@
-define(['layerWidget','rectWidget'],function (layerWidget,rectWidget) {
+define(['layerWidget','shapeWidget'],function (layerWidget,shapeWidget) {
     return [
         {
             fnTitle:'图层',
@@ -6,15 +6,13 @@ define(['layerWidget','rectWidget'],function (layerWidget,rectWidget) {
             panelData:{},
             fnDetail:layerWidget.layerWidget
         },
-        {
-            fnTitle:'矩形',
-            fnPanel:rectWidget.rectWidgetPanel,
-            fnDetail:rectWidget.rectWidget
-        },
-        {
-            fnTitle:'工具3',
-            fnPanel:rectWidget.rectWidgetPanel,
-            fnDetail:rectWidget.rectWidget
-        }
+        // {
+        //     fnTitle:'矩形',
+        //     fnPanel:shapeWidget.shapeWidgetPanel,
+        // },
+        // {
+        //     fnTitle:'工具3',
+        //     fnPanel:shapeWidget.shapeWidgetPanel,
+        // }
     ]
 })

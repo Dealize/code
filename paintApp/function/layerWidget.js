@@ -101,19 +101,34 @@ define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
     Layer.ATTRS = {
         boundingBox:{
             value:$('<canvas>123</canvas>')
+        },
+        context:{
+            value:null
         }
+
     }
     F.extend(Layer,Widget,{
         initialize:function () {
             console.log(F.app.boundingBox.width(),F.app.boundingBox.height());
         },
         renderUI:function () {
+            this._getDom();
+            this._getContext();
             this._set_canvasSize();
         },
         bindUI:function () {
+            this._bindCanvasEvent();
         },
         syncUI:function () {
         },
+        _getDom:function () {
+            this._$$canvas = this.boundingBox;
+        },
+        _getContext:function () {
+            var context = this._$$canvas[0].getContext('2d');
+            this.setContext(context);
+        },
+
         _set_canvasSize:function () {
             var width = F.app.boundingBox.width(),
                 height = F.app.boundingBox.height();
@@ -128,7 +143,7 @@ define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
                 movingPosition = {},
                 drawing = false;
 
-            this.$canvas.on(tap.tapStart,function(e){
+            this._$$canvas.on(tap.tapStart,function(e){
                 drawing = true;
 
                 startPosition = that._getTouchPosition(e,'client');
@@ -139,25 +154,46 @@ define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
                 // that.context.moveTo(startPosition.x+100,startPosition.y+100);
                 console.log(startPosition);
             })
-            this.$canvas.on(tap.tapMove,function(e){
+            this._$$canvas.on(tap.tapMove,function(e){
                 if(!drawing){
                     return;
                 }
-                that.setData({
-                    'toolBarShow':false
-                })
                 movingPosition = that._getTouchPosition(e,'client');
                 that.context.lineTo(movingPosition.x,movingPosition.y);
                 that.context.stroke();
             })
-            this.$canvas.on(tap.tapEnd,function(e){
+            this._$$canvas.on(tap.tapEnd,function(e){
                 drawing = false;
-                that.setData({
-                    'toolBarShow':true
-                })
                 that.context.closePath();
             })
 
+        },
+        _getTouchPosition:function(e,type){
+            var position = {};
+            if(tap.tapEnd=='touchend'){
+                switch(type){
+                    case 'offset':
+                        position.x = e.originalEvent.touches[0].offsetX;
+                        position.y = e.originalEvent.touches[0].offsetY;
+                    case 'client':
+                    default:
+                        position.x = e.originalEvent.touches[0].clientX;
+                        position.y = e.originalEvent.touches[0].clientY;
+                        break;
+                }
+            }else{
+                switch(type){
+                    case 'offset':
+                        position.x = e.offsetX;
+                        position.y = e.offsetY;
+                    case 'client':
+                    default:
+                        position.x = e.clientX;
+                        position.y = e.clientY;
+                        break;
+                }
+            }
+            return position;
         },
 
     })
@@ -171,9 +207,6 @@ define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
         boundingBox:{
             value:$('<li></ul>')
         },
-        context:{
-            value:null
-        }
     }
     F.extend(LayerItem,Widget,{
         initialize:function () {
@@ -186,10 +219,6 @@ define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
         syncUI:function () {
 
         },
-        getContext:function () {
-            var context = this.boundingBox.getContext('2d');
-            this.setContext(context);
-        }
 
 
     })
