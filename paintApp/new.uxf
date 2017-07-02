@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>11</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>396</x>
+      <y>330</y>
+      <w>231</w>
+      <h>187</h>
+    </coordinates>
+    <panel_attributes>index
+--
+boundingBox
+_newFnListWidget
+_newFnShowWidget
+--
++run
+_new_fnShowWidget
+_new_fnListWidget</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>825</x>
+      <y>165</y>
+      <w>231</w>
+      <h>209</h>
+    </coordinates>
+    <panel_attributes>fnListWidget
+--
+isShow
+selectIndex
+_fnTitleList
+--
+isShowChange
+selectIndexChange
+--
+app.on( isFnListShow')</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>825</x>
+      <y>451</y>
+      <w>231</w>
+      <h>209</h>
+    </coordinates>
+    <panel_attributes>fnShowWidget
+--
+isFnListShow
+boundingBox
+--
+isFnListShowChange
+--
+app.trigger(IsfnListShow)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1199</x>
+      <y>0</y>
+      <w>231</w>
+      <h>209</h>
+    </coordinates>
+    <panel_attributes>FnTitleListWidget
+--
+isShow
+boundingBox
+fnList
+manager
+selectIndex
+--
+selectIndexChange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1199</x>
+      <y>253</y>
+      <w>231</w>
+      <h>209</h>
+    </coordinates>
+    <panel_attributes>FnTitlePanelWidget
+--
+isShow
+boundingBox
+fnList
+manager
+selectIndex
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1507</x>
+      <y>253</y>
+      <w>231</w>
+      <h>209</h>
+    </coordinates>
+    <panel_attributes>FnPanelItem
+--
+
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1507</x>
+      <y>0</y>
+      <w>231</w>
+      <h>209</h>
+    </coordinates>
+    <panel_attributes>FnTitleItem
+--
+
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>616</x>
+      <y>176</y>
+      <w>231</w>
+      <h>231</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;190.0;190.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>616</x>
+      <y>374</y>
+      <w>231</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;190.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1045</x>
+      <y>11</y>
+      <w>176</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;180.0;140.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1045</x>
+      <y>198</y>
+      <w>176</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;140.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1419</x>
+      <y>11</y>
+      <w>110</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1419</x>
+      <y>253</y>
+      <w>110</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>363</x>
+      <y>814</y>
+      <w>231</w>
+      <h>165</h>
+    </coordinates>
+    <panel_attributes>layerWidget
+--
+boundingBox
+layerManager
+--
+
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>748</x>
+      <y>792</y>
+      <w>231</w>
+      <h>209</h>
+    </coordinates>
+    <panel_attributes>LayerManager
+--
+layerList
+currentLayer
+boundingBox
+--
+addLayer
+getLayerContext
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>583</x>
+      <y>858</y>
+      <w>187</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;150.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>968</x>
+      <y>759</y>
+      <w>198</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;100.0;160.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1144</x>
+      <y>682</y>
+      <w>231</w>
+      <h>209</h>
+    </coordinates>
+    <panel_attributes>layer
+--
+context
+boundingbox
+--
+drawEvents
+
+--
+app.trigger(IsfnListShow)
+app.on(updateContextConfig)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1144</x>
+      <y>924</y>
+      <w>231</w>
+      <h>209</h>
+    </coordinates>
+    <panel_attributes>layer
+--
+boundingBox
+index
+--
+
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>968</x>
+      <y>858</y>
+      <w>198</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;160.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>363</x>
+      <y>1155</y>
+      <w>264</w>
+      <h>165</h>
+    </coordinates>
+    <panel_attributes>brusheWidget
+--
+boundingBox
+lineWidth
+--
+
+--
+app.trigger('updateContextConfig')
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

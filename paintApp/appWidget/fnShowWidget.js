@@ -29,6 +29,7 @@ define(['FFF','tap','fnConf'],function (FFF,tap,fnConf) {
         _bind_boundingBox:function () {
             var that = this;
             this.boundingBox.on('click',function () {
+                debugger;
                 that.setIsFnListShow(!that.isFnListShow);
             })
         },

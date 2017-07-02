@@ -43,6 +43,7 @@ define(['FFF','tap','fnConf'],function (FFF,tap,fnConf) {
                 this._fnPanelList.setIsShow(data.value);
             })
             F.app.on('IsfnListShow',function (data) {
+                console.log(data);
                 that.setIsShow(data.value);
             })
         },

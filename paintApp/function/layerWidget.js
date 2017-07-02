@@ -118,6 +118,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         bindUI:function () {
             this._bindCanvasEvent();
+            this._bind_contextChange();
         },
         syncUI:function () {
         },
@@ -144,10 +145,11 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 drawing = false;
 
             this._$$canvas.on(tap.tapStart,function(e){
+                F.app.trigger('IsfnListShow',{value:false});
                 drawing = true;
                 startPosition = util.getTouchPosition(e,'client');
                 that.context.strokeStyle = 'red';
-                that.context.lineWidth = '5';
+                // that.context.lineWidth = '5';
                 that.context.beginPath();
                 that.context.moveTo(startPosition.x,startPosition.y);
                 // that.context.moveTo(startPosition.x+100,startPosition.y+100);
@@ -165,12 +167,28 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 drawing = false;
                 that.context.closePath();
             })
-
         },
+        _bind_contextChange:function () {
+            var that = this;
+            F.app.on('contextConfigChange',function (data) {
+                console.log(data);
+                for(var i in data){
+                    that.context[i] = data[i];
+                }
+            })
+            //todo: app.updateContextConfig
+            F.app.setContextConfig = function (conf) {
+                this.contextConfig = this.contextConfig|| {};
+                for(var i in conf){
+                    this.contextConfig[i] = conf[i];
+                }
+                this.trigger('contextConfigChange',this.contextConfig);
+            }
+        }
 
 
     })
-    function LayerItem() {
+    function LayerItemLayerItem() {
         Widget.apply(this,arguments)
     }
     LayerItem.ATTRS = {
