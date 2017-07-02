@@ -8,7 +8,7 @@ define(['FFF','tap','fnConf'],function (FFF,tap,fnConf) {
     }
     FnShowWidget.ATTRS = {
         boundingBox:{
-            value:$('<div class="P_fnListToggle P_btn iconfont">&#xe625;</div>')
+            value:$('<div class="P_fnListToggle P_btn iconfont">&#xe627;</div>')
         },
         isFnListShow:{
             value:false

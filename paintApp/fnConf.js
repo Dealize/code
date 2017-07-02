@@ -1,18 +1,23 @@
-define(['layerWidget','shapeWidget'],function (layerWidget,shapeWidget) {
+define(['layerWidget',
+        'shapeWidget',
+        'brushWidget'],
+    function (layerWidget,
+              shapeWidget,
+              brushWidget
+    ) {
     return [
         {
-            fnTitle:'图层',
+            fnTitle:'&#xe653;图层',
             fnPanel:layerWidget.LayerWidgetPanel,
             panelData:{},
-            fnDetail:layerWidget.layerWidget
         },
         // {
-        //     fnTitle:'矩形',
+        //     fnTitle:'形状',
         //     fnPanel:shapeWidget.shapeWidgetPanel,
         // },
-        // {
-        //     fnTitle:'工具3',
-        //     fnPanel:shapeWidget.shapeWidgetPanel,
-        // }
+        {
+            fnTitle:'&#xe67f;画笔',
+            fnPanel:brushWidget.BrushWidgetPanel,
+        }
     ]
 })

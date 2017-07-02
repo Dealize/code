@@ -1,4 +1,4 @@
-define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
+define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
     var F = FFF.FFF,
         Base = F.Base,
         Widget = F.Widget,
@@ -145,8 +145,7 @@ define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
 
             this._$$canvas.on(tap.tapStart,function(e){
                 drawing = true;
-
-                startPosition = that._getTouchPosition(e,'client');
+                startPosition = util.getTouchPosition(e,'client');
                 that.context.strokeStyle = 'red';
                 that.context.lineWidth = '5';
                 that.context.beginPath();
@@ -158,7 +157,7 @@ define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
                 if(!drawing){
                     return;
                 }
-                movingPosition = that._getTouchPosition(e,'client');
+                movingPosition = util.getTouchPosition(e,'client');
                 that.context.lineTo(movingPosition.x,movingPosition.y);
                 that.context.stroke();
             })
@@ -168,33 +167,7 @@ define(['FFF','tap','fnWidget'],function (FFF,tap,fnWidget) {
             })
 
         },
-        _getTouchPosition:function(e,type){
-            var position = {};
-            if(tap.tapEnd=='touchend'){
-                switch(type){
-                    case 'offset':
-                        position.x = e.originalEvent.touches[0].offsetX;
-                        position.y = e.originalEvent.touches[0].offsetY;
-                    case 'client':
-                    default:
-                        position.x = e.originalEvent.touches[0].clientX;
-                        position.y = e.originalEvent.touches[0].clientY;
-                        break;
-                }
-            }else{
-                switch(type){
-                    case 'offset':
-                        position.x = e.offsetX;
-                        position.y = e.offsetY;
-                    case 'client':
-                    default:
-                        position.x = e.clientX;
-                        position.y = e.clientY;
-                        break;
-                }
-            }
-            return position;
-        },
+
 
     })
     function LayerItem() {

@@ -3,10 +3,12 @@ require.config({
         'FFF':'../fff',
         'tap':'./lib/tap',
         'fnConf':'./fnConf',
+        'util':'./lib/util',
         'fnShowWidget':'./appWidget/fnShowWidget',
         'fnListWidget':'./appWidget/fnListWidget',
         'fnWidget':'./function/fnWidget',
         'shapeWidget':'./function/shapeWidget',
+        'brushWidget':'./function/brushWidget',
         'layerWidget':'./function/layerWidget'
 
     }

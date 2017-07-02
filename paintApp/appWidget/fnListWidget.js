@@ -202,7 +202,7 @@ define(['FFF','tap','fnConf'],function (FFF,tap,fnConf) {
             value:false
         },
         boundingBox:{
-            value:$('<li class="P_fnTitleItem P_btn"></li>')
+            value:$('<li class="P_fnTitleItem iconfont P_btn"></li>')
         },
         manager:{
             value:null
