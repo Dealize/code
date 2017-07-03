@@ -1,9 +1,11 @@
 define(['layerWidget',
         'shapeWidget',
-        'brushWidget'],
+        'brushWidget',
+        'basePicWidget'],
     function (layerWidget,
               shapeWidget,
-              brushWidget
+              brushWidget,
+              basePicWidget
     ) {
     return [
         {
@@ -11,10 +13,10 @@ define(['layerWidget',
             fnPanel:layerWidget.LayerWidgetPanel,
             panelData:{},
         },
-        // {
-        //     fnTitle:'形状',
-        //     fnPanel:shapeWidget.shapeWidgetPanel,
-        // },
+        {
+            fnTitle:'&#xe60d;底图',
+            fnPanel:basePicWidget.BasePicWidgetPanel,
+        },
         {
             fnTitle:'&#xe67f;画笔',
             fnPanel:brushWidget.BrushWidgetPanel,

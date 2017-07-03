@@ -4,7 +4,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>396</x>
+      <x>319</x>
       <y>330</y>
       <w>231</w>
       <h>187</h>
@@ -23,7 +23,7 @@ _new_fnListWidget</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>825</x>
+      <x>748</x>
       <y>165</y>
       <w>231</w>
       <h>209</h>
@@ -37,13 +37,14 @@ _fnTitleList
 isShowChange
 selectIndexChange
 --
-app.on( isFnListShow')</panel_attributes>
+app.on( showFnPanelToggle')
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>825</x>
+      <x>748</x>
       <y>451</y>
       <w>231</w>
       <h>209</h>
@@ -55,13 +56,13 @@ boundingBox
 --
 isFnListShowChange
 --
-app.trigger(IsfnListShow)</panel_attributes>
+app.trigger(showFnPanelToggle)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1199</x>
+      <x>1122</x>
       <y>0</y>
       <w>231</w>
       <h>209</h>
@@ -80,7 +81,7 @@ selectIndexChange</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1199</x>
+      <x>1122</x>
       <y>253</y>
       <w>231</w>
       <h>209</h>
@@ -98,7 +99,7 @@ selectIndex
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1507</x>
+      <x>1430</x>
       <y>253</y>
       <w>231</w>
       <h>209</h>
@@ -112,7 +113,7 @@ selectIndex
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1507</x>
+      <x>1430</x>
       <y>0</y>
       <w>231</w>
       <h>209</h>
@@ -126,7 +127,7 @@ selectIndex
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>616</x>
+      <x>539</x>
       <y>176</y>
       <w>231</w>
       <h>231</h>
@@ -137,7 +138,7 @@ selectIndex
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>616</x>
+      <x>539</x>
       <y>374</y>
       <w>231</w>
       <h>110</h>
@@ -148,7 +149,7 @@ selectIndex
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1045</x>
+      <x>968</x>
       <y>11</y>
       <w>176</w>
       <h>220</h>
@@ -159,7 +160,7 @@ selectIndex
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1045</x>
+      <x>968</x>
       <y>198</y>
       <w>176</w>
       <h>88</h>
@@ -170,7 +171,7 @@ selectIndex
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1419</x>
+      <x>1342</x>
       <y>11</y>
       <w>110</w>
       <h>33</h>
@@ -181,7 +182,7 @@ selectIndex
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1419</x>
+      <x>1342</x>
       <y>253</y>
       <w>110</w>
       <h>33</h>
@@ -192,7 +193,7 @@ selectIndex
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>363</x>
+      <x>286</x>
       <y>814</y>
       <w>231</w>
       <h>165</h>
@@ -209,7 +210,7 @@ layerManager
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>748</x>
+      <x>671</x>
       <y>792</y>
       <w>231</w>
       <h>209</h>
@@ -222,13 +223,14 @@ boundingBox
 --
 addLayer
 getLayerContext
---</panel_attributes>
+--
+app.on(drawImg)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>583</x>
+      <x>506</x>
       <y>858</y>
       <w>187</w>
       <h>33</h>
@@ -239,7 +241,7 @@ getLayerContext
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>968</x>
+      <x>891</x>
       <y>759</y>
       <w>198</w>
       <h>132</h>
@@ -250,7 +252,7 @@ getLayerContext
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1144</x>
+      <x>1067</x>
       <y>682</y>
       <w>231</w>
       <h>209</h>
@@ -263,14 +265,14 @@ boundingbox
 drawEvents
 
 --
-app.trigger(IsfnListShow)
+app.trigger(showFnPanelToggle)
 app.on(updateContextConfig)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1144</x>
+      <x>1067</x>
       <y>924</y>
       <w>231</w>
       <h>209</h>
@@ -287,7 +289,7 @@ index
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>968</x>
+      <x>891</x>
       <y>858</y>
       <w>198</w>
       <h>110</h>
@@ -298,7 +300,7 @@ index
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>363</x>
+      <x>286</x>
       <y>1155</y>
       <w>264</w>
       <h>165</h>
@@ -311,6 +313,25 @@ lineWidth
 
 --
 app.trigger('updateContextConfig')
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>286</x>
+      <y>1353</y>
+      <w>264</w>
+      <h>165</h>
+    </coordinates>
+    <panel_attributes>basePicWidget
+--
+boundingBox
+picList
+--
+
+--
+app.trigger('drawImg')
 --</panel_attributes>
     <additional_attributes/>
   </element>

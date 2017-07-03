@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'iconfont';
   /* project id 339330 */
-  src: url('//at.alicdn.com/t/font_58d89srfcb84obt9.eot');
-  src: url('//at.alicdn.com/t/font_58d89srfcb84obt9.eot?#iefix') format('embedded-opentype'), url('//at.alicdn.com/t/font_58d89srfcb84obt9.woff') format('woff'), url('//at.alicdn.com/t/font_58d89srfcb84obt9.ttf') format('truetype'), url('//at.alicdn.com/t/font_58d89srfcb84obt9.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_r3z2ya2odqhestt9.eot');
+  src: url('//at.alicdn.com/t/font_r3z2ya2odqhestt9.eot?#iefix') format('embedded-opentype'), url('//at.alicdn.com/t/font_r3z2ya2odqhestt9.woff') format('woff'), url('//at.alicdn.com/t/font_r3z2ya2odqhestt9.ttf') format('truetype'), url('//at.alicdn.com/t/font_r3z2ya2odqhestt9.svg#iconfont') format('svg');
 }
 .iconfont {
   font-family: "iconfont" !important;
@@ -84,8 +84,9 @@ body {
   top: 2.13333333rem;
 }
 .P_fnPanelItem {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.9);
   padding: 20px;
+  border: 1px solid #333;
   font-size: 0.37333333rem;
   border-radius: 15px 0 0 15px;
 }
@@ -171,4 +172,16 @@ body {
 .P_brushPanel_degree .active {
   background: #333;
   color: #fff;
+}
+.P_basePicList {
+  display: flex;
+  flex-wrap: wrap;
+}
+.P_basePicList li {
+  border: 1px solid ;
+  width: 100px;
+  margin: 10px;
+}
+.P_basePicList li img {
+  width: 100%;
 }

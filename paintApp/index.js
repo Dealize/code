@@ -9,6 +9,7 @@ require.config({
         'fnWidget':'./function/fnWidget',
         'shapeWidget':'./function/shapeWidget',
         'brushWidget':'./function/brushWidget',
+        'basePicWidget':'./function/basePicWidget',
         'layerWidget':'./function/layerWidget'
 
     }

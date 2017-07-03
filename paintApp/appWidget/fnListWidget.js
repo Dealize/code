@@ -42,9 +42,13 @@ define(['FFF','tap','fnConf'],function (FFF,tap,fnConf) {
                 this._fnTitleList.setIsShow(data.value);
                 this._fnPanelList.setIsShow(data.value);
             })
-            F.app.on('IsfnListShow',function (data) {
-                console.log(data);
-                that.setIsShow(data.value);
+            F.app.on('showFnPanelToggle',function (data) {
+                if(data==undefined){
+                    that.setIsShow(!that.isShow);
+                }
+                if(data&&data.status=='off'){
+                    that.setIsShow(false);
+                }
             })
         },
         _bind_selectIndex:function () {

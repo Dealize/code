@@ -67,6 +67,21 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         renderUI:function () {
         },
         bindUI:function () {
+            var that = this;
+            F.app.on('drawImg',function (data) {
+                var _img = new Image();
+                _img.src = data.data.src;
+                var _layer = that.layerList[0],
+                    _imgW = _img.naturalWidth,
+                    _imgH = _img.naturalHeight,
+                    _imgRatio;//缩放比例
+
+                _imgRatio = Math.abs(_imgH/(_imgW/300));
+
+                console.log(_imgRatio,_imgH);
+                _layer.context.clearRect(0,0,_layer.size.width,_layer.size.height);
+                _layer.context.drawImage(_img,40,100,300,_imgRatio);
+            })
         },
         syncUI:function () {
             this.addLayer();
@@ -88,7 +103,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         getLayerContext:function (index) {
             return this.layerList[index]['context']|| null;
-        }
+        },
     })
 
 
@@ -124,6 +139,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         _getDom:function () {
             this._$$canvas = this.boundingBox;
+
         },
         _getContext:function () {
             var context = this._$$canvas[0].getContext('2d');
@@ -133,6 +149,10 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         _set_canvasSize:function () {
             var width = F.app.boundingBox.width(),
                 height = F.app.boundingBox.height();
+            this.size = {
+                width:width,
+                height:height
+            }
             this.boundingBox.attr({
                 width:width,
                 height:height
@@ -145,7 +165,9 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 drawing = false;
 
             this._$$canvas.on(tap.tapStart,function(e){
-                F.app.trigger('IsfnListShow',{value:false});
+                F.app.trigger('showFnPanelToggle',{
+                    status:'off'
+                });
                 drawing = true;
                 startPosition = util.getTouchPosition(e,'client');
                 that.context.strokeStyle = 'red';
@@ -170,25 +192,20 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         _bind_contextChange:function () {
             var that = this;
-            F.app.on('contextConfigChange',function (data) {
-                console.log(data);
+            F.app.on('updateContextConfig',function (data) {
+                that.contextConfig = this.contextConfig|| {};
                 for(var i in data){
-                    that.context[i] = data[i];
+                    that.contextConfig[i] = data[i];
+                }
+                for(var i in that.contextConfig){
+                    that.context[i] = that.contextConfig[i];
                 }
             })
-            //todo: app.updateContextConfig
-            F.app.setContextConfig = function (conf) {
-                this.contextConfig = this.contextConfig|| {};
-                for(var i in conf){
-                    this.contextConfig[i] = conf[i];
-                }
-                this.trigger('contextConfigChange',this.contextConfig);
-            }
         }
 
 
     })
-    function LayerItemLayerItem() {
+    function LayerItem() {
         Widget.apply(this,arguments)
     }
     LayerItem.ATTRS = {

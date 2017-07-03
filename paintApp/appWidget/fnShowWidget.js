@@ -29,15 +29,15 @@ define(['FFF','tap','fnConf'],function (FFF,tap,fnConf) {
         _bind_boundingBox:function () {
             var that = this;
             this.boundingBox.on('click',function () {
-                debugger;
-                that.setIsFnListShow(!that.isFnListShow);
+                // that.setIsFnListShow(!that.isFnListShow);
+                F.app.trigger('showFnPanelToggle')
             })
         },
         _bind_isFnListShow:function () {
             var that = this;
-            this.on('isFnListShowChange',function (data) {
-                F.app.trigger('IsfnListShow',data)
-            })
+            // this.on('isFnListShowChange',function (data) {
+            //     F.app.trigger('IsfnListShow',data)
+            // })
         }
     })
     return {

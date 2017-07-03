@@ -31,10 +31,9 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         bindUI:function () {
             var that = this;
             this.on('lineWidthChange',function (data) {
-                //todo: app.trigger updageContextConfig
-                F.app.setContextConfig({
+                F.app.trigger('updateContextConfig',{
                     lineWidth:parseInt(data.value)
-                });
+                })
                 that._$$degreeLi.each(function (index,item) {
                     if(item.dataset.index == data.value){
                         $(item).addClass('active');
