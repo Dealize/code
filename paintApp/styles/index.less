@@ -174,7 +174,7 @@ body{
 
 
 .P_brushPanel{}
-.P_brushPanel_degree{
+.P_brushPanel_degree,.P_brushPanel_type,.P_colorPanel_ul{
   display: flex;
   flex-wrap:wrap;
   li{
@@ -183,15 +183,28 @@ body{
     height: 40px;
     line-height: 40px;
     text-align: center;
-    margin: 5px;
+    margin: 10px;
     border-radius: 50%;
   }
   .active{
     background:#333;
     color:#fff;
+    transform: scale(1.5,1.5);
+
   }
 }
-
+.P_brushPanel_degree{
+  margin-bottom:15px;
+}
+.P_colorPanel_ul{
+  li{
+    margin:10px;
+  }
+  .active{
+    transform: scale(1.5,1.5);
+    border:1px solid #333;
+  }
+}
 .P_basePicList{
   display: flex;
   flex-wrap: wrap;

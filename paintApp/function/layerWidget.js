@@ -170,7 +170,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 });
                 drawing = true;
                 startPosition = util.getTouchPosition(e,'client');
-                that.context.strokeStyle = 'red';
+                // that.context.strokeStyle = 'red';
                 // that.context.lineWidth = '5';
                 that.context.beginPath();
                 that.context.moveTo(startPosition.x,startPosition.y);
@@ -198,7 +198,14 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                     that.contextConfig[i] = data[i];
                 }
                 for(var i in that.contextConfig){
-                    that.context[i] = that.contextConfig[i];
+                    switch (i){
+                        case 'setLineDash':
+                            that.context[i](that.contextConfig[i]);
+                            break;
+                        default:
+                            that.context[i] = that.contextConfig[i];
+                        break;
+                    }
                 }
             })
         }

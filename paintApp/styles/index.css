@@ -156,22 +156,39 @@ body {
   font-size: 14px;
   border-radius: 10px;
 }
-.P_brushPanel_degree {
+.P_brushPanel_degree,
+.P_brushPanel_type,
+.P_colorPanel_ul {
   display: flex;
   flex-wrap: wrap;
 }
-.P_brushPanel_degree li {
+.P_brushPanel_degree li,
+.P_brushPanel_type li,
+.P_colorPanel_ul li {
   border: 1px solid;
   width: 40px;
   height: 40px;
   line-height: 40px;
   text-align: center;
-  margin: 5px;
+  margin: 10px;
   border-radius: 50%;
 }
-.P_brushPanel_degree .active {
+.P_brushPanel_degree .active,
+.P_brushPanel_type .active,
+.P_colorPanel_ul .active {
   background: #333;
   color: #fff;
+  transform: scale(1.5, 1.5);
+}
+.P_brushPanel_degree {
+  margin-bottom: 15px;
+}
+.P_colorPanel_ul li {
+  margin: 10px;
+}
+.P_colorPanel_ul .active {
+  transform: scale(1.5, 1.5);
+  border: 1px solid #333;
 }
 .P_basePicList {
   display: flex;

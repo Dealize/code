@@ -13,10 +13,17 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
             value:$('<div class="P_brushPanel">' +
                 '<span>选择粗细</span>' +
                 '<ul class="P_brushPanel_degree"></ul>' +
+                '<span>选择类型</span>' +
+                '<ul class="P_brushPanel_type">' +
+                    '<li data-type="1">实线</li><li data-type="2">虚线</li>' +
+                '</ul>' +
                 '</div>')
         },
         lineWidth:{
             value:0
+        },
+        lineType:{
+            value:1
         }
     }
     F.extend(BrushWidgetPanel,fnPanel,{
@@ -42,12 +49,33 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                     }
                 })
             })
+            this.on('lineTypeChange',function (data) {
+                var _realData;
+                if(data.value==1){
+                    _realData = [10,0]
+                }else{
+                    _realData = [10,10]
+                }
+                F.app.trigger('updateContextConfig',{
+                    setLineDash:_realData
+                })
+                that._$$typeLi.each(function (index,item) {
+                    if(item.dataset.type==data.value){
+                        $(item).addClass('active');
+                    }else{
+                        $(item).removeClass('active');
+                    }
+                })
+            })
         },
         syncUI:function () {
-            this.setLineWidth(1);
+            this.setLineWidth(5);
+            this.setLineType(2);
         },
         _getDom:function () {
             this._$$degreeUl = this.boundingBox.find('.P_brushPanel_degree');
+            this._$$typeUl = this.boundingBox.find('.P_brushPanel_type');
+            this._$$typeLi = this._$$typeUl.find('li');
         },
         _renderBind_Degree:function () {
             var domStr = '',
@@ -59,8 +87,11 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
             this._$$degreeUl.append(domStr);
             this._$$degreeLi = this._$$degreeUl.find('li');
             this._$$degreeUl.on(tap.tap,'li',function (e) {
-                console.log(this.dataset.index);
                 that.setLineWidth(parseInt(this.dataset.index));
+            })
+            this._$$typeUl.on(tap.tap,'li',function (e) {
+
+                that.setLineType(this.dataset.type);
             })
         }
     })

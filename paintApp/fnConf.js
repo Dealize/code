@@ -1,11 +1,13 @@
 define(['layerWidget',
         'shapeWidget',
         'brushWidget',
-        'basePicWidget'],
+        'basePicWidget',
+        'colorWidget'],
     function (layerWidget,
               shapeWidget,
               brushWidget,
-              basePicWidget
+              basePicWidget,
+              colorWidget
     ) {
     return [
         {
@@ -20,6 +22,9 @@ define(['layerWidget',
         {
             fnTitle:'&#xe67f;画笔',
             fnPanel:brushWidget.BrushWidgetPanel,
+        },{
+            fnTitle:'&#xe60a;颜色',
+            fnPanel:colorWidget.ColorWidgetPanel
         }
     ]
 })
