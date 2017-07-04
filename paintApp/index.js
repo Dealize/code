@@ -11,7 +11,8 @@ require.config({
         'brushWidget':'./function/brushWidget',
         'colorWidget':'./function/colorWidget',
         'basePicWidget':'./function/basePicWidget',
-        'layerWidget':'./function/layerWidget'
+        'layerWidget':'./function/layerWidget',
+        'fileWidget':'./function/fileWidget',
 
     }
 })

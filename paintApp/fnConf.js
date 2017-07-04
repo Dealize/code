@@ -2,13 +2,15 @@ define(['layerWidget',
         'shapeWidget',
         'brushWidget',
         'basePicWidget',
-        'colorWidget'
+        'colorWidget',
+        'fileWidget',
         ],
     function (layerWidget,
               shapeWidget,
               brushWidget,
               basePicWidget,
-              colorWidget
+              colorWidget,
+              fileWidget
     ) {
     return [
         {
@@ -29,6 +31,9 @@ define(['layerWidget',
         },{
             fnTitle:'&#xe6ff;形状',
             fnPanel:shapeWidget.ShapeWidgetPanel
+        },{
+            fnTitle:'&#xe640;文件',
+            fnPanel:fileWidget.FileWidgetPanel
         }
     ]
 })
