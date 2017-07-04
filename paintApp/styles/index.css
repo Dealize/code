@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'iconfont';
   /* project id 339330 */
-  src: url('//at.alicdn.com/t/font_r3z2ya2odqhestt9.eot');
-  src: url('//at.alicdn.com/t/font_r3z2ya2odqhestt9.eot?#iefix') format('embedded-opentype'), url('//at.alicdn.com/t/font_r3z2ya2odqhestt9.woff') format('woff'), url('//at.alicdn.com/t/font_r3z2ya2odqhestt9.ttf') format('truetype'), url('//at.alicdn.com/t/font_r3z2ya2odqhestt9.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_vt8s56cihmhrggb9.eot');
+  src: url('//at.alicdn.com/t/font_vt8s56cihmhrggb9.eot?#iefix') format('embedded-opentype'), url('//at.alicdn.com/t/font_vt8s56cihmhrggb9.woff') format('woff'), url('//at.alicdn.com/t/font_vt8s56cihmhrggb9.ttf') format('truetype'), url('//at.alicdn.com/t/font_vt8s56cihmhrggb9.svg#iconfont') format('svg');
 }
 .iconfont {
   font-family: "iconfont" !important;
@@ -114,7 +114,23 @@ body {
     left: 0%;
   }
 }
+@-webkit-keyframes P_fnListShowAni {
+  from {
+    left: -20%;
+  }
+  to {
+    left: 0%;
+  }
+}
 @keyframes P_fnListHideAni {
+  from {
+    left: 0%;
+  }
+  to {
+    left: -20%;
+  }
+}
+@-webkit-keyframes P_fnListHideAni {
   from {
     left: 0%;
   }
@@ -130,7 +146,23 @@ body {
     right: 0%;
   }
 }
+@-webkit-keyframes P_fnPanelShowAni {
+  from {
+    right: -80%;
+  }
+  to {
+    right: 0%;
+  }
+}
 @keyframes P_fnPanelHideAni {
+  from {
+    right: 0%;
+  }
+  to {
+    right: -80%;
+  }
+}
+@-webkit-keyframes P_fnPanelHideAni {
   from {
     right: 0%;
   }
@@ -156,15 +188,11 @@ body {
   font-size: 14px;
   border-radius: 10px;
 }
-.P_brushPanel_degree,
-.P_brushPanel_type,
-.P_colorPanel_ul {
+.P_panel_item {
   display: flex;
   flex-wrap: wrap;
 }
-.P_brushPanel_degree li,
-.P_brushPanel_type li,
-.P_colorPanel_ul li {
+.P_panel_item li {
   border: 1px solid;
   width: 40px;
   height: 40px;
@@ -173,9 +201,7 @@ body {
   margin: 10px;
   border-radius: 50%;
 }
-.P_brushPanel_degree .active,
-.P_brushPanel_type .active,
-.P_colorPanel_ul .active {
+.P_panel_item .active {
   background: #333;
   color: #fff;
   transform: scale(1.5, 1.5);
@@ -201,4 +227,7 @@ body {
 }
 .P_basePicList li img {
   width: 100%;
+}
+.P_shape_rect {
+  border-radius: 0 !important;
 }

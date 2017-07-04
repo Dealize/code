@@ -12,7 +12,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         boundingBox:{
             value:$('<div class="P_colorPanel">' +
                 '<span>基本颜色</span>' +
-                '<ul class="P_colorPanel_ul"></ul>' +
+                '<ul class="P_panel_item P_colorPanel_ul"></ul>' +
                 '<span>更多颜色</span>' +
                 '</div>')
         },

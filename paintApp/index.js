@@ -28,12 +28,16 @@ require(['FFF','tap','fnListWidget','fnShowWidget'],function (FFF,tap,fnListWidg
         boundingBox:{
             value:$('<div id="P_app"></div>')
         },
+        drawMethod:{
+            value:null
+        }
     }
     F.extend(App,Widget, {
         initialize:function () {},
         renderUI:function () {},
         bindUI:function () {
             this._preventBodyDefault();
+            this._bind_event();
         },
         syncUI:function () {},
         run:function () {
@@ -47,6 +51,23 @@ require(['FFF','tap','fnListWidget','fnShowWidget'],function (FFF,tap,fnListWidg
         _new_fnShowWidget:function () {
             this._new_fnShowWidget = new fnShowWidget.FnShowWidget().render({
                 container:this.boundingBox
+            })
+        },
+        _bind_event:function () {
+            var that =this;
+            this.on('changeDrawMethod',function (fnList) {
+                that._drawstart = fnList.drawstart;
+                that._drawing = fnList.drawing;
+                that._drawend = fnList.drawend;
+            })
+            this.on('drawstart',function (data) {
+                that._drawstart && that._drawstart(data);
+            })
+            this.on('drawing',function (data) {
+                that._drawing && that._drawing(data);
+            })
+            this.on('drawend',function (data) {
+                that._drawend && that._drawend(data);
             })
         },
         _preventBodyDefault:function(){

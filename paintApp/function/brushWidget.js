@@ -12,9 +12,9 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         boundingBox:{
             value:$('<div class="P_brushPanel">' +
                 '<span>选择粗细</span>' +
-                '<ul class="P_brushPanel_degree"></ul>' +
+                '<ul class="P_panel_item P_brushPanel_degree"></ul>' +
                 '<span>选择类型</span>' +
-                '<ul class="P_brushPanel_type">' +
+                '<ul class="P_panel_item P_brushPanel_type">' +
                     '<li data-type="1">实线</li><li data-type="2">虚线</li>' +
                 '</ul>' +
                 '</div>')
@@ -40,6 +40,22 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
             this.on('lineWidthChange',function (data) {
                 F.app.trigger('updateContextConfig',{
                     lineWidth:parseInt(data.value)
+                });
+                F.app.trigger('changeDrawMethod',{
+                    drawstart:function (arg) {
+                        arg.context.beginPath();
+                        arg.context.moveTo(arg.touchPosition.x,arg.touchPosition.y);
+                    },
+                    drawing:function (arg) {
+                        arg.context.lineTo(arg.touchPosition.x,arg.touchPosition.y);
+                        arg.context.stroke();
+                    },
+                    drawend:function (arg) {
+                        
+                    }
+                });
+                F.app.trigger('contextMethodUpdate',{
+                    type:'line'
                 })
                 that._$$degreeLi.each(function (index,item) {
                     if(item.dataset.index == data.value){
@@ -66,7 +82,13 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                         $(item).removeClass('active');
                     }
                 })
+            });
+            F.app.on('contextMethodUpdate',function (data) {
+                if(data.type!='line'){
+                    that._$$degreeLi.removeClass('active');
+                }
             })
+
         },
         syncUI:function () {
             this.setLineWidth(5);

@@ -170,23 +170,32 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 });
                 drawing = true;
                 startPosition = util.getTouchPosition(e,'client');
-                // that.context.strokeStyle = 'red';
-                // that.context.lineWidth = '5';
-                that.context.beginPath();
-                that.context.moveTo(startPosition.x,startPosition.y);
-                // that.context.moveTo(startPosition.x+100,startPosition.y+100);
-                console.log(startPosition);
+                F.app.trigger('drawstart',{
+                    touchPosition:startPosition,
+                    originEvent:e,
+                    context:that.context,
+                    that:that
+                })
             })
             this._$$canvas.on(tap.tapMove,function(e){
                 if(!drawing){
                     return;
                 }
                 movingPosition = util.getTouchPosition(e,'client');
-                that.context.lineTo(movingPosition.x,movingPosition.y);
-                that.context.stroke();
+                F.app.trigger('drawing',{
+                    touchPosition:movingPosition,
+                    originEvent:e,
+                    context:that.context,
+                    that:that
+                })
             })
             this._$$canvas.on(tap.tapEnd,function(e){
                 drawing = false;
+                F.app.trigger('drawend',{
+                    originEvent:e,
+                    context:that.context,
+                    that:that
+                })
                 that.context.closePath();
             })
         },
