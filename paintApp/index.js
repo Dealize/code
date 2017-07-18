@@ -63,12 +63,21 @@ require(['FFF','tap','fnListWidget','fnShowWidget'],function (FFF,tap,fnListWidg
             })
             this.on('drawstart',function (data) {
                 that._drawstart && that._drawstart(data);
+                that.trigger('showFnPanelToggle',{
+                    status:'off'
+                });
+                that.trigger('showStatusBarToggle',{
+                    status:'off'
+                })
             })
             this.on('drawing',function (data) {
                 that._drawing && that._drawing(data);
             })
             this.on('drawend',function (data) {
                 that._drawend && that._drawend(data);
+                that.trigger('showStatusBarToggle',{
+                    status:'on'
+                })
             })
         },
         _preventBodyDefault:function(){

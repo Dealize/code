@@ -181,12 +181,27 @@ body {
 .P_layerPanel_item {
   margin: 10px 0;
 }
+.P_layer_list {
+  position: relative;
+}
 .P_layer_list li {
   border: 1px solid;
   padding: 10px;
   margin: 10px 0;
   font-size: 14px;
   border-radius: 10px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.P_layer_list li span {
+  padding: 2px 18px;
+}
+.P_layer_list .isMoving {
+  position: absolute;
+  width: 100%;
+  background: red;
 }
 .P_panel_item {
   display: flex;

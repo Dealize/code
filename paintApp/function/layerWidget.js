@@ -58,7 +58,11 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         currentLayer:{
             value:0
+        },
+        layerItemList:{
+            value:[]
         }
+
     }
     F.extend(LayerManager,Widget,{
         initialize:function () {
@@ -70,18 +74,39 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
             var that = this;
             F.app.on('drawImg',function (data) {
                 var _img = new Image();
-                _img.src = data.data.src;
-                var _layer = that.layerList[0],
-                    _imgW = _img.naturalWidth,
-                    _imgH = _img.naturalHeight,
-                    _imgRatio;//缩放比例
+                if(data.data.originEvent){
+                    var fr = new FileReader();
+                    fr.onload = function () {
+                        _img.src = fr.result;
+                        console.log(fr);
+                    }
+                    _img.onload=function () {
+                        var _layer = that.layerList[0],
+                            _imgW = _img.naturalWidth,
+                            _imgH = _img.naturalHeight;
+                        _imgRatio = Math.abs(_imgH/(_imgW/300));
+                        console.log(_imgRatio,_imgH);
 
-                _imgRatio = Math.abs(_imgH/(_imgW/300));
+                        _layer.context.clearRect(0,0,_layer.size.width,_layer.size.height);
+                        _layer.context.drawImage(_img,40,100,300,600);
+                    }
+                    fr.readAsDataURL(data.data.originEvent.target.files[0]);
+                }else{
+                    _img.src = data.data.src;
+                    var _layer = that.layerList[0],
+                        _imgW = _img.naturalWidth,
+                        _imgH = _img.naturalHeight,
+                        _imgRatio;//缩放比例
 
-                console.log(_imgRatio,_imgH);
-                _layer.context.clearRect(0,0,_layer.size.width,_layer.size.height);
-                _layer.context.drawImage(_img,40,100,300,_imgRatio);
+                    _imgRatio = Math.abs(_imgH/(_imgW/300));
+
+                    console.log(_imgRatio,_imgH);
+                    _layer.context.clearRect(0,0,_layer.size.width,_layer.size.height);
+                    _layer.context.drawImage(_img,40,100,300,_imgRatio);
+                }
+
             })
+            this._bind_dragEvent();
         },
         syncUI:function () {
             this.addLayer();
@@ -92,17 +117,50 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         addLayer:function () {
             var newLayer = new Layer({
-                    index:this.layerList-1
+                    index:this.layerList.length
                 }).render({
                 container:this.layerContaienr
             }),
-                newLayerItem = new LayerItem().render({
+                newLayerItem = new LayerItem({
+                    index:this.layerList.length
+                }).render({
                 container:this.boundingBox
             })
             this.layerList.push(newLayer);
+            this.layerItemList.push(newLayerItem)
         },
         getLayerContext:function (index) {
             return this.layerList[index]['context']|| null;
+        },
+        _bind_dragEvent:function () {
+            var that = this,
+                itemsPosition,
+                $movingItem;
+            that.boundingBox.on(tap.tapStart,'li',function (e) {
+                itemsPosition = that._getItemPosition();
+                console.log(itemsPosition);
+                // $movingItem = $(this.cloneNode(true));
+                // var currentIndex = this.dataset.i;
+             // $movingItem.addClass('isMoving').css('top',itemsPosition[currentIndex]-10);
+             //    that.boundingBox.append($movingItem);
+            })
+            // isMoving
+            that.boundingBox.on(tap.tapMove,'li',function (e) {
+                console.log(util.getTouchPosition(e,'offset'));
+            })
+            that.boundingBox.on(tap.tapEnd,'li',function () {
+                console.log(this);
+            })
+        },
+        _getItemPosition:function () {
+            var that = this,
+                items = that.boundingBox.find('li'),
+                itemsPosition = [];
+            items.each(function (index, item) {
+                itemsPosition.push(item.offsetTop);
+            })
+            console.log(itemsPosition);
+            return itemsPosition;
         },
     })
 
@@ -165,9 +223,6 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 drawing = false;
 
             this._$$canvas.on(tap.tapStart,function(e){
-                F.app.trigger('showFnPanelToggle',{
-                    status:'off'
-                });
                 drawing = true;
                 startPosition = util.getTouchPosition(e,'client');
                 F.app.trigger('drawstart',{
@@ -229,20 +284,47 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
             value:''
         },
         boundingBox:{
-            value:$('<li></ul>')
+            value:$('<li>' +
+                '<span class="P_layerItem_title"></span>' +
+                '<span class="P_layerItem_up" >上</span>' +
+                '<span class="P_layerItem_down" >下</span>' +
+                '<span class="P_layerItem_show" >隐藏</span>' +
+            '</li>')
         },
     }
     F.extend(LayerItem,Widget,{
         initialize:function () {
         },
         renderUI:function () {
-            this.boundingBox.html('图层'+(this.index+1));
+            this._$title = this.boundingBox.find('.P_layerItem_title');
+            this._$title.html('图层'+(this.index+1)).attr({'data-i':this.index});
         },
         bindUI:function () {
+            this._bind_domEvent();
         },
         syncUI:function () {
+            var that = this;
+            that.boundingBox.on(tap.tap,'.P_layerItem_up',function (e) {
+                $parent = $(this).parent();
+                $target = $parent.prev();
+                $target.before($parent);
+            })
+            that.boundingBox.on(tap.tap,'.P_layerItem_down',function (e) {
 
+            })
+            that.boundingBox.on(tap.tap,'.P_layerItem_show',function (e) {
+
+            })
+            that.boundingBox.on(tap.tap,'.P_layerItem_title',function (e) {
+
+            })
         },
+        _bind_domEvent:function () {
+            var that = this;
+            // that.boundingBox.on(tap.tap,function(e){
+            //     console.log(this);
+            // })
+        }
 
 
     })

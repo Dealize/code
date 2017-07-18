@@ -198,12 +198,25 @@ body{
   margin:10px 0;
 }
 .P_layer_list{
+  position:relative;
   li{
     border: 1px solid;
     padding: 10px;
     margin: 10px 0;
     font-size: 14px;
     border-radius: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    span{
+      padding:2px 18px;
+    }
+  }
+  .isMoving{
+    position:absolute;
+    width:100%;
+    background: red;
   }
 }
 

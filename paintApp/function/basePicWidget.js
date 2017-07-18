@@ -13,6 +13,8 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
             value:$('<div class="P_basePicPanel">' +
                 '<span>选择底图</span>' +
                 '<ul class="P_basePicList"></ul>' +
+                '<span>上传图片</span>' +
+                '<input class="P_basePic_input"type="file" />' +
                 '</div>')
         },
         picList:{
@@ -52,6 +54,14 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                         $(item).removeClass('active');
                     }
                 })
+            });
+            this.boundingBox.on('change','.P_basePic_input',function (e) {
+                if(e.target.files[0].type.indexOf('image')!=(-1)){ //判断是否为图片
+                    console.log(e.target.value);
+                    F.app.trigger('drawImg',{
+                        data:{originEvent:e}
+                    });
+                }
             })
         },
         syncUI:function () {
