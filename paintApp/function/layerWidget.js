@@ -45,7 +45,6 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
             });
         }
     })
-
     function LayerManager(){
         Widget.apply(this,arguments);
     }
