@@ -464,19 +464,6 @@ define(['oojs'], function (oojs) {
             obj.addColorStop(1, '#fff');
             this.colorPickerCanvas_context.fillStyle = obj;
             this.colorPickerCanvas_context.fillRect(0,0,200,100);
-            // gradientBar.addColorStop(0, '#f00');
-            // 4     gradientBar.addColorStop(1 / 6, '#f0f');
-            // 5     gradientBar.addColorStop(2 / 6, '#00f');
-            // 6     gradientBar.addColorStop(3 / 6, '#0ff');
-            // 7     gradientBar.addColorStop(4 / 6, '#0f0');
-            // 8     gradientBar.addColorStop(5 / 6, '#ff0');
-            // 9     gradientBar.addColorStop(1, '#f00');
-            // this.colorPickerCanvas_context.fillStyle = 'pink';
-            // this.colorPickerCanvas_context.fillRect(0,0,50,100);
-            // this.colorPickerCanvas_context.fillStyle = '#6fa8dc';
-            // this.colorPickerCanvas_context.fillRect(50,0,100,100);
-            // this.colorPickerCanvas_context.fillStyle = 'darkblue';
-            // this.colorPickerCanvas_context.fillRect(100,0,200,100);
 
         },
         _bind_colorPicker_canvas:function(){

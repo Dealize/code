@@ -44,7 +44,7 @@ define(['oojs'], function (oojs) {
                     this.context.fill();
                     break;
             }
-            this.getAreaPoint();
+            // this.getAreaPoint();
 
         },
         bindUI: function (e) {

@@ -43,7 +43,7 @@ define(['oojs','CNode','CBase'], function (oojs,CNode,CBase) {
                                 x:that.areaPoint.x1,
                                 y:that.areaPoint.y1
                             },item)){
-                            console.log('节点移动完毕');
+                            console.log('----------appendChild is finish---------');
                             that.trigger('isInOtherNode',{
                                 firstTierIndex:index,  //tier 层级
                                 secondTierIndex:i,

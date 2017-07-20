@@ -143,13 +143,13 @@ define(['oojs','CWidget','CDiv'], function (oojs,CWidget,CDiv) {
                         point.y2 < item.areaPoint.y1 ||
                         point.y1 > item.areaPoint.y2
                     ){
-                        $('body').css({
-                            'background':'#fff'
-                        })
+                        // $('body').css({
+                        //     'background':'#fff'
+                        // })
                     }else{
-                        $('body').css({
-                            'background':'pink'
-                        })
+                        // $('body').css({
+                        //     'background':'pink'
+                        // })
 
                     }
                 }

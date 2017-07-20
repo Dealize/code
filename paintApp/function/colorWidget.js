@@ -1,4 +1,4 @@
-define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
+define(['FFF','tap','fnWidget','util','colorPickerWidget'],function (FFF,tap,fnWidget,util,colorPickerWidget) {
     var F = FFF.FFF,
         Base = F.Base,
         Widget = F.Widget,
@@ -14,6 +14,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 '<span>基本颜色</span>' +
                 '<ul class="P_panel_item P_colorPanel_ul"></ul>' +
                 '<span>更多颜色</span>' +
+                '<div class="P_colorPicker"></div>' +
                 '</div>')
         },
         currentColor:{
@@ -31,7 +32,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         renderUI:function () {
             this._getDom();
             this._renderBind_baseColor();
-
+            this._renderBind_colorPicker();
         },
         bindUI:function () {
             var that = this;
@@ -58,6 +59,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         _getDom:function () {
             this._$$colorUl = this.boundingBox.find('.P_colorPanel_ul');
+            this._$$colorPicker = this.boundingBox.find('.P_colorPicker');
         },
         _renderBind_baseColor:function () {
             var domStr = '',
@@ -68,8 +70,23 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
             this._$$colorUl.append(domStr);
             this._$$colorLi = this._$$colorUl.find('li');
             this._$$colorUl.on(tap.tap,'li',function (e) {
-                that.setCurrentColor($(this).css('background-color'))
+                that.setCurrentColor($(this).css('background-color'));
+                that._colorPicker.setColor($(this).css('background-color'));
             })
+        },
+        _renderBind_colorPicker:function () {
+            var that = this;
+            this._colorPicker = new colorPickerWidget.ColorPickerWidget({
+                // width:,
+                // height:,
+            }).render({
+                container:this._$$colorPicker
+            })
+            this._colorPicker.on('colorChange',function (data) {
+                console.log('--------------------',data);
+                that.setCurrentColor(data.value);
+            });
+            // this._colorPicker.setShow(true||false);
         }
     })
 

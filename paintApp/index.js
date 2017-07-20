@@ -10,6 +10,7 @@ require.config({
         'shapeWidget':'./function/shapeWidget',
         'brushWidget':'./function/brushWidget',
         'colorWidget':'./function/colorWidget',
+        'colorPickerWidget':'./function/colorPickerWidget',
         'basePicWidget':'./function/basePicWidget',
         'layerWidget':'./function/layerWidget',
         'fileWidget':'./function/fileWidget',
@@ -21,7 +22,7 @@ require.config({
 require(['FFF','tap','fnListWidget','fnShowWidget'],function (FFF,tap,fnListWidget,fnShowWidget) {
     var F = FFF.FFF,
         Base = F.Base,
-        Widget = F.Widget
+        Widget = F.Widget;
     function App(){
         Widget.apply(this,arguments);
     }

@@ -38,9 +38,14 @@ define(['oojs','CBody','Box1','CBase'], function (oojs,CBody,Box1,CBase) {
                 container:this,
                 canMove:false
             });
+            this.boxNode1.on(tap.tapEnd,function () {
+                console.log('touchend')
+            })
+            this.boxNode2.on(tap.tap,function () {
+                console.log('isclick');
+            })
             this.appendChild(this.boxNode1);
             this.appendChild(this.boxNode2);
-            console.log(this.childNodes)
         },
         renderUI:function () {
 
