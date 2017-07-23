@@ -39,6 +39,9 @@
                     width = 750 * dpr;
                 }
                 docEl.dataset.percent = 100;
+                if(width>400){
+                    width = 400;
+                }
                 docEl.style.fontSize = width / 10 + 'px';
             };
             recalc();

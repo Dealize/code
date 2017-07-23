@@ -133,22 +133,45 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         _bind_dragEvent:function () {
             var that = this,
+                disY ,
                 itemsPosition,
+                lastPosition,
+                $currentItem,
+                currentIndex,
+                targetIndex,
                 $movingItem;
             that.boundingBox.on(tap.tapStart,'li',function (e) {
                 itemsPosition = that._getItemPosition();
-                console.log(itemsPosition);
-                // $movingItem = $(this.cloneNode(true));
-                // var currentIndex = this.dataset.i;
-             // $movingItem.addClass('isMoving').css('top',itemsPosition[currentIndex]-10);
-             //    that.boundingBox.append($movingItem);
+                console.log(e);
+                $currentItem = $(this);
+                $movingItem = $(this.cloneNode(true));
+                currentIndex = this.dataset.i;
+                disY = util.getTouchPosition(e,'offset').y - itemsPosition[currentIndex];
+                console.log(disY);
+                $movingItem.addClass('isMoving').css('top',this.offsetTop-10);
+                that.boundingBox.append($movingItem);
             })
             // isMoving
             that.boundingBox.on(tap.tapMove,'li',function (e) {
-                console.log(util.getTouchPosition(e,'offset'));
+                var _pos = util.getTouchPosition(e,'offset');
+                lastPosition = _pos;
+                console.log(_pos.y , itemsPosition[currentIndex])
+                $movingItem.css({'top':_pos.y  - itemsPosition[currentIndex] })
+
             })
             that.boundingBox.on(tap.tapEnd,'li',function () {
-                console.log(this);
+                console.log(lastPosition,itemsPosition);
+                itemsPosition.forEach(function (item,index) {
+                    if(item < lastPosition.y){
+                        if(itemsPosition.length == (index +1)){
+                            targetIndex = index;
+                        }else if(itemsPosition[index+1] > lastPosition.y){
+                            targetIndex = index;
+                        }
+                    }
+                })
+                console.log(targetIndex);
+                that.boundingBox.find('.isMoving').remove();
             })
         },
         _getItemPosition:function () {
@@ -156,9 +179,8 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 items = that.boundingBox.find('li'),
                 itemsPosition = [];
             items.each(function (index, item) {
-                itemsPosition.push(item.offsetTop);
+                itemsPosition.push($(item).offset().top);
             })
-            console.log(itemsPosition);
             return itemsPosition;
         },
     })
@@ -296,7 +318,8 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         renderUI:function () {
             this._$title = this.boundingBox.find('.P_layerItem_title');
-            this._$title.html('图层'+(this.index+1)).attr({'data-i':this.index});
+            this._$title.html('图层'+(this.index+1));
+            this.boundingBox.attr({'data-i':this.index});
         },
         bindUI:function () {
             this._bind_domEvent();
