@@ -3,9 +3,6 @@ define(['tap'],function (tap) {
         var position = {};
         if(tap.tapEnd=='touchend'){
             switch(type){
-                case 'offset':
-                    position.x = e.originalEvent.touches[0].offsetX;
-                    position.y = e.originalEvent.touches[0].offsetY;
                 case 'client':
                 default:
                     position.x = e.originalEvent.touches[0].clientX;

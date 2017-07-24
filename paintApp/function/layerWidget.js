@@ -106,6 +106,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
 
             })
             this._bind_dragEvent();
+            this._bind_attrEvent();
         },
         syncUI:function () {
             this.addLayer();
@@ -121,7 +122,8 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 container:this.layerContaienr
             }),
                 newLayerItem = new LayerItem({
-                    index:this.layerList.length
+                    index:this.layerList.length,
+                    parent:this
                 }).render({
                 container:this.boundingBox
             })
@@ -130,6 +132,16 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         getLayerContext:function (index) {
             return this.layerList[index]['context']|| null;
+        },
+        _bind_attrEvent:function () {
+            var that = this;
+            that.on('displayChange',function (data) {
+                if(data.data){
+                    that.layerList[data.index].show();
+                }else{
+                    that.layerList[data.index].hide();
+                }
+            })
         },
         _bind_dragEvent:function () {
             var that = this,
@@ -142,36 +154,42 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 $movingItem;
             that.boundingBox.on(tap.tapStart,'li',function (e) {
                 itemsPosition = that._getItemPosition();
-                console.log(e);
                 $currentItem = $(this);
                 $movingItem = $(this.cloneNode(true));
                 currentIndex = this.dataset.i;
-                disY = util.getTouchPosition(e,'offset').y - itemsPosition[currentIndex];
+                disY =that._getTouchOffsetX(util.getTouchPosition(e).y) - itemsPosition[currentIndex];
                 console.log(disY);
                 $movingItem.addClass('isMoving').css('top',this.offsetTop-10);
                 that.boundingBox.append($movingItem);
             })
             // isMoving
             that.boundingBox.on(tap.tapMove,'li',function (e) {
-                var _pos = util.getTouchPosition(e,'offset');
-                lastPosition = _pos;
-                console.log(_pos.y , itemsPosition[currentIndex])
-                $movingItem.css({'top':_pos.y  - itemsPosition[currentIndex] })
-
+                lastPosition = that._getTouchOffsetX(util.getTouchPosition(e).y);
+                $movingItem.css({'top':lastPosition - disY})
             })
             that.boundingBox.on(tap.tapEnd,'li',function () {
-                console.log(lastPosition,itemsPosition);
+                var items = that.boundingBox.find('li');
                 itemsPosition.forEach(function (item,index) {
-                    if(item < lastPosition.y){
+                    if(item < lastPosition){
                         if(itemsPosition.length == (index +1)){
                             targetIndex = index;
-                        }else if(itemsPosition[index+1] > lastPosition.y){
+                        }else if(itemsPosition[index+1] > lastPosition){
                             targetIndex = index;
                         }
                     }
                 })
-                console.log(targetIndex);
+                var targetDom = $(items[targetIndex]);
+                targetDom.after($currentItem);
+                var canvaslist = that.layerContaienr.find('canvas');
+                var $currentCanvas = $(canvaslist[currentIndex]);
+                var $targetCanvas = $(canvaslist[targetIndex]);
+                $targetCanvas.after($currentCanvas);
+
                 that.boundingBox.find('.isMoving').remove();
+                items = that.boundingBox.find('li');
+                items.each(function (index, item) {
+                    $(item).attr('data-i',index);
+                })
             })
         },
         _getItemPosition:function () {
@@ -179,10 +197,13 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 items = that.boundingBox.find('li'),
                 itemsPosition = [];
             items.each(function (index, item) {
-                itemsPosition.push($(item).offset().top);
+                itemsPosition.push(item.offsetTop);
             })
             return itemsPosition;
         },
+        _getTouchOffsetX:function (y) {
+            return y - this.boundingBox.offset().top;
+        }
     })
 
 
@@ -215,6 +236,9 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
             this._bind_contextChange();
         },
         syncUI:function () {
+            var $div = $('<div></div>');
+            this.boundingBox.after($div);
+            $div.append(this.boundingBox)
         },
         _getDom:function () {
             this._$$canvas = this.boundingBox;
@@ -224,7 +248,15 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
             var context = this._$$canvas[0].getContext('2d');
             this.setContext(context);
         },
+        drawImg:function () {
 
+        },
+        show:function () {
+            this.boundingBox.show();
+        },
+        hide:function () {
+            this.boundingBox.hide();
+        },
         _set_canvasSize:function () {
             var width = F.app.boundingBox.width(),
                 height = F.app.boundingBox.height();
@@ -307,22 +339,31 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         boundingBox:{
             value:$('<li>' +
                 '<span class="P_layerItem_title"></span>' +
-                '<span class="P_layerItem_up" >上</span>' +
-                '<span class="P_layerItem_down" >下</span>' +
                 '<span class="P_layerItem_show" >隐藏</span>' +
             '</li>')
         },
+        isDisplay:{
+            value:true
+        },
+        title:{
+            value:''
+        },
+        parent:{
+            value:null
+        }
     }
     F.extend(LayerItem,Widget,{
         initialize:function () {
         },
         renderUI:function () {
             this._$title = this.boundingBox.find('.P_layerItem_title');
-            this._$title.html('图层'+(this.index+1));
+            this._$title.html(this.title|| ('图层'+(this.index+1)));
+            this._$display = this.boundingBox.find('.P_layerItem_show');
             this.boundingBox.attr({'data-i':this.index});
         },
         bindUI:function () {
             this._bind_domEvent();
+            this._bind_attrEvent();
         },
         syncUI:function () {
             var that = this;
@@ -343,11 +384,29 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         _bind_domEvent:function () {
             var that = this;
-            // that.boundingBox.on(tap.tap,function(e){
-            //     console.log(this);
-            // })
+            that.boundingBox.on(tap.tap,'.P_layerItem_show',function(e){
+                that.setIsDisplay(!that.isDisplay);
+            })
+        },
+        _bind_attrEvent:function () {
+            var that = this;
+            that.on('isDisplayChange',function (data) {
+                if(data.value){
+                    that.boundingBox.removeClass('displayNone');
+                    this._$display.html('隐藏')
+                }else{
+                    that.boundingBox.addClass('displayNone');
+                    this._$display.html('显示')
+                }
+                that.parent.trigger('displayChange',{
+                    index:that.index,
+                    data:data.value
+                });
+            });
+            that.on('titleChange',function (data) {
+                that._$title.html(data.value);
+            })
         }
-
 
     })
 

@@ -90,6 +90,10 @@ body {
   font-size: 0.37333333rem;
   border-radius: 15px 0 0 15px;
 }
+.P_fnPanelItem .displayNone {
+  background: #ddd;
+  color: #aaa;
+}
 .P_fnListShow {
   animation: P_fnListShowAni 0.2s ease-in-out 1 alternate;
   animation-fill-mode: forwards;
