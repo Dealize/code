@@ -48,7 +48,15 @@ body{
   background: #fff;
   overflow: hidden;
 }
+.P_layerContainer{
+  position:relative;
+  canvas{
+    position:absolute;
+    left:0;top:0;
+  }
+}
 .P_fnListToggle{
+  z-index:99;
   position: absolute;
   left:0;
   bottom:10*2/@screenWidth;
@@ -66,6 +74,7 @@ body{
   left:-20%;
   top:80*2/@screenWidth;
   width:18%;
+  z-index:99;
   .active{
     background:#ddd;
     color:#333
@@ -90,6 +99,7 @@ body{
   position: absolute;
   max-height: 30vh;
   top: 80*2/@screenWidth;
+  z-index:99;
 }
 .P_fnPanelItem{
   background: rgba(255,255,255,0.9);

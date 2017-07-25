@@ -15,6 +15,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 '<ul class="P_basePicList"></ul>' +
                 '<span>上传图片</span>' +
                 '<input class="P_basePic_input"type="file" />' +
+                '<input class="P_basePic_input"  type="file" accept="image/*" capture="camera">' +
                 '</div>')
         },
         picList:{
@@ -61,6 +62,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                     F.app.trigger('drawImg',{
                         data:{originEvent:e}
                     });
+                    F.app.trigger('addLayer');
                 }
             })
         },
@@ -83,6 +85,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 F.app.trigger('drawImg',{
                     data:that.picList[_index]
                 });
+                F.app.trigger('addLayer');
             })
         }
     })

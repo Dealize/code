@@ -104,6 +104,9 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                     _layer.context.drawImage(_img,40,100,300,_imgRatio);
                 }
 
+            });
+            F.app.on('addLayer',function (data) {
+                that.addLayer();
             })
             this._bind_dragEvent();
             this._bind_attrEvent();
@@ -219,6 +222,9 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         context:{
             value:null
+        },
+        index:{
+            value:0
         }
 
     }
@@ -236,11 +242,10 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
             this._bind_contextChange();
         },
         syncUI:function () {
-            var $div = $('<div></div>');
-            this.boundingBox.after($div);
-            $div.append(this.boundingBox)
+
         },
         _getDom:function () {
+            this.boundingBox.attr('data-origin-index',this.index);
             this._$$canvas = this.boundingBox;
 
         },

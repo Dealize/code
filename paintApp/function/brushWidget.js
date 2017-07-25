@@ -92,7 +92,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         syncUI:function () {
             this.setLineWidth(5);
-            this.setLineType(2);
+            this.setLineType(1);
         },
         _getDom:function () {
             this._$$degreeUl = this.boundingBox.find('.P_brushPanel_degree');
