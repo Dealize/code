@@ -258,6 +258,9 @@ body {
 .P_basePicList li img {
   width: 100%;
 }
+.P_basePic_input {
+  display: block;
+}
 .P_shape_rect {
   border-radius: 0 !important;
 }

@@ -15,6 +15,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 '<ul class="P_basePicList"></ul>' +
                 '<span>上传图片</span>' +
                 '<input class="P_basePic_input"type="file" />' +
+                '<span>唤起相机</span>' +
                 '<input class="P_basePic_input"  type="file" accept="image/*" capture="camera">' +
                 '</div>')
         },
