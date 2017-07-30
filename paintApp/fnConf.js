@@ -4,13 +4,17 @@ define(['layerWidget',
         'basePicWidget',
         'colorWidget',
         'fileWidget',
+        'filterWidget',
+        'slicerWidget'
         ],
     function (layerWidget,
               shapeWidget,
               brushWidget,
               basePicWidget,
               colorWidget,
-              fileWidget
+              fileWidget,
+              filterWidget,
+              slicerWidget
     ) {
     return [
         {
@@ -25,13 +29,24 @@ define(['layerWidget',
         {
             fnTitle:'&#xe67f;画笔',
             fnPanel:brushWidget.BrushWidgetPanel,
-        },{
+        },
+        {
+            fnTitle:'&#xe755;切刀',
+            fnPanel:slicerWidget.SlicerWidgetPanel,
+        },
+        {
             fnTitle:'&#xe60a;颜色',
             fnPanel:colorWidget.ColorWidgetPanel
-        },{
+        },
+        {
             fnTitle:'&#xe6ff;形状',
             fnPanel:shapeWidget.ShapeWidgetPanel
-        },{
+        },
+        {
+            fnTitle:'&#xe794;滤镜',
+            fnPanel:filterWidget.FilterWidgetPanel
+        },
+        {
             fnTitle:'&#xe640;文件',
             fnPanel:fileWidget.FileWidgetPanel
         }

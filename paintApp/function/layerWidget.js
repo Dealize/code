@@ -156,6 +156,9 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 targetIndex,
                 $movingItem;
             that.boundingBox.on(tap.tapStart,'li',function (e) {
+                if(e.target!=this){
+                    return;
+                }
                 itemsPosition = that._getItemPosition();
                 $currentItem = $(this);
                 $movingItem = $(this.cloneNode(true));
@@ -167,10 +170,16 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
             })
             // isMoving
             that.boundingBox.on(tap.tapMove,'li',function (e) {
+                if(e.target!=this){
+                    return;
+                }
                 lastPosition = that._getTouchOffsetX(util.getTouchPosition(e).y);
                 $movingItem.css({'top':lastPosition - disY})
             })
-            that.boundingBox.on(tap.tapEnd,'li',function () {
+            that.boundingBox.on(tap.tapEnd,'li',function (e) {
+                if(e.target!=this){
+                    return;
+                }
                 var items = that.boundingBox.find('li');
                 itemsPosition.forEach(function (item,index) {
                     if(item < lastPosition){
@@ -291,6 +300,8 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 })
             })
             this._$$canvas.on(tap.tapMove,function(e){
+                console.log(1111);
+
                 if(!drawing){
                     return;
                 }
@@ -372,14 +383,6 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         syncUI:function () {
             var that = this;
-            that.boundingBox.on(tap.tap,'.P_layerItem_up',function (e) {
-                $parent = $(this).parent();
-                $target = $parent.prev();
-                $target.before($parent);
-            })
-            that.boundingBox.on(tap.tap,'.P_layerItem_down',function (e) {
-
-            })
             that.boundingBox.on(tap.tap,'.P_layerItem_show',function (e) {
 
             })

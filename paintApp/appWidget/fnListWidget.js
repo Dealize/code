@@ -43,7 +43,7 @@ define(['FFF','tap','fnConf'],function (FFF,tap,fnConf) {
                 this._fnPanelList.setIsShow(data.value);
             })
             F.app.on('showFnPanelToggle',function (data) {
-                if(data==undefined){
+                if(data==undefined || data.status=="on"){
                     that.setIsShow(!that.isShow);
                 }
                 if(data&&data.status=='off'){

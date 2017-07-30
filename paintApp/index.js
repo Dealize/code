@@ -14,6 +14,8 @@ require.config({
         'basePicWidget':'./function/basePicWidget',
         'layerWidget':'./function/layerWidget',
         'fileWidget':'./function/fileWidget',
+        'filterWidget':'./function/filterWidget',
+        'slicerWidget':'./function/slicerWidget',
 
     }
 })

@@ -1,11 +1,11 @@
 @screenWidth:75rem;
 @font-face {
   font-family: 'iconfont';  /* project id 339330 */
-  src: url('//at.alicdn.com/t/font_mm6vxfc2ndqme7b9.eot');
-  src: url('//at.alicdn.com/t/font_mm6vxfc2ndqme7b9.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_mm6vxfc2ndqme7b9.woff') format('woff'),
-  url('//at.alicdn.com/t/font_mm6vxfc2ndqme7b9.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_mm6vxfc2ndqme7b9.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_o1qi1o9gzktymn29.eot');
+  src: url('//at.alicdn.com/t/font_o1qi1o9gzktymn29.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_o1qi1o9gzktymn29.woff') format('woff'),
+  url('//at.alicdn.com/t/font_o1qi1o9gzktymn29.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_o1qi1o9gzktymn29.svg#iconfont') format('svg');
 }
 .iconfont{
   font-family:"iconfont" !important;
@@ -283,4 +283,37 @@ body{
 }
 .P_shape_rect{
   border-radius:0 !important;
+}
+.P_slicerPanel{
+  li{
+    width:initial;
+    border-radius:5px;
+    padding:0 20px;
+  }
+  .toggleActive{
+    background: #00A2E8 ;
+    border:1px solid #333;
+    color:#fff;
+  }
+}
+.P_slicerMasker{
+  width:100%;
+  height:100%;
+  position:absolute;
+  left:0;top: 0;
+  z-index:98;
+  .P_slicer{
+    border: 2px dashed #000;
+    box-sizing: border-box;
+    position:absolute;
+    &:after{
+      content:'';
+      position:absolute;
+      bottom:-5px;
+      right:-5px;
+      width:10px;
+      height:10px;
+      background:#000;
+    }
+  }
 }
