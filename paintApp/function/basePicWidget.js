@@ -63,7 +63,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                     F.app.trigger('drawImg',{
                         data:{originEvent:e}
                     });
-                    F.app.trigger('addLayer');
+                    // F.app.trigger('addLayer');
                 }
             })
         },
@@ -86,7 +86,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 F.app.trigger('drawImg',{
                     data:that.picList[_index]
                 });
-                F.app.trigger('addLayer');
+                // F.app.trigger('addLayer');
             })
         }
     })

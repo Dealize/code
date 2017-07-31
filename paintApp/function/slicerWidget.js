@@ -16,7 +16,6 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 '</ul>'+
                 '<hr>' +
                 '<ul class="P_panel_item slicerOperate">' +
-                    '<li data-type="move">点击移动</li>' +
                     '<li data-type="rotate">点击旋转</li>' +
                     '<li data-type="scale">点击缩放</li>' +
                 '</ul>' +
@@ -90,6 +89,10 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
             });
             that.on('confirmChange',function (data) {
                 switch (data.value){
+                    case 'ok':
+                        that._slicerMasker.save();
+                        that.setToggle(false);
+                        break;
                     case 'no':
                         that._slicerMasker.reset();
                         break;
@@ -113,10 +116,6 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 that.setOperate(this.dataset.type);
             })
             that._$slicerConfirm.on(tap.tap,'li',function () {
-                that._$slicerConfirm.find('li').each(function (index, item) {
-                    $(item).removeClass('toggleActive');
-                })
-                $(this).addClass('toggleActive');
                 that.setConfirm(this.dataset.type);
             })
         },
@@ -178,7 +177,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 that._slicer.setH(movePosition.y - startPosition.y)
             })
             that.boundingBox.on(tap.tapEnd,function (e) {
-                if(!that.confirmToggle){
+                if(!that._confirmToggle){
                     if(confirm('是否选中该区域')){
                         that._slicer.lock();
                         that._confirmToggle = true;
@@ -199,6 +198,9 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
             this._slicer = null;
             this._confirmToggle = null;
 
+        },
+        save:function () {
+            this._slicer.save();
         }
     })
 
@@ -233,18 +235,46 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         bindUI:function () {
             this._bind_domEvent();
             this._bind_attrEvent();
+            this._bind_gloableEvent();
         },
         syncUI:function () {
             this.setX(this.x);
             this.setY(this.y);
         },
+        lock:function () {
+            var that = this;
+            that._init_canvasSize();
+            that._get_layerData();
+        },
+        save:function () {
+            var that = this;
+            F.app.trigger('putImgData',{
+                x:that.x,
+                y:that.y,
+                h:that.h,
+                w:that.w,
+                imgData:that.context.getImageData(0,0,that._size.width,that._size.height)
+            })
+        },
+
+
+
         _getDom:function () {
             this._$canvas = this.boundingBox.find('canvas');
         },
         _bind_domEvent:function () {
-            var that = this;
+            var that = this,
+                moveToggle ,
+                startPosition,
+                disx,disy,
+                movePosition;
             that.boundingBox.on(tap.tapStart,function (e) {
                 e.stopPropagation();
+                moveToggle = true;
+                startPosition = util.getTouchPosition(e,'client');
+                disx = startPosition.x - that.x;
+                disy = startPosition.y - that.y;
+                console.log(that.y);
                 F.app.trigger('showFnPanelToggle',{
                     status:'off'
                 })
@@ -252,16 +282,20 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
             })
             that.boundingBox.on(tap.tapMove,function (e) {
                 e.stopPropagation();
-
-                console.log(123);
+                if(!moveToggle){
+                    return false;
+                }
+                movePosition = util.getTouchPosition(e,'client');
+                that.setX( movePosition.x - disx );
+                that.setY( movePosition.y- disy);
             })
             that.boundingBox.on(tap.tapEnd,function (e) {
                 e.stopPropagation();
+                moveToggle = false;
             })
 
             that.boundingBox.on(tap.tap,function (e) {
                 e.stopPropagation();
-                console.log(1);
                 F.app.trigger('showFnPanelToggle',{
                     status:'off'
                 })
@@ -290,28 +324,33 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 })
             })
         },
-        lock:function () {
-            var that = this;
-            that._init_canvasSize();
-
-        },
         _init_canvasSize:function () {
-            this._$canvas.attr({
-                width:this.w,
-                height:this.h
-            })
+            this._size = {
+                width:this.w-4,
+                height:this.h - 4
+            };
+            this._$canvas.attr(this._size);
+            this.context = this._$canvas[0].getContext('2d');
         },
-        a:function(){
+        _get_layerData:function(){
             var that  = this;
             F.app.trigger('needCutImg',{
                 x:that.x,
                 y:that.y,
                 w:that.w,
-                h:that.h
+                h:that.h,
+                type:'cut'
             })
-            // F.app.on('getCutImgData')
+        },
+        _bind_gloableEvent:function () {
+            var that = this;
+            F.app.on('getCutImgData',function (data) {
+                that._set_imgData(data.data);
+            })
+        },
+        _set_imgData:function (data) {
+            this.context && this.context.putImageData(data,0,0);
         }
-
     })
 
     return {
