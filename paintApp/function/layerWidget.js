@@ -71,43 +71,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         bindUI:function () {
             var that = this;
-            F.app.on('drawImg',function (data) {
-                var _img = new Image();
-                if(data.data.originEvent){
-                    var fr = new FileReader();
-                    fr.onload = function () {
-                        _img.src = fr.result;
-                        console.log(fr);
-                    }
-                    _img.onload=function () {
-                        var _layer = that.layerList[0],
-                            _imgW = _img.naturalWidth,
-                            _imgH = _img.naturalHeight;
-                        _imgRatio = Math.abs(_imgH/(_imgW/300));
-                        console.log(_imgRatio,_imgH);
-
-                        _layer.context.clearRect(0,0,_layer.size.width,_layer.size.height);
-                        _layer.context.drawImage(_img,40,100,300,600);
-                    }
-                    fr.readAsDataURL(data.data.originEvent.target.files[0]);
-                }else{
-                    _img.src = data.data.src;
-                    var _layer = that.layerList[0],
-                        _imgW = _img.naturalWidth,
-                        _imgH = _img.naturalHeight,
-                        _imgRatio;//缩放比例
-
-                    _imgRatio = Math.abs(_imgH/(_imgW/300));
-
-                    console.log(_imgRatio,_imgH);
-                    _layer.context.clearRect(0,0,_layer.size.width,_layer.size.height);
-                    _layer.context.drawImage(_img,40,100,300,_imgRatio);
-                }
-
-            });
-            F.app.on('addLayer',function (data) {
-                that.addLayer();
-            })
+            this._bind_gloableEvent();
             this._bind_dragEvent();
             this._bind_attrEvent();
         },
@@ -215,6 +179,50 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         _getTouchOffsetX:function (y) {
             return y - this.boundingBox.offset().top;
+        },
+        _bind_gloableEvent:function () {
+            F.app.on('drawImg',function (data) {
+                var _img = new Image();
+                if(data.data.originEvent){
+                    var fr = new FileReader();
+                    fr.onload = function () {
+                        _img.src = fr.result;
+                        console.log(fr);
+                    }
+                    _img.onload=function () {
+                        var _layer = that.layerList[0],
+                            _imgW = _img.naturalWidth,
+                            _imgH = _img.naturalHeight;
+                        _imgRatio = Math.abs(_imgH/(_imgW/300));
+                        console.log(_imgRatio,_imgH);
+
+                        _layer.context.clearRect(0,0,_layer.size.width,_layer.size.height);
+                        _layer.context.drawImage(_img,40,100,300,600);
+                    }
+                    fr.readAsDataURL(data.data.originEvent.target.files[0]);
+                }else{
+                    _img.src = data.data.src;
+                    var _layer = that.layerList[0],
+                        _imgW = _img.naturalWidth,
+                        _imgH = _img.naturalHeight,
+                        _imgRatio;//缩放比例
+
+                    _imgRatio = Math.abs(_imgH/(_imgW/300));
+
+                    console.log(_imgRatio,_imgH);
+                    _layer.context.clearRect(0,0,_layer.size.width,_layer.size.height);
+                    _layer.context.drawImage(_img,40,100,300,_imgRatio);
+                }
+
+            });
+            F.app.on('addLayer',function (data) {
+                that.addLayer();
+            });
+            F.app.on('needCutImg',function (data) {
+
+                // F.trigger('getCutImgData')
+            })
+
         }
     })
 

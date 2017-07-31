@@ -88,8 +88,13 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                     status:'off'
                 })
             });
-            that.on('confirmChange',function () {
+            that.on('confirmChange',function (data) {
+                switch (data.value){
+                    case 'no':
+                        that._slicerMasker.reset();
+                        break;
 
+                }
                 F.app.trigger('showFnPanelToggle',{
                     status:'off'
                 })
@@ -101,11 +106,17 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 that.setToggle(!that.toggle);
             });
             that._$slicerOperate.on(tap.tap,'li',function () {
-                console.log(this.dataset.type)
+                that._$slicerOperate.find('li').each(function (index, item) {
+                    $(item).removeClass('toggleActive');
+                })
+                $(this).addClass('toggleActive');
                 that.setOperate(this.dataset.type);
             })
             that._$slicerConfirm.on(tap.tap,'li',function () {
-                console.log(this.dataset.type)
+                that._$slicerConfirm.find('li').each(function (index, item) {
+                    $(item).removeClass('toggleActive');
+                })
+                $(this).addClass('toggleActive');
                 that.setConfirm(this.dataset.type);
             })
         },
@@ -144,7 +155,8 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         _bind_domEvent:function () {
             var that = this,
-                startPosition;
+                startPosition
+            ;
             that.boundingBox.on(tap.tapStart,function (e) {
                 if(that._slicer){
 
@@ -156,6 +168,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                     }).render({
                         container:that.boundingBox
                     });
+
                 }
 
             })
@@ -164,24 +177,28 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 that._slicer.setW(movePosition.x - startPosition.x)
                 that._slicer.setH(movePosition.y - startPosition.y)
             })
-            that.boundingBox.on(tap.tapEnd,function () {
-                // confirm('是否选中该区域');
-                // if(true){
-                //     showPanel
-                F.app.trigger('showFnPanelToggle',{
-                    status:'on'
-                })
-
-                // }else{
-                //     that._slicer.destroy();
-                //        that._slicer = null;
-                // }
+            that.boundingBox.on(tap.tapEnd,function (e) {
+                if(!that.confirmToggle){
+                    if(confirm('是否选中该区域')){
+                        that._slicer.lock();
+                        that._confirmToggle = true;
+                    }else{
+                        that.reset();
+                    }
+                    F.app.trigger('showFnPanelToggle',{
+                        status:'on'
+                    })
+                }
             })
             that.boundingBox.on(tap.tap,function () {
-                F.app.trigger('showFnPanelToggle',{
-                    status:'on'
-                })
+                F.app.trigger('showFnPanelToggle')
             })
+        },
+        reset:function () {
+            this._slicer.destroy();
+            this._slicer = null;
+            this._confirmToggle = null;
+
         }
     })
 
@@ -191,7 +208,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
     }
     Slicer.ATTRS = {
         boundingBox:{
-            value:$('<div class="P_slicer"></div>')
+            value:$('<div class="P_slicer"><canvas width="0" height="0"></canvas></div>')
         },
         x:{
             value:0
@@ -211,7 +228,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         renderUI:function () {
             console.log(this.x,this.y);
-
+            this._getDom();
         },
         bindUI:function () {
             this._bind_domEvent();
@@ -221,17 +238,34 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
             this.setX(this.x);
             this.setY(this.y);
         },
+        _getDom:function () {
+            this._$canvas = this.boundingBox.find('canvas');
+        },
         _bind_domEvent:function () {
             var that = this;
             that.boundingBox.on(tap.tapStart,function (e) {
-            })
-            that.boundingBox.on(tap.tapEnd,function () {
-            })
-            that.boundingBox.on(tap.tap,function () {
+                e.stopPropagation();
                 F.app.trigger('showFnPanelToggle',{
                     status:'off'
                 })
-            },false)
+
+            })
+            that.boundingBox.on(tap.tapMove,function (e) {
+                e.stopPropagation();
+
+                console.log(123);
+            })
+            that.boundingBox.on(tap.tapEnd,function (e) {
+                e.stopPropagation();
+            })
+
+            that.boundingBox.on(tap.tap,function (e) {
+                e.stopPropagation();
+                console.log(1);
+                F.app.trigger('showFnPanelToggle',{
+                    status:'off'
+                })
+            })
         },
         _bind_attrEvent:function () {
             var that = this;
@@ -255,7 +289,29 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                     height:data.value
                 })
             })
+        },
+        lock:function () {
+            var that = this;
+            that._init_canvasSize();
+
+        },
+        _init_canvasSize:function () {
+            this._$canvas.attr({
+                width:this.w,
+                height:this.h
+            })
+        },
+        a:function(){
+            var that  = this;
+            F.app.trigger('needCutImg',{
+                x:that.x,
+                y:that.y,
+                w:that.w,
+                h:that.h
+            })
+            // F.app.on('getCutImgData')
         }
+
     })
 
     return {
