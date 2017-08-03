@@ -296,3 +296,6 @@ body {
   height: 10px;
   background: #000;
 }
+.P_filter_invert {
+  filter: invert(1);
+}

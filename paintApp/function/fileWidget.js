@@ -11,8 +11,8 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
     FileWidgetPanel.ATTRS = {
         boundingBox:{
             value:$('<div class="P_filePanel">' +
-                '<span>保存  、 </span>' +
-                '<span class="P_filePanel_reset">重置</span>' +
+                '<span data-type="save">保存</span>' +
+                '<span data-type="reset" class="P_filePanel_reset">重置</span>' +
                 '</div>')
         },
         currentColor:{
@@ -27,15 +27,42 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         bindUI:function () {
             var that = this;
-            that.boundingBox.on(tap.tap,'.P_filePanel_reset',function (e) {
-                var result = confirm('是否重置？');
-                if(result){
-                    window.location.reload();
+            that._bind_originEvent();
+            setTimeout(function () {
+                that._save();
+            },10000);
+            that.boundingBox.on(tap.tap,'span',function (e) {
+                var _type = this.dataset.type;
+                switch(_type){
+                    case 'save':
+                        that._save();
+                        break;
+                    case 'reset':
+                        that._reset();
+                        break;
                 }
+
             })
         },
         syncUI:function () {
         },
+        _reset:function () {
+            var result = confirm('是否重置？');
+            if(result){
+                window.location.reload();
+            }
+        },
+        _save:function () {
+            var that = this;
+            F.app.trigger('need_get_finalImgData');
+        },
+        _bind_originEvent:function () {
+            F.app.on('get_finalImgData',function (data) {
+                F.app.trigger('setImgDataFilter',{
+                    data:data.value
+                })
+            })
+        }
     })
 
 

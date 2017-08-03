@@ -66,6 +66,10 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
     F.extend(LayerManager,Widget,{
         initialize:function () {
             this._init_layerContainer();
+            this.size = {
+                width:0,
+                height:0
+            }
         },
         renderUI:function () {
         },
@@ -93,9 +97,15 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                     parent:this
                 }).render({
                 container:this.boundingBox
-            })
+            });
             this.layerList.push(newLayer);
-            this.layerItemList.push(newLayerItem)
+            this.layerItemList.push(newLayerItem);
+            var _width = this.size.width > newLayer.size.width ? this.size.width : newLayer.size.width ;
+            var _heigth = this.size.heigth > newLayer.size.heigth ? this.size.heigth : newLayer.size.height ;
+            this.size = {
+                width:_width,
+                height:_heigth
+            }
         },
         getLayerContext:function (index) {
             return this.layerList[index]['context']|| null;
@@ -229,6 +239,28 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 F.app.trigger('getCutImgData',{
                     data:_imgData
                 })
+            });
+            F.app.on('layer_addClass',function (data) {
+                that.layerContaienr.addClass(data.value);
+            });
+            F.app.on('layer_removeClass',function (data) {
+                that.layerContaienr.removeClass(data.value);
+            })
+            F.app.on('need_get_finalImgData',function () {
+                var $tempCanvas=  $('canvas'),
+                    tempCanvasContext = $tempCanvas[0].getContext('2d');
+                $tempCanvas.attr({
+                    width:that.size.width,
+                    heigth:that.size.height
+                })
+                that.layerList.forEach(function (item,index) {
+                    if(item.disable){
+                        tempCanvasContext.putImageData(item.getImgData(),0,0);
+                    }
+                })
+                F.app.trigger('get_finalImgData',{
+                    data: tempCanvasContext.getImageData(0,0,that.size.width,that.size.height)
+                })
             })
 
         },
@@ -313,12 +345,17 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
             this.setDisable(false);
         },
         getImgData:function (data) {
+            if(!data){
+                data = {};
+            }
             var _w = data.w || this.size.width,
                 _h = data.h || this.size.height,
                 _x = data.x || 0,
                 _y = data.y || 0,
                 imgData = this.context.getImageData(_x,_y,_w,_h);
-            this.context.clearRect(_x,_y,_w,_h);
+            if(Object.keys(data).length!=0){
+                this.context.clearRect(_x,_y,_w,_h);
+            }
             return imgData;
         },
         _set_canvasSize:function () {
