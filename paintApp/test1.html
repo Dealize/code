@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas{
+            border:1px solid ;
+        }
+    </style>
+</head>
+<body>
+<!-- rotate-->
+<canvas width="500" height="500"></canvas>
+<script src="../fff.js"></script>
+<script>
+    var $canvas = $('canvas');
+    var context = $canvas[0].getContext('2d');
+    context.translate(250,-175);
+    var i = 0;
+        context.rotate(30* Math.PI / 180);
+        context.fillRect(200,175,100,150);
+</script>
+</body>
+</html>

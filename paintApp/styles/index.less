@@ -306,13 +306,13 @@ body{
     border: 2px dashed #000;
     box-sizing: border-box;
     position:absolute;
-    &:after{
+    .P_slicer_point{
       content:'';
       position:absolute;
       bottom:-5px;
       right:-5px;
-      width:10px;
-      height:10px;
+      width:20px;
+      height:20px;
       background:#000;
     }
   }
@@ -321,4 +321,10 @@ body{
 }
 .P_filter_invert{
   filter:invert(1);
+}
+.P_tempCanvas{
+  opacity:1;
+  background:red;
+  position:absolute;
+  left:0;top:0;
 }

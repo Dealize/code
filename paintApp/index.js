@@ -20,7 +20,6 @@ require.config({
     }
 })
 
-
 require(['FFF','tap','fnListWidget','fnShowWidget'],function (FFF,tap,fnListWidget,fnShowWidget) {
     var F = FFF.FFF,
         Base = F.Base,

@@ -227,8 +227,20 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
 
             });
             F.app.on('putImgData',function (data) {
-                var _currentLayer = that._get_layer_byFirst();
+                var _currentLayer = that._get_layer_byFirst(),
+                    _context = _currentLayer.context;
+                _context.save();
+
+                //translate 改变画笔的基准点
+                var translateX = data.x +data.w/2,
+                    translateY = data.y + data.h/2;
+                _context.translate(translateX,translateY);
+                //rotate  scale
+                _context.rotate
                 _currentLayer.context.putImageData(data.imgData,data.x,data.y);
+                //reinit
+                _context.translate(data.x,data.y);
+                _context.restore();
             })
             F.app.on('addLayer',function (data) {
                 that.addLayer();
@@ -247,11 +259,11 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 that.layerContaienr.removeClass(data.value);
             })
             F.app.on('need_get_finalImgData',function () {
-                var $tempCanvas=  $('canvas'),
+                var $tempCanvas=  $('.P_tempCanvas'),
                     tempCanvasContext = $tempCanvas[0].getContext('2d');
                 $tempCanvas.attr({
                     width:that.size.width,
-                    heigth:that.size.height
+                    height:that.size.height
                 })
                 that.layerList.forEach(function (item,index) {
                     if(item.disable){
@@ -259,7 +271,8 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                     }
                 })
                 F.app.trigger('get_finalImgData',{
-                    data: tempCanvasContext.getImageData(0,0,that.size.width,that.size.height)
+                    data: tempCanvasContext.getImageData(0,0,that.size.width,that.size.height),
+                    canvas:$tempCanvas
                 })
             })
 
@@ -364,7 +377,8 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
             this.size = {
                 width:width,
                 height:height
-            }
+            };
+            F.app.size = this.size;
             this.boundingBox.attr({
                 width:width,
                 height:height

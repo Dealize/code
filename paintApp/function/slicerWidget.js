@@ -81,8 +81,8 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                     status:'off'
                 })
             });
-            that.on('operateChange',function () {
-
+            that.on('operateChange',function (data) {
+                that._slicerMasker.setOperate(data.value);
                 F.app.trigger('showFnPanelToggle',{
                     status:'off'
                 })
@@ -139,6 +139,9 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         boundingBox:{
             value:$('<div class="P_slicerMasker"></div>')
         },
+        operate:{
+            value:null
+        }
     }
     F.extend(SlicerMasker,fnPanel, {
         initialize: function () {
@@ -163,7 +166,8 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                     startPosition = util.getTouchPosition(e,'client');
                     that._slicer = new Slicer({
                         x:startPosition.x,
-                        y:startPosition.y
+                        y:startPosition.y,
+                        parent:that
                     }).render({
                         container:that.boundingBox
                     });
@@ -210,7 +214,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
     }
     Slicer.ATTRS = {
         boundingBox:{
-            value:$('<div class="P_slicer"><canvas width="0" height="0"></canvas></div>')
+            value:$('<div class="P_slicer"><canvas width="0" height="0"></canvas><div class="P_slicer_point"></div></div>')
         },
         x:{
             value:0
@@ -223,10 +227,18 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         },
         h:{
             value:0
+        },
+        parent:{
+            value:null
         }
     }
     F.extend(Slicer,fnPanel, {
         initialize: function () {
+            this.transform = {
+                rotate:0,
+                scaleX:1,
+                scaleY:1
+            }
         },
         renderUI:function () {
             console.log(this.x,this.y);
@@ -253,6 +265,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 y:that.y,
                 h:that.h,
                 w:that.w,
+                transform:that.transform,
                 imgData:that.context.getImageData(0,0,that._size.width,that._size.height)
             })
         },
@@ -274,7 +287,6 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 startPosition = util.getTouchPosition(e,'client');
                 disx = startPosition.x - that.x;
                 disy = startPosition.y - that.y;
-                console.log(that.y);
                 F.app.trigger('showFnPanelToggle',{
                     status:'off'
                 })
@@ -283,6 +295,9 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
             that.boundingBox.on(tap.tapMove,function (e) {
                 e.stopPropagation();
                 if(!moveToggle){
+                    return false;
+                }
+                if(this != e.target){
                     return false;
                 }
                 movePosition = util.getTouchPosition(e,'client');
@@ -298,6 +313,28 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 e.stopPropagation();
                 F.app.trigger('showFnPanelToggle',{
                     status:'off'
+                })
+            });
+            that.boundingBox.on(tap.tapMove,'.P_slicer_point',function (e) {
+                if(!moveToggle){
+                    return false;
+                }
+                movePosition = util.getTouchPosition(e,'client');
+                var disY = movePosition.y - disy;
+                var disX = movePosition.x - disx;
+                console.log(that.parent.operate);
+                switch (that.parent.operate){
+                    case 'rotate':
+                        that.transform.rotate = Math.round(disY * 360 / F.app.size.height,0);
+
+                        break;
+                    case 'scale':
+                        that.transform.scaleX = (disX /100).toFixed(2);
+                        that.transform.scaleY = (disY /100).toFixed(2);
+                        break;
+                }
+                that.boundingBox.css({
+                    'transform':'rotate('+that.transform.rotate+'deg) scale('+that.transform.scaleX+','+that.transform.scaleY+')'
                 })
             })
         },

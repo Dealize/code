@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="14.2">
-  <zoom_level>11</zoom_level>
+  <zoom_level>8</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>165</x>
-      <y>341</y>
-      <w>308</w>
-      <h>396</h>
+      <x>264</x>
+      <y>248</y>
+      <w>224</w>
+      <h>288</h>
     </coordinates>
     <panel_attributes>index
 --
@@ -33,10 +33,10 @@ app.on(drawend)</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>594</x>
-      <y>165</y>
-      <w>231</w>
-      <h>209</h>
+      <x>576</x>
+      <y>120</y>
+      <w>168</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>fnListWidget
 --
@@ -54,10 +54,10 @@ app.on( showFnPanelToggle')
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>594</x>
-      <y>451</y>
-      <w>231</w>
-      <h>209</h>
+      <x>576</x>
+      <y>328</y>
+      <w>168</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>fnShowWidget
 --
@@ -72,10 +72,10 @@ app.trigger(showFnPanelToggle)</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>968</x>
+      <x>848</x>
       <y>0</y>
-      <w>231</w>
-      <h>209</h>
+      <w>168</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>FnTitleListWidget
 --
@@ -91,10 +91,10 @@ selectIndexChange</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>968</x>
-      <y>253</y>
-      <w>231</w>
-      <h>209</h>
+      <x>848</x>
+      <y>184</y>
+      <w>168</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>FnTitlePanelWidget
 --
@@ -109,10 +109,10 @@ selectIndex
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1276</x>
-      <y>253</y>
-      <w>231</w>
-      <h>209</h>
+      <x>1072</x>
+      <y>184</y>
+      <w>168</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>FnPanelItem
 --
@@ -123,10 +123,10 @@ selectIndex
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1276</x>
+      <x>1072</x>
       <y>0</y>
-      <w>231</w>
-      <h>209</h>
+      <w>168</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>FnTitleItem
 --
@@ -137,10 +137,10 @@ selectIndex
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>462</x>
-      <y>176</y>
-      <w>154</w>
-      <h>242</h>
+      <x>480</x>
+      <y>128</y>
+      <w>112</w>
+      <h>176</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;200.0;120.0;10.0</additional_attributes>
@@ -148,10 +148,10 @@ selectIndex
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>462</x>
-      <y>385</y>
-      <w>154</w>
-      <h>99</h>
+      <x>480</x>
+      <y>280</y>
+      <w>112</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;120.0;70.0</additional_attributes>
@@ -159,10 +159,10 @@ selectIndex
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>814</x>
-      <y>11</y>
-      <w>176</w>
-      <h>220</h>
+      <x>736</x>
+      <y>8</y>
+      <w>128</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;180.0;140.0;10.0</additional_attributes>
@@ -170,10 +170,10 @@ selectIndex
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>814</x>
-      <y>198</y>
-      <w>176</w>
-      <h>88</h>
+      <x>736</x>
+      <y>144</y>
+      <w>128</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;140.0;60.0</additional_attributes>
@@ -181,10 +181,10 @@ selectIndex
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1188</x>
-      <y>11</y>
-      <w>110</w>
-      <h>33</h>
+      <x>1008</x>
+      <y>8</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
@@ -192,10 +192,10 @@ selectIndex
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1188</x>
-      <y>253</y>
-      <w>110</w>
-      <h>33</h>
+      <x>1008</x>
+      <y>184</y>
+      <w>80</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
@@ -203,10 +203,10 @@ selectIndex
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>132</x>
-      <y>814</y>
-      <w>231</w>
-      <h>165</h>
+      <x>240</x>
+      <y>592</y>
+      <w>168</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>layerWidget
 --
@@ -220,10 +220,10 @@ layerManager
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>517</x>
-      <y>792</y>
-      <w>231</w>
-      <h>341</h>
+      <x>520</x>
+      <y>576</y>
+      <w>168</w>
+      <h>248</h>
     </coordinates>
     <panel_attributes>LayerManager
 --
@@ -241,18 +241,18 @@ app.on(needCutImg)
 app.trigger(getCutImgData)
 app.on(layer_addClass)
 app.on(layer_removeClass)
-app.on(needGet_layersData)
-app.trigger(get_layersData)
+app.on('need_get_finalImgData')
+app.trigger('get_finalImgData') 
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>352</x>
-      <y>858</y>
-      <w>187</w>
-      <h>33</h>
+      <x>400</x>
+      <y>624</y>
+      <w>136</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;150.0;10.0</additional_attributes>
@@ -260,10 +260,10 @@ app.trigger(get_layersData)
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>737</x>
-      <y>649</y>
-      <w>187</w>
-      <h>242</h>
+      <x>680</x>
+      <y>472</y>
+      <w>136</w>
+      <h>176</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;200.0;150.0;10.0</additional_attributes>
@@ -271,10 +271,10 @@ app.trigger(get_layersData)
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>902</x>
-      <y>572</y>
-      <w>264</w>
-      <h>308</h>
+      <x>800</x>
+      <y>416</y>
+      <w>192</w>
+      <h>224</h>
     </coordinates>
     <panel_attributes>layer
 --
@@ -296,10 +296,10 @@ app.trigger(drawstart / move / end)</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>913</x>
-      <y>924</y>
-      <w>231</w>
-      <h>209</h>
+      <x>808</x>
+      <y>672</y>
+      <w>168</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>layerItem
 --
@@ -313,10 +313,10 @@ index
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>737</x>
-      <y>858</y>
-      <w>198</w>
-      <h>110</h>
+      <x>680</x>
+      <y>624</y>
+      <w>144</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;160.0;80.0</additional_attributes>
@@ -324,10 +324,10 @@ index
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>308</x>
-      <y>1606</y>
-      <w>264</w>
-      <h>220</h>
+      <x>368</x>
+      <y>1168</y>
+      <w>192</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>brusheWidget
 --
@@ -345,10 +345,10 @@ app.trigger('changeDrawMethod')</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>0</x>
-      <y>1606</y>
-      <w>264</w>
-      <h>165</h>
+      <x>144</x>
+      <y>1168</y>
+      <w>192</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>basePicWidget
 --
@@ -365,10 +365,10 @@ app.trigger('addLayer')
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>627</x>
-      <y>1606</y>
-      <w>264</w>
-      <h>165</h>
+      <x>600</x>
+      <y>1168</y>
+      <w>192</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>colorWidget
 --
@@ -384,10 +384,10 @@ app.trigger('updateContextConfig')
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>946</x>
-      <y>1606</y>
-      <w>264</w>
-      <h>253</h>
+      <x>832</x>
+      <y>1168</y>
+      <w>192</w>
+      <h>184</h>
     </coordinates>
     <panel_attributes>shapeWidget
 --
@@ -406,10 +406,10 @@ app.trigger('changeDrawMethod')</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>99</x>
-      <y>1243</y>
-      <w>264</w>
-      <h>165</h>
+      <x>216</x>
+      <y>904</y>
+      <w>192</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>slicerWidget
 --
@@ -427,10 +427,10 @@ app.trigger('showFnPanelToggle)</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>506</x>
-      <y>1232</y>
-      <w>253</w>
-      <h>209</h>
+      <x>512</x>
+      <y>896</y>
+      <w>184</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>SlicerMasker
 --
@@ -447,10 +447,10 @@ app.trigger(showFnPanelToggle)
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>352</x>
-      <y>1298</y>
-      <w>176</w>
-      <h>33</h>
+      <x>400</x>
+      <y>944</y>
+      <w>128</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;140.0;10.0</additional_attributes>
@@ -458,10 +458,10 @@ app.trigger(showFnPanelToggle)
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>748</x>
-      <y>1298</y>
-      <w>176</w>
-      <h>33</h>
+      <x>688</x>
+      <y>944</y>
+      <w>128</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;140.0;10.0</additional_attributes>
@@ -469,10 +469,10 @@ app.trigger(showFnPanelToggle)
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>902</x>
-      <y>1221</y>
-      <w>264</w>
-      <h>275</h>
+      <x>800</x>
+      <y>888</y>
+      <w>192</w>
+      <h>200</h>
     </coordinates>
     <panel_attributes>Slicer
 --
@@ -494,10 +494,10 @@ app.trigger('putImgData')</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1254</x>
-      <y>1595</y>
-      <w>264</w>
-      <h>253</h>
+      <x>1056</x>
+      <y>1160</y>
+      <w>192</w>
+      <h>184</h>
     </coordinates>
     <panel_attributes>filterWidget
 --
@@ -508,7 +508,28 @@ filter
 --
 app.trigger('layer_addClass')
 app.trigger('layer_removeClass')
-</panel_attributes>
+app.on('setImgDataFilter')</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>144</x>
+      <y>1368</y>
+      <w>192</w>
+      <h>184</h>
+    </coordinates>
+    <panel_attributes>fileWidget
+--
+boundingBox
+
+--
+_save()
+_reset()
+--
+F.trigger('need_get_finalImgData')
+F.on('get_finalImgData')
+F.trigger('setImgDataFilter')</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
