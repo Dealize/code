@@ -5,7 +5,7 @@ define([],function () {
             tapObj.tapStart = 'touchstart';
             tapObj.tapMove = 'touchmove';
             tapObj.tapEnd = 'touchend';
-            tapObj.tap = 'click';
+            tapObj.tap = 'touchstart';
         }else{
             tapObj.tapStart = 'mousedown';
             tapObj.tapMove = 'mousemove';

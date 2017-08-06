@@ -28,7 +28,7 @@ define(['FFF','tap','fnConf'],function (FFF,tap,fnConf) {
         },
         _bind_boundingBox:function () {
             var that = this;
-            this.boundingBox.on('click',function () {
+            this.boundingBox.on(tap.tap,function () {
                 // that.setIsFnListShow(!that.isFnListShow);
                 F.app.trigger('showFnPanelToggle')
             })

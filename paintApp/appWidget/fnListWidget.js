@@ -242,7 +242,7 @@ define(['FFF','tap','fnConf'],function (FFF,tap,fnConf) {
         },
         _bind_boundingBox:function () {
             var that = this;
-            that.boundingBox.on('click',function (e) {
+            that.boundingBox.on(tap.tap,function (e) {
                 that.manager.trigger('selectedIndexChange',that.index);
             })
         },
