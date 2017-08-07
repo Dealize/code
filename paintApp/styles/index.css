@@ -249,6 +249,8 @@ body {
 .P_basePicList {
   display: flex;
   flex-wrap: wrap;
+  height: 360px;
+  overflow: scroll;
 }
 .P_basePicList li {
   border: 1px solid ;

@@ -266,6 +266,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 h:that.h,
                 w:that.w,
                 transform:that.transform,
+                imageDataURL:that._$canvas[0].toDataURL(),
                 imgData:that.context.getImageData(0,0,that._size.width,that._size.height)
             })
         },
@@ -297,7 +298,7 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                 if(!moveToggle){
                     return false;
                 }
-                if(this != e.target){
+                if(e.target.classList.contains('P_slicer_point')){
                     return false;
                 }
                 movePosition = util.getTouchPosition(e,'client');

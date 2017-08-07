@@ -210,11 +210,12 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
                             _imgH = _img.naturalHeight;
                         _imgRatio = Math.abs(_imgH/(_imgW/300));
                         _layer.context.clearRect(0,0,_layer.size.width,_layer.size.height);
-                        _layer.context.drawImage(_img,40,100,300,600);
+                        _layer.context.drawImage(_img,0,0,_layer.size.width,_layer.size.height);
                     }
                     fr.readAsDataURL(data.data.originEvent.target.files[0]);
                 }else{
                     _img.src = data.data.src;
+                    console.log(_img.src);
                     var _layer = that.layerList[0],
                         _imgW = _img.naturalWidth,
                         _imgH = _img.naturalHeight,
@@ -222,25 +223,43 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
 
                     _imgRatio = Math.abs(_imgH/(_imgW/300));
                     _layer.context.clearRect(0,0,_layer.size.width,_layer.size.height);
-                    _layer.context.drawImage(_img,40,100,300,_imgRatio);
+                    // _layer.context.drawImage(_img,40,100,300,_imgRatio);
+                    _layer.context.drawImage(_img,0,0,_layer.size.width,_layer.size.height);
                 }
 
             });
             F.app.on('putImgData',function (data) {
                 var _currentLayer = that._get_layer_byFirst(),
-                    _context = _currentLayer.context;
-                _context.save();
-
+                    _tempImg  = new Image(),
+                    _context = _currentLayer.context,
+                    _scaleX = data.transform.scaleX,
+                    _scaleY = data.transform.scaleY,
+                    _translateX,_translateY;
+                _tempImg.src = data.imageDataURL;
+                // _context.save();
+                /**
+                 * 只有scale时候的translateX Y的计算公式
+                 * 已知fillRect(x,y,w,h)
+                 * 已知scale(scaleX,scaleY)
+                 * 可得translateX = (scaleX - 1) * w
+                 * translateY = (scaleY - 1) * h
+                 */
+                _translateX = (_scaleX - 1) * data.w *(-1);
+                // _translateX = (_scaleX - 1) * data.w;
+                _translateY = (_scaleY - 1) * data.h *(-1);
+                // _translateY = (_scaleY - 1) * data.h;
                 //translate 改变画笔的基准点
-                var translateX = data.x +data.w/2,
-                    translateY = data.y + data.h/2;
-                _context.translate(translateX,translateY);
-                //rotate  scale
-                _context.rotate
-                _currentLayer.context.putImageData(data.imgData,data.x,data.y);
-                //reinit
-                _context.translate(data.x,data.y);
-                _context.restore();
+                _context.translate(_translateX,_translateY);
+                _context.scale(_scaleX,_scaleY);
+                //scale rotate 对imgdata无效，但是对imgdataurl有效
+                // _context.putImageData(data.imgData,data.x,data.y);
+                _tempImg.onload=function () {
+                    _context.drawImage(_tempImg,data.x,data.y,data.w,data.h);
+                }
+                //reset
+                // _context.scale(1,1);
+                // _context.translate(0,0);
+                // _context.restore();
             })
             F.app.on('addLayer',function (data) {
                 that.addLayer();

@@ -10,16 +10,35 @@
     </style>
 </head>
 <body>
+<img src="./imgs/3.jpg" alt="">
 <!-- rotate-->
 <canvas width="500" height="500"></canvas>
 <script src="../fff.js"></script>
 <script>
     var $canvas = $('canvas');
+    var img = $('img')[0];
     var context = $canvas[0].getContext('2d');
-    context.translate(250,-175);
-    var i = 0;
-        context.rotate(30* Math.PI / 180);
-        context.fillRect(200,175,100,150);
+//    context.translate(-20,-15);
+    //    var i = 0;
+//        context.rotate(40* Math.PI / 180);
+        context.drawImage(img,0,0,500,500);
+//    context.fillRect(0,0,200,100);
+
+var imgdata = context.getImageData(0,0,500,500);
+setTimeout(function () {
+    console.info('beginPut');
+    context.scale(0.5,0.5);
+    context.putImageData(imgdata,10,10);
+},2000)
+
+    //已知fillRect(x,y,w,h)
+    //已知scale(scaleX,scaleY)
+    //可得translateX = (scaleX - 1) * w
+    //   translateY = (scaleY - 1) * h
+//    context.translate(-20,-15);
+//    context.scale(1.1,1.1);
+//    context.fillRect(100,100,200,150);
+
 </script>
 </body>
 </html>

@@ -22,6 +22,22 @@ define(['FFF','tap','fnWidget','util'],function (FFF,tap,fnWidget,util) {
         picList:{
             value:[
                 {
+                    title:'手绘1',
+                    src:'http://www.06ps.com/d/file/2017/0512/1494548782955.jpg'
+                },
+                {
+                    title:'手绘2',
+                    src:'./imgs/4.jpg'
+                },
+                {
+                    title:'手绘3',
+                    src:'./imgs/shouhui2.png'
+                },
+                {
+                    title:'手绘4',
+                    src:'./imgs/shouhui4.jpg'
+                },
+                {
                     title:'表情1',
                     src:'./imgs/1.jpeg'
                 },{
